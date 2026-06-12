@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="John Online Services & Applications - Huduma Bora za Maombi Tanzania. Application, government and business support services with fast WhatsApp order and premium Tanzanian design." />
+  <title>John Online Services & Applications</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f8fafc;
+      --surface: rgba(255,255,255,0.92);
+      --surface-strong: #ffffff;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --primary: #1e3a8a;
+      --primary-soft: rgba(30,58,138,0.12);
+      --accent: #f59e0b;
+      --accent-dark: #d97706;
+      --border: rgba(15,23,42,0.1);
+      --shadow: 0 24px 80px rgba(15,23,42,0.08);
+      --radius: 28px;
+      --radius-sm: 18px;
+      --max-width: 1200px;
+    }
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0f172a;
+      --surface: rgba(15,23,42,0.96);
+      --surface-strong: #111827;
+      --text: #f8fafc;
+      --text-muted: #cbd5e1;
+      --primary: #93c5fd;
+      --primary-soft: rgba(147,197,253,0.18);
+      --accent: #fbbf24;
+      --accent-dark: #f59e0b;
+      --border: rgba(148,163,184,0.16);
+      --shadow: 0 24px 80px rgba(0,0,0,0.35);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top right, rgba(245,158,11,0.14), transparent 22%),
+                  radial-gradient(circle at left top, rgba(14,165,233,0.08), transparent 24%),
+                  var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+    }
+    img { max-width: 100%; display: block; }
+    button, input, select, textarea { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+    .page { width: min(100%, calc(100% - 2rem)); margin: 0 auto; max-width: var(--max-width); }
+    header { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(18px); background: rgba(255,255,255,0.78); border-bottom: 1px solid rgba(15,23,42,0.05); }
+    [data-theme="dark"] header { background: rgba(15,23,42,0.84); border-color: rgba(255,255,255,0.08); }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 0; }
+    .brand { display: inline-flex; align-items: center; gap: 0.9rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.9rem; }
+    .brand-icon { width: 42px; height: 42px; display: grid; place-items: center; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 14px; color: #fff; }
+    nav { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+    nav a { color: var(--text-muted); transition: color 0.25s ease; font-size: 0.93rem; }
+    nav a:hover { color: var(--text); }
+    .actions { display: flex; align-items: center; gap: 0.75rem; }
+    .btn, .pill { border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease; }
+    .btn:hover, .pill:hover { transform: translateY(-1px); }
+    .btn-primary { padding: 0.95rem 1.45rem; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; border-radius: 999px; box-shadow: 0 18px 40px rgba(30,58,138,0.18); }
+    .btn-secondary { padding: 0.9rem 1.3rem; background: var(--surface-strong); color: var(--text); border-radius: 999px; border: 1px solid var(--border); }
+    .theme-toggle { width: 44px; height: 44px; border-radius: 16px; background: var(--surface-strong); border: 1px solid var(--border); }
+    .hero { position: relative; padding: 5rem 0 4rem; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 20% 20%, rgba(245,158,11,0.14), transparent 24%), radial-gradient(circle at 80% 0%, rgba(14,165,233,0.14), transparent 20%), url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"/%3E%3C/svg%3E') center/contain no-repeat; pointer-events: none; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr); gap: 2rem; align-items: center; position: relative; z-index: 1; }
+    .hero-copy { max-width: 640px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 0.65rem; margin-bottom: 1.6rem; font-size: 0.92rem; font-weight: 700; color: var(--primary); }
+    .eyebrow::before { content: ''; width: 0.85rem; height: 0.85rem; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 8px rgba(245,158,11,0.14); }
+    h1 { font-size: clamp(3rem, 4vw, 4.4rem); margin: 0 0 1rem; line-height: 0.95; letter-spacing: -0.05em; }
+    .subtitle { font-size: 1.1rem; max-width: 34rem; margin-bottom: 2rem; color: var(--text-muted); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem; }
+    .hero-actions .btn { min-width: 170px; }
+    .hero-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .hero-list li { display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1rem; border-radius: 20px; background: var(--surface-strong); border: 1px solid var(--border); color: var(--text); font-weight: 500; }
+    .hero-list li i { width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--primary-soft); color: var(--primary); }
+    .hero-media { position: relative; min-height: 420px; background: linear-gradient(180deg, rgba(30,58,138,0.12), rgba(15,23,42,0.05)), var(--surface); border-radius: 38px; backdrop-filter: blur(18px); border: 1px solid var(--border); box-shadow: var(--shadow); padding: 2rem; display: grid; place-items: center; }
+    .hero-card { width: 100%; max-width: 520px; padding: 2rem; border-radius: 32px; background: rgba(255,255,255,0.85); border: 1px solid rgba(255,255,255,0.54); box-shadow: 0 24px 50px rgba(15,23,42,0.08); }
+    [data-theme="dark"] .hero-card { background: rgba(15,23,42,0.92); border-color: rgba(255,255,255,0.08); }
+    .hero-card h2 { margin: 0 0 0.75rem; font-size: 1.2rem; letter-spacing: 0.02em; }
+    .hero-card p { margin: 0 0 1.35rem; color: var(--text-muted); }
+    .hero-card .status { display: inline-flex; align-items: center; gap: 0.6rem; background: rgba(30,58,138,0.08); color: var(--primary); padding: 0.8rem 1rem; border-radius: 999px; font-weight: 700; }
+    .hero-card .status i { width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: rgba(245,158,11,0.14); color: var(--accent-dark); }
+    section { padding: 4rem 0; }
+    .section-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; }
+    .section-head h2 { margin: 0; font-size: clamp(2rem, 2.4vw, 2.6rem); }
+    .section-head p { margin: 0; color: var(--text-muted); max-width: 600px; }
+    .card-grid { display: grid; gap: 1.5rem; }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .service-card { background: var(--surface); border: 1px solid var(--border); border-radius: 28px; padding: 1.6rem; box-shadow: var(--shadow); transition: transform 0.35s ease, border-color 0.35s ease; }
+    .service-card:hover { transform: translateY(-6px); border-color: rgba(30,58,138,0.18); }
+    .service-card i { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 18px; background: var(--primary-soft); color: var(--primary); margin-bottom: 1rem; }
+    .service-card h3 { margin: 0 0 0.6rem; font-size: 1.05rem; }
+    .service-card p { margin: 0 0 1.2rem; color: var(--text-muted); font-size: 0.95rem; }
+    .service-card strong { display: block; margin-bottom: 1rem; font-size: 0.98rem; color: var(--text); }
+    .service-card button { width: 100%; padding: 0.85rem 1rem; border-radius: 18px; background: var(--surface-strong); border: 1px solid var(--border); color: var(--text); cursor: pointer; transition: background 0.25s ease, transform 0.25s ease; }
+    .service-card button:hover { background: var(--primary-soft); transform: translateY(-1px); }
+    .search-bar { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; align-items: center; }
+    .search-bar input { flex: 1; min-width: 240px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface-strong); color: var(--text); padding: 1rem 1.2rem; box-shadow: inset 0 1px 3px rgba(15,23,42,0.05); }
+    .search-bar .pill { border-radius: 999px; background: var(--surface-strong); border: 1px solid var(--border); padding: 0.9rem 1.25rem; color: var(--text-muted); }
+    .about-panels { display: grid; gap: 1.5rem; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 2rem; }
+    .feature-card { padding: 1.6rem; border-radius: 24px; border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow); }
+    .feature-card h3 { margin-top: 0; font-size: 1.05rem; }
+    .feature-card p { margin: 0.85rem 0 0; color: var(--text-muted); font-size: 0.95rem; }
+    .stats { display: grid; gap: 1rem; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 2rem; }
+    .stat-card { padding: 1.8rem; border-radius: 28px; background: linear-gradient(135deg, rgba(30,58,138,0.12), rgba(245,158,11,0.12)); border: 1px solid var(--border); }
+    .stat-card strong { display: block; font-size: 2.2rem; margin-bottom: 0.5rem; color: var(--primary); }
+    .stat-card span { color: var(--text-muted); }
+    .testimonials, .faqs { gap: 1.5rem; }
+    .testimonial-card, .faq-card { padding: 1.75rem; border-radius: 28px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); }
+    .testimonial-card p { margin: 0.75rem 0 0; color: var(--text-muted); }
+    .testimonial-author { display: flex; align-items: center; gap: 0.85rem; margin-top: 1.1rem; }
+    .testimonial-avatar { width: 52px; height: 52px; border-radius: 18px; display: grid; place-items: center; background: var(--primary-soft); color: var(--primary); font-weight: 700; }
+    .faq-card h3 { margin: 0 0 0.75rem; font-size: 1rem; }
+    .faq-card p { margin: 0; color: var(--text-muted); }
+    .contact-grid { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1.1fr) 320px; }
+    .contact-info { display: grid; gap: 1rem; }
+    .contact-info .info-block { padding: 1.7rem; border-radius: 28px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); }
+    .contact-info .info-block h3 { margin: 0 0 0.6rem; }
+    .contact-info .info-block a { display: block; color: var(--text); margin: 0.35rem 0; }
+    .order-form { padding: 2rem; border-radius: 32px; background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.8)); border: 1px solid rgba(255,255,255,0.7); box-shadow: var(--shadow); }
+    [data-theme="dark"] .order-form { background: linear-gradient(180deg, rgba(15,23,42,0.95), rgba(15,23,42,0.88)); border-color: rgba(255,255,255,0.08); }
+    .order-form label { display: block; margin-bottom: 0.65rem; font-weight: 600; }
+    .order-form input, .order-form select, .order-form textarea { width: 100%; border-radius: 18px; border: 1px solid var(--border); background: var(--surface-strong); padding: 1rem 1.1rem; color: var(--text); margin-bottom: 1.3rem; resize: vertical; }
+    .order-form textarea { min-height: 140px; }
+    .order-form .file-label { display: inline-flex; align-items: center; gap: 0.7rem; cursor: pointer; color: var(--text); }
+    .order-form .file-input { display: none; }
+    .order-form .submit-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; justify-content: space-between; }
+    .order-form .submit-row small { color: var(--text-muted); }
+    .modal-backdrop { position: fixed; inset: 0; z-index: 50; background: rgba(15,23,42,0.75); display: none; align-items: center; justify-content: center; padding: 1.5rem; }
+    .modal-backdrop.active { display: flex; }
+    .modal { width: min(100%, 680px); max-height: 90vh; overflow-y: auto; border-radius: 28px; background: var(--surface-strong); border: 1px solid var(--border); box-shadow: 0 38px 90px rgba(15,23,42,0.2); padding: 2rem; position: relative; }
+    .modal h3 { margin-top: 0; }
+    .modal .close { position: absolute; top: 1.4rem; right: 1.4rem; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); cursor: pointer; }
+    .modal .documents { display: grid; gap: 0.9rem; margin-top: 1.2rem; }
+    .modal .documents li { padding: 1rem 1.1rem; border-radius: 20px; background: var(--surface); border: 1px solid var(--border); }
+    .footer { padding: 3rem 0 2rem; }
+    .footer-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .footer-brand { display: grid; gap: 1rem; }
+    .footer-brand p { margin: 0; color: var(--text-muted); max-width: 320px; }
+    .footer-list { display: grid; gap: 0.85rem; }
+    .footer-list a { color: var(--text-muted); }
+    .footer-bottom { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 1.5rem; color: var(--text-muted); font-size: 0.95rem; }
+    .whatsapp-float, .top-button { position: fixed; right: 1.5rem; z-index: 30; display: grid; place-items: center; border-radius: 50%; box-shadow: 0 24px 60px rgba(30,58,138,0.2); cursor: pointer; transition: transform 0.2s ease; }
+    .whatsapp-float { bottom: 1.5rem; width: 62px; height: 62px; background: linear-gradient(135deg, #25d366, #128c7e); color: white; }
+    .top-button { bottom: 86px; width: 52px; height: 52px; background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+    .whatsapp-float:hover, .top-button:hover { transform: translateY(-2px); }
+    .service-badge { display: inline-flex; gap: 0.5rem; align-items: center; background: rgba(30,58,138,0.08); color: var(--primary); padding: 0.8rem 1rem; border-radius: 999px; font-weight: 700; }
+    @media (max-width: 1024px) {
+      .hero-grid, .contact-grid, .footer-grid, .stats, .about-panels { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .service-card { padding: 1.4rem; }
+    }
+    @media (max-width: 720px) {
+      .topbar { flex-direction: column; align-items: stretch; }
+      nav { justify-content: center; }
+      .hero { padding-top: 3rem; }
+      .hero-actions { justify-content: center; }
+      .service-list, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .hero-media { min-height: 320px; padding: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="topbar">
+        <a class="brand" href="#home">
+          <span class="brand-icon"><i class="fas fa-globe"></i></span>
+          JOHN ONLINE SERVICES
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="#services">Services</a>
+          <a href="#why">Why Us</a>
+          <a href="#stats">Statistics</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="actions">
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><i class="fas fa-moon"></i></button>
+          <a class="btn btn-primary" href="#contact">Wasiliana</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="page hero-grid">
+          <div class="hero-copy">
+            <span class="eyebrow">Huduma Bora za Maombi Tanzania</span>
+            <h1>John Online Services & Applications</h1>
+            <p class="subtitle">Tunarahisisha maombi ya elimu, serikali, biashara na teknolojia kwa haraka na uhakika. Huduma ya kitaalamu kwa wateja wote Tanzania, kutoka Moshi hadi mikoa yote.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#order">TUMA MAOMBI</a>
+              <a class="btn btn-secondary" href="https://wa.me/255698170989?text=Habari%20John%20Online%20Services%2C%20napenda%20huduma" target="_blank" rel="noreferrer">Piga WhatsApp</a>
+            </div>
+            <ul class="hero-list">
+              <li><i class="fas fa-graduation-cap"></i>HESLB Applications</li>
+              <li><i class="fas fa-university"></i>University Applications</li>
+              <li><i class="fas fa-file-alt"></i>RITA/NIDA</li>
+              <li><i class="fas fa-briefcase"></i>BRELA/TRA</li>
+              <li><i class="fas fa-pencil-ruler"></i>Design & Websites</li>
+              <li><i class="fas fa-plane"></i>Tourism Services</li>
+            </ul>
+          </div>
+          <div class="hero-media">
+            <div class="hero-card">
+              <div class="status"><i class="fas fa-shield-alt"></i> Premium Tanzanian Support</div>
+              <h2>Huduma za kila aina kwa urahisi</h2>
+              <p>Endelea na maombi yako bila kusumbuka. Tunatoa huduma za serikali, elimu, biashara, IT, utalii na uchapaji kwa bei nafuu na kwa uaminifu.</p>
+              <div class="service-badge"><i class="fas fa-check"></i> 65+ Services</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="services">
+        <div class="section-head">
+          <div>
+            <h2>Huduma Zetu</h2>
+            <p>Chagua huduma inayokufaa kwa ajili ya maombi ya serikali, elimu, biashara, IT, utalii na huduma zingine za kitaalamu.</p>
+          </div>
+          <div class="search-bar">
+            <input type="search" id="serviceSearch" placeholder="Tafuta huduma kwa jina..." aria-label="Service search" />
+            <div class="pill"><i class="fas fa-search"></i> Tafuta kwa huduma</div>
+          </div>
+        </div>
+
+        <div class="card-grid grid-3" id="serviceGrid">
+          <!-- Services will be inserted here by JS -->
+        </div>
+      </section>
+
+      <section id="why">
+        <div class="section-head">
+          <div>
+            <h2>Kwanini Utuchague?</h2>
+            <p>Huduma zetu zinaendeshwa kwa viwango vya juu vya kitaalam, uvumilivu, uaminifu na utoaji wa ufumbuzi kwa haraka kote Tanzania.</p>
+          </div>
+        </div>
+        <div class="about-panels">
+          <div class="feature-card">
+            <h3>Uharaka</h3>
+            <p>Tunachukua hatua kwa kasi na kukusaidia kukamilisha maombi bila ucheleweshaji wa muda mrefu.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Uaminifu</h3>
+            <p>Huduma zetu zinatolewa kwa uwazi kamili, kwa kuhakikisha maelezo yako yanahifadhiwa na kufuatiliwa kwa uangalifu.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Uhakika</h3>
+            <p>Tunatoa mwongozo wa kweli juu ya taratibu na nyaraka zinazohitajika kwa kila huduma.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Bei Nafuu</h3>
+            <p>Tulipa bei kwa mafanikio, tukikupa suluhisho la thamani kwa maombi yako ya serikali, elimu na biashara.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Msaada wa Kitaalamu</h3>
+            <p>Viongozi wetu wana uzoefu wa huduma za maombi, IT, utalii, uchapaji na biashara kwa wateja wa Tanzania.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Huduma Nchi Nzima</h3>
+            <p>Tunafikia wateja Moshi, Dar, Arusha, Tanga, Dodoma na mikoa mingine kwa huduma mtandaoni.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="stats">
+        <div class="section-head">
+          <div>
+            <h2>Takwimu za Huduma</h2>
+            <p>Maonyesho ya mafanikio yetu katika utoaji huduma za maombi, uuzaji wa huduma za mtandao na msaada kwa wateja.</p>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat-card"><strong class="counter" data-target="1000">0</strong><span>Clients Served</span></div>
+          <div class="stat-card"><strong class="counter" data-target="65">0</strong><span>Services</span></div>
+          <div class="stat-card"><strong class="counter" data-target="99">0</strong><span>% Satisfaction</span></div>
+          <div class="stat-card"><strong class="counter" data-target="24">0</strong><span>/7 Support</span></div>
+        </div>
+      </section>
+
+      <section id="testimonials">
+        <div class="section-head">
+          <div>
+            <h2>Testimonials</h2>
+            <p>Wanahisa wateja waliothibitisha ubora wa huduma zetu kwa maombi ya HESLB, visa, elimu, utalii na biashara.</p>
+          </div>
+        </div>
+        <div class="card-grid grid-3 testimonials">
+          <article class="testimonial-card"><p>John alisaidia kwa haraka na kwa uaminifu katika maombi ya HESLB. Nilipata matokeo haraka na kwa msaada wa kila hatua.</p><div class="testimonial-author"><span class="testimonial-avatar">AA</span><div><strong>Amina Ali</strong><p>Mwanafunzi, Dar es Salaam</p></div></div></article>
+          <article class="testimonial-card"><p>Shughuli ya kujiandikisha NIDA ilikamilika bila shida. Mteja alikuwa mtaalamu, mwenye huruma na alijibu haraka kila swali.</p><div class="testimonial-author"><span class="testimonial-avatar">BM</span><div><strong>Bernard M.</strong><p>Biashara, Moshi</p></div></div></article>
+          <article class="testimonial-card"><p>Nilipata huduma ya kujenga tovuti ya biashara yangu. Inafaa, inavutia na imeleta wateja wapya.</p><div class="testimonial-author"><span class="testimonial-avatar">CJ</span><div><strong>Clara J.</strong><p>MTU, Arusha</p></div></div></article>
+          <article class="testimonial-card"><p>Ujuzi wa BRELA ulionekana wazi. Kwanza tulisajili jina la biashara na baadaye kubadilisha kwa uhakika.</p><div class="testimonial-author"><span class="testimonial-avatar">DK</span><div><strong>David K.</strong><p>Msimamizi, Tanga</p></div></div></article>
+          <article class="testimonial-card"><p>Nilipata msaada wa visa, na kila jambo lilieleweka vizuri. Huduma nzuri kwa bei nafuu.</p><div class="testimonial-author"><span class="testimonial-avatar">EF</span><div><strong>Elisa F.</strong><p>Mtalii, Zanzibar</p></div></div></article>
+          <article class="testimonial-card"><p>Kutumia huduma hizi ni raha. Walikuwa na mwangaza na walifanya maombi yangu ya hostel haraka.</p><div class="testimonial-author"><span class="testimonial-avatar">GH</span><div><strong>George H.</strong><p>Mwanafunzi, Dodoma</p></div></div></article>
+          <article class="testimonial-card"><p>Niliamua kupata logo mpya na mabango ya kijamii. Makazi yalikuwa mazuri na yale yaliyotolewa yalikuwa kitaalamu.</p><div class="testimonial-author"><span class="testimonial-avatar">IM</span><div><strong>Irene M.</strong><p>Mbunifu, Mwanza</p></div></div></article>
+          <article class="testimonial-card"><p>Wateja waliendelea kuniona kama mtaalamu baada ya kuniwezesha na uundaji wa SEO na huduma za Google Business.</p><div class="testimonial-author"><span class="testimonial-avatar">JK</span><div><strong>Jacob K.</strong><p>Mfanyabiashara, Mbeya</p></div></div></article>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div class="section-head">
+          <div>
+            <h2>Maswali Yanayoulizwa Mara kwa Mara</h2>
+            <p>Jifunze zaidi kuhusu kipengele cha huduma, mchakato wa maombi, malipo, na jinsi ya kuwasiliana nasi.</p>
+          </div>
+        </div>
+        <div class="card-grid grid-2 faqs">
+          <article class="faq-card"><h3>Je, jinsi ya kuomba huduma?</h3><p>Bofya kitufe cha WhatsApp au tumia fomu ya "TUMA MAOMBI" tukaongee nawe mara moja.</p></article>
+          <article class="faq-card"><h3>Je, je, kuna ada ya ziada kwa utoaji?</h3><p>Hakuna ada ya siri. Bei zilizoorodheshwa ni kwa huduma za msingi, na tunaelezea gharama kwa kila ombi.</p></article>
+          <article class="faq-card"><h3>Je, ninaweza kupata msaada kwa huduma nyingi?</h3><p>Ndiyo. Tunaweza kusaidia maombi ya elimu, huduma za serikali, biashara, utalii na huduma za teknolojia kwa pamoja.</p></article>
+          <article class="faq-card"><h3>Je, mnapokea malipo kwa mkondo gani?</h3><p>Hakuna malipo mtandaoni hapa. Malipo yanaweza kufanywa moja kwa moja baada ya kuwasiliana nasi kupitia WhatsApp.</p></article>
+          <article class="faq-card"><h3>Ni nyaraka gani nahitaji kwa HESLB?</h3><p>HESLB: NIDA, Cheti cha Kuzaliwa, Cheti cha Elimu.</p></article>
+          <article class="faq-card"><h3>Je, huduma ya NIDA inafanyaje kazi?</h3><p>Tunatoa utafutaji wa namba, uthibitisho, na ufuatiliaji wa taratibu zako za NIDA kwa urahisi.</p></article>
+          <article class="faq-card"><h3>Je, ninaweza kukamilisha maombi ya shule?</h3><p>Ndiyo. Tunashughulikia maombi ya vyuo vikuu, diploma, cheti, uhamisho wa chuo na uhifadhi wa hosteli.</p></article>
+          <article class="faq-card"><h3>Je, huduma ya BRELA ni kwa ajili ya biashara dogo?</h3><p>Ndiyo. Tunaweza kusaidia usajili wa jina la biashara, usajili wa kampuni na mabadiliko ya kampuni.</p></article>
+          <article class="faq-card"><h3>Je, msaidizi wa utalii anajumuisha nini?</h3><p>Tunakusadia kuhifadhi safari za Kilimanjaro, safari, Zanzibar, hoteli na uhamisho wa uwanja wa ndege.</p></article>
+          <article class="faq-card"><h3>Je, huduma ya uundaji tovuti inajumuisha SEO?</h3><p>Ndiyo. Tunatoa utengenezaji wa tovuti, e-commerce, ukurasa wa kutua, mipangilio ya SEO na huduma ya Google Business.</p></article>
+          <article class="faq-card"><h3>Je, ninaweza kupata picha za huduma?</h3><p>Tunaweza kutengeneza mabango ya digital, vipeperushi, kadi za biashara, na vichwa vya mitandao ya kijamii.</p></article>
+          <article class="faq-card"><h3>Je, ninaweza kutuma nyaraka kwa WhatsApp?</h3><p>Ndiyo. Taarifa za awali zinatumwa kupitia fomu, na nyaraka zinazoongezwa zinaweza kushirikiwa kwa WhatsApp baada ya mawasiliano.</p></article>
+          <article class="faq-card"><h3>Je, umewahi kutoa huduma kwa wateja wengi?</h3><p>Ndiyo. Tumewahudumia wateja 1000+ kwa maombi ya elimu, serikali, biashara na huduma za mtandao.</p></article>
+          <article class="faq-card"><h3>Je, ninaweza kupata msaada kwa eneo lolote Tanzania?</h3><p>Ndiyo. Huduma zetu zinapatikana kwa wateja kote nchini kupitia WhatsApp na mtandao.</p></article>
+          <article class="faq-card"><h3>Je, huwezi kuweka mfumo wa kuingia?</h3><p>Hakuna mfumo wa login. Hapa ni huduma ya moja kwa moja kwa mteja kupiga WhatsApp na kutuma maombi yake.</p></article>
+          <article class="faq-card"><h3>Je, una bidhaa za uchapaji?</h3><p>Ndiyo. Tuna huduma za kuchapisha, kuorodhesha, kukasirisha na kubuni hati rasmi.</p></article>
+          <article class="faq-card"><h3>Je, maombi ya scholarship yanahitaji nini?</h3><p>Scholarship inahitaji nyaraka za elimu, NIDA, na maelezo ya mteja. Tunakusaidia kutayarisha maombi.</p></article>
+          <article class="faq-card"><h3>Je, ninaweza kupata msaada wa visa?</h3><p>Ndiyo. Tunatoa msaada wa maombi ya pasipoti, visa na huduma za kujaza fomu za serikali.</p></article>
+          <article class="faq-card"><h3>Je, huduma zako ni za haraka?</h3><p>Ndiyo. Tunasisitiza utoaji wa huduma kwa uharaka na ufuatiliaji wa kila hatua hadi kukamilika.</p></article>
+          <article class="faq-card"><h3>Je, huduma ya ushauri wa biashara inapatikana?</h3><p>Ndiyo. Tunaweza kusaidia katika usanifu wa biashara, uundaji wa database, na uthibitisho wa kiusalama.</p></article>
+        </div>
+      </section>
+
+      <section id="order">
+        <div class="section-head">
+          <div>
+            <h2>Tuma Ombi Lako</h2>
+            <p>Jaza fomu hapa chini na utume maelezo yako moja kwa moja kwa WhatsApp kwa John Online Services.</p>
+          </div>
+        </div>
+        <div class="contact-grid">
+          <div class="order-form">
+            <form id="orderForm">
+              <label for="fullName">Jina Kamili</label>
+              <input type="text" id="fullName" name="fullName" placeholder="Jina lako kamili" required />
+
+              <label for="phone">Namba ya Simu</label>
+              <input type="tel" id="phone" name="phone" placeholder="0698170989" required />
+
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="john@example.com" required />
+
+              <label for="serviceSelect">Huduma Inayohitajika</label>
+              <select id="serviceSelect" name="serviceSelect" required>
+                <option value="">Chagua huduma</option>
+              </select>
+
+              <label for="description">Maelezo</label>
+              <textarea id="description" name="description" placeholder="Elezea huduma unazohitaji kwa undani" required></textarea>
+
+              <label class="file-label" for="documents"><i class="fas fa-upload"></i> Chagua nyaraka (hiari)</label>
+              <input type="file" id="documents" name="documents" class="file-input" multiple />
+              <small id="filePreview">Hakuna nyaraka zilizochaguliwa.</small>
+
+              <div class="submit-row">
+                <button type="submit" class="btn btn-primary">TUMA MAOMBI</button>
+                <small>Taarifa zitapelekwa moja kwa moja kwa WhatsApp.</small>
+              </div>
+            </form>
+          </div>
+          <div class="contact-info">
+            <div class="info-block">
+              <h3>John Online Services & Applications</h3>
+              <p>Huduma za maombi za serikali, elimu, biashara, utalii na teknolojia.</p>
+              <a href="tel:+255698170989"><i class="fas fa-phone"></i> 0698170989</a>
+              <a href="tel:+255627310424"><i class="fas fa-phone"></i> 0627310424</a>
+              <a href="mailto:johncharlessarwi@gmail.com"><i class="fas fa-envelope"></i> johncharlessarwi@gmail.com</a>
+              <a href="https://wa.me/255698170989" target="_blank" rel="noreferrer"><i class="fab fa-whatsapp"></i> WhatsApp 0698170989</a>
+              <p><i class="fas fa-map-marker-alt"></i> Moshi, Kilimanjaro, Tanzania</p>
+            </div>
+            <div class="info-block">
+              <h3>Utaratibu wa Huduma</h3>
+              <ul style="padding-left: 1.1rem; margin: 0; color: var(--text-muted); list-style: disc;">
+                <li>Tuma maombi kupitia WhatsApp.</li>
+                <li>Pokea mwongozo wa nyaraka.</li>
+                <li>Fuatilia hatua kwa hatua.</li>
+                <li>Uthibitisho wa huduma kwa haraka.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="footer">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a class="brand" href="#home"><span class="brand-icon"><i class="fas fa-globe"></i></span>JOHN ONLINE SERVICES</a>
+            <p>Huduma bora za maombi Tanzania na msaada wa kitaalamu kwa elimu, serikali, biashara, utalii na teknolojia.</p>
+          </div>
+          <div class="footer-list">
+            <h4>Quick Links</h4>
+            <a href="#services">Services</a>
+            <a href="#why">Why Us</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#faq">FAQ</a>
+          </div>
+          <div class="footer-list">
+            <h4>Popular Services</h4>
+            <a href="#services">HESLB Application</a>
+            <a href="#services">University Application</a>
+            <a href="#services">TIN Application</a>
+            <a href="#services">Logo Design</a>
+          </div>
+          <div class="footer-list">
+            <h4>Contact</h4>
+            <a href="tel:+255698170989">0698170989</a>
+            <a href="mailto:johncharlessarwi@gmail.com">johncharlessarwi@gmail.com</a>
+            <a href="https://wa.me/255698170989">WhatsApp</a>
+            <a href="#contact">Moshi, Kilimanjaro</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 John Online Services & Applications</span>
+          <a class="btn btn-secondary" href="https://wa.me/255698170989" target="_blank" rel="noreferrer">Piga WhatsApp</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="whatsapp-float" onclick="window.open('https://wa.me/255698170989?text=Habari%20John%20Online%20Services','_blank')" aria-label="Open WhatsApp">
+    <i class="fab fa-whatsapp fa-lg"></i>
+  </div>
+  <button class="top-button" id="scrollTop" aria-label="Scroll to top"><i class="fas fa-chevron-up"></i></button>
+
+  <div class="modal-backdrop" id="serviceModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <button class="close" id="closeModal" aria-label="Close modal"><i class="fas fa-times"></i></button>
+      <h3 id="modalTitle">Huduma</h3>
+      <p id="modalDescription">Taarifa za huduma itajazwa hapa.</p>
+      <h4>Required Documents</h4>
+      <ul class="documents" id="modalDocs"></ul>
+    </div>
+  </div>
+
+  <script>
+    const services = [
+      { category: 'Education Services', name: 'HESLB Application', price: 'Tsh 15,000', icon: 'fas fa-graduation-cap', description: 'Msaada wa maombi ya HESLB kwa wanafunzi.', docs: ['NIDA', 'Birth Certificate', 'Academic Certificates'] },
+      { category: 'Education Services', name: 'HESLB Follow Up', price: 'Tsh 10,000', icon: 'fas fa-search', description: 'Ufuatiliaji wa maombi ya HESLB.', docs: ['Application Reference', 'NIDA'] },
+      { category: 'Education Services', name: 'HESLB Notarization', price: 'Tsh 10,000', icon: 'fas fa-handshake', description: 'Kuhakikisha ushahidi wa HESLB kwa notary.', docs: ['Application Letter', 'NIDA'] },
+      { category: 'Education Services', name: 'Disability Form', price: 'Tsh 25,000', icon: 'fas fa-wheelchair', description: 'Kusaidia kujaza fomu za ulemavu.', docs: ['NIDA', 'Medical Report'] },
+      { category: 'Education Services', name: 'Samia Scholarship', price: 'Tsh 10,000', icon: 'fas fa-award', description: 'Maombi ya scholarship ya Samia.', docs: ['Form Four Results', 'NIDA'] },
+      { category: 'Education Services', name: 'MO Scholarship', price: 'Tsh 10,000', icon: 'fas fa-award', description: 'Usaidizi wa scholarship ya serikali.', docs: ['Form Four Results', 'NIDA'] },
+      { category: 'Education Services', name: 'NMB Scholarship', price: 'Tsh 10,000', icon: 'fas fa-award', description: 'Maombi ya scholarship ya NMB.', docs: ['Form Four Results', 'NIDA'] },
+      { category: 'Education Services', name: 'University Application 1', price: 'Tsh 4,000', icon: 'fas fa-university', description: 'Maombi ya chuo kikuu (pkg 1).', docs: ['Form Four Results', 'Form Six Results', 'NIDA'] },
+      { category: 'Education Services', name: 'University Application 2', price: 'Tsh 8,000', icon: 'fas fa-university', description: 'Maombi ya chuo kikuu (pkg 2).', docs: ['Form Four Results', 'Form Six Results', 'NIDA'] },
+      { category: 'Education Services', name: 'University Application 3', price: 'Tsh 12,000', icon: 'fas fa-university', description: 'Maombi ya chuo kikuu (pkg 3).', docs: ['Form Four Results', 'Form Six Results', 'NIDA'] },
+      { category: 'Education Services', name: 'University Application 4-6', price: 'Tsh 20,000', icon: 'fas fa-university', description: 'Maombi 4-6 ya chuo kikuu.', docs: ['Results', 'NIDA'] },
+      { category: 'Education Services', name: 'University Application 7-10', price: 'Tsh 30,000', icon: 'fas fa-university', description: 'Maombi 7-10 ya chuo kikuu.', docs: ['Results', 'NIDA'] },
+      { category: 'Education Services', name: 'Diploma Application', price: 'Tsh 10,000', icon: 'fas fa-graduation-cap', description: 'Maombi ya diploma.', docs: ['Form Four Results', 'NIDA'] },
+      { category: 'Education Services', name: 'Certificate Application', price: 'Tsh 10,000', icon: 'fas fa-certificate', description: 'Maombi ya cheti.', docs: ['Form Four Results', 'NIDA'] },
+      { category: 'Education Services', name: 'University Transfer', price: 'Tsh 15,000', icon: 'fas fa-exchange-alt', description: 'Usafirishaji wa chuo.', docs: ['Admission Letter', 'NIDA'] },
+      { category: 'Education Services', name: 'Course Transfer', price: 'Tsh 15,000', icon: 'fas fa-exchange-alt', description: 'Uhamisho wa kozi.', docs: ['Academic Record', 'NIDA'] },
+      { category: 'Education Services', name: 'Hostel Booking', price: 'Tsh 10,000', icon: 'fas fa-bed', description: 'Uhifadhi wa hosteli kwa wanafunzi.', docs: ['Admission Letter', 'NIDA'] },
+      { category: 'RITA Services', name: 'Birth Certificate', price: 'Anza kwa Tsh 7,000', icon: 'fas fa-baby', description: 'Maombi ya cheti cha kuzaliwa.', docs: ['Parent Info', 'Hospital Info', 'NIDA'] },
+      { category: 'RITA Services', name: 'Birth Certificate Replacement', price: 'Anza kwa Tsh 9,000', icon: 'fas fa-file-medical', description: 'Kubadilisha cheti cha kuzaliwa.', docs: ['Old Certificate', 'NIDA'] },
+      { category: 'RITA Services', name: 'Death Certificate', price: 'Anza kwa Tsh 8,000', icon: 'fas fa-cross', description: 'Maombi ya cheti cha kifo.', docs: ['Hospital Report', 'NIDA'] },
+      { category: 'RITA Services', name: 'Verification', price: 'Anza kwa Tsh 5,000', icon: 'fas fa-check-circle', description: 'Uthibitisho wa nyaraka.', docs: ['Document Details', 'NIDA'] },
+      { category: 'RITA Services', name: 'Marriage Certificate Assistance', price: 'Anza kwa Tsh 12,000', icon: 'fas fa-ring', description: 'Msaada wa cheti cha ndoa.', docs: ['NIDA', 'Witness Info'] },
+      { category: 'NIDA Services', name: 'NIDA Number Search', price: 'Tsh 5,000', icon: 'fas fa-search', description: 'Kutafuta namba ya NIDA.', docs: ['Full Name', 'DOB'] },
+      { category: 'NIDA Services', name: 'NIDA Verification', price: 'Tsh 6,000', icon: 'fas fa-id-card-alt', description: 'Kuthibitisha namba ya NIDA.', docs: ['NIDA Number', 'Name'] },
+      { category: 'NIDA Services', name: 'NIDA Follow Up', price: 'Tsh 7,000', icon: 'fas fa-sync-alt', description: 'Ufuatiliaji wa taratibu za NIDA.', docs: ['Case Number', 'NIDA'] },
+      { category: 'TRA Services', name: 'TIN Application', price: 'Tsh 10,000', icon: 'fas fa-file-invoice-dollar', description: 'Maombi ya Namba ya TIN.', docs: ['NIDA', 'Phone Number', 'Email'] },
+      { category: 'TRA Services', name: 'Tax Clearance', price: 'Tsh 15,000', icon: 'fas fa-file-alt', description: 'Usajili wa clearance ya kodi.', docs: ['TIN', 'NIDA'] },
+      { category: 'TRA Services', name: 'Tax Registration', price: 'Tsh 12,000', icon: 'fas fa-clipboard-list', description: 'Usajili wa uandikishaji kodi.', docs: ['Business Info', 'NIDA'] },
+      { category: 'BRELA Services', name: 'Business Name Registration', price: 'Tsh 20,000', icon: 'fas fa-briefcase', description: 'Usajili wa jina la biashara.', docs: ['Business Info', 'NIDA'] },
+      { category: 'BRELA Services', name: 'Company Registration', price: 'Tsh 35,000', icon: 'fas fa-building', description: 'Usajili wa kampuni.', docs: ['Articles of Association', 'NIDA'] },
+      { category: 'BRELA Services', name: 'Company Changes', price: 'Tsh 22,000', icon: 'fas fa-edit', description: 'Mabadiliko ya kampuni.', docs: ['Company Records', 'NIDA'] },
+      { category: 'NECTA Services', name: 'Results Printing', price: 'Tsh 8,000', icon: 'fas fa-print', description: 'Uchapaji wa matokeo ya NECTA.', docs: ['Index Number', 'Subject Code'] },
+      { category: 'NECTA Services', name: 'Results Verification', price: 'Tsh 6,000', icon: 'fas fa-check', description: 'Uthibitisho wa matokeo.', docs: ['Index Number', 'Name'] },
+      { category: 'NECTA Services', name: 'Results Search', price: 'Tsh 5,000', icon: 'fas fa-search', description: 'Kutafuta matokeo.', docs: ['Index Number', 'School Name'] },
+      { category: 'Design Services', name: 'Logo Design', price: 'Tsh 15,000', icon: 'fas fa-pencil-alt', description: 'Ubunifu wa nembo ya biashara.', docs: ['Business Name', 'Preferences'] },
+      { category: 'Design Services', name: 'Poster Design', price: 'Tsh 12,000', icon: 'fas fa-image', description: 'Ubunifu wa poster za matangazo.', docs: ['Event Info', 'Branding'] },
+      { category: 'Design Services', name: 'Flyer Design', price: 'Tsh 10,000', icon: 'fas fa-sticky-note', description: 'Ubunifu wa vipeperushi.', docs: ['Campaign Info', 'Logo'] },
+      { category: 'Design Services', name: 'Business Card Design', price: 'Tsh 8,000', icon: 'fas fa-id-badge', description: 'Kadi za biashara za kitaalamu.', docs: ['Name', 'Contact Info'] },
+      { category: 'Design Services', name: 'Social Media Posters', price: 'Tsh 12,000', icon: 'fas fa-share-alt', description: 'Mabango ya mitandao ya kijamii.', docs: ['Platform', 'Brand Color'] },
+      { category: 'Design Services', name: 'Banner Design', price: 'Tsh 12,000', icon: 'fas fa-bullhorn', description: 'Ubunifu wa banner za matangazo.', docs: ['Size', 'Message'] },
+      { category: 'IT Services', name: 'Website Design', price: 'Tsh 45,000', icon: 'fas fa-desktop', description: 'Ubunifu wa tovuti ya kitaalamu.', docs: ['Business Info', 'Logo'] },
+      { category: 'IT Services', name: 'E-Commerce Website', price: 'Tsh 80,000', icon: 'fas fa-shopping-cart', description: 'Tovuti ya biashara mtandaoni.', docs: ['Product List', 'Payments Info'] },
+      { category: 'IT Services', name: 'Landing Page', price: 'Tsh 20,000', icon: 'fas fa-scroll', description: 'Ukubwa wa ukurasa wa kutua.', docs: ['Offer Details', 'CTA'] },
+      { category: 'IT Services', name: 'SEO Setup', price: 'Tsh 30,000', icon: 'fas fa-search-dollar', description: 'Mipangilio ya SEO kwa biashara.', docs: ['Website URL', 'Keywords'] },
+      { category: 'IT Services', name: 'Google Business Setup', price: 'Tsh 25,000', icon: 'fas fa-map-marked-alt', description: 'Usajili wa Google Business Profile.', docs: ['Business Info', 'Photos'] },
+      { category: 'IT Services', name: 'Email Setup', price: 'Tsh 18,000', icon: 'fas fa-envelope-open-text', description: 'Msaada wa barua pepe ya biashara.', docs: ['Domain', 'Admin Info'] },
+      { category: 'IT Services', name: 'Domain Setup', price: 'Tsh 12,000', icon: 'fas fa-globe-americas', description: 'Usajili wa jina la tovuti.', docs: ['Domain Preference', 'Contact Info'] },
+      { category: 'IT Services', name: 'Hosting Setup', price: 'Tsh 20,000', icon: 'fas fa-server', description: 'Mipangilio ya hosting ya tovuti.', docs: ['Website URL', 'Budget'] },
+      { category: 'IT Services', name: 'Database Design', price: 'Tsh 28,000', icon: 'fas fa-database', description: 'Uundaji wa database ya biashara.', docs: ['Business Workflows', 'Data Structure'] },
+      { category: 'IT Services', name: 'System Development', price: 'Tsh 40,000', icon: 'fas fa-code', description: 'Mfumo wa kibiashara wa kiufundi.', docs: ['Requirements', 'Users'] },
+      { category: 'IT Services', name: 'Cyber Security Audit', price: 'Tsh 35,000', icon: 'fas fa-shield-alt', description: 'Uchunguzi wa usalama wa mtandao.', docs: ['Network Scope', 'Systems'] },
+      { category: 'Tourism Services', name: 'Kilimanjaro Booking', price: 'Tsh 45,000', icon: 'fas fa-mountain', description: 'Uhifadhi wa safari ya Kilimanjaro.', docs: ['Passport', 'Travel Dates'] },
+      { category: 'Tourism Services', name: 'Safari Booking', price: 'Tsh 25,000', icon: 'fas fa-binoculars', description: 'Usajili wa safari ya mbuga.', docs: ['Travel Dates', 'Adults/Children'] },
+      { category: 'Tourism Services', name: 'Zanzibar Booking', price: 'Tsh 20,000', icon: 'fas fa-umbrella-beach', description: 'Uhifadhi wa safari Zanzibar.', docs: ['Travel Dates', 'Preferences'] },
+      { category: 'Tourism Services', name: 'Hotel Reservation', price: 'Tsh 15,000', icon: 'fas fa-hotel', description: 'Uhifadhi wa hoteli.', docs: ['Dates', 'Room Type'] },
+      { category: 'Tourism Services', name: 'Airport Transfer Booking', price: 'Tsh 10,000', icon: 'fas fa-taxi', description: 'Usafirishaji uwanja wa ndege.', docs: ['Flight Info', 'Pickup Location'] },
+      { category: 'Other Services', name: 'CV Writing', price: 'Tsh 10,000', icon: 'fas fa-file-alt', description: 'Utayarishaji wa CV ya kitaalamu.', docs: ['Work History', 'Education'] },
+      { category: 'Other Services', name: 'Cover Letter Writing', price: 'Tsh 8,000', icon: 'fas fa-envelope', description: 'Kuandika barua ya maombi.', docs: ['Job Details', 'Experience'] },
+      { category: 'Other Services', name: 'Passport Application Assistance', price: 'Tsh 20,000', icon: 'fas fa-passport', description: 'Msaada kwa maombi ya pasipoti.', docs: ['NIDA', 'Old Passport'] },
+      { category: 'Other Services', name: 'Visa Application Assistance', price: 'Tsh 18,000', icon: 'fas fa-plane-departure', description: 'Msaada kwa maombi ya visa.', docs: ['Passport', 'Travel Plan'] },
+      { category: 'Other Services', name: 'Government Form Filling', price: 'Tsh 10,000', icon: 'fas fa-file-signature', description: 'Kuajiza fomu za serikali.', docs: ['Form Details', 'NIDA'] },
+      { category: 'Other Services', name: 'Online Registration Services', price: 'Tsh 12,000', icon: 'fas fa-laptop', description: 'Usajili wa huduma mtandaoni.', docs: ['Personal Info', 'Email'] },
+      { category: 'Other Services', name: 'Printing Services', price: 'Tsh 8,000', icon: 'fas fa-print', description: 'Huduma za uchapaji.', docs: ['Print Content', 'Dimension'] },
+      { category: 'Other Services', name: 'Scanning Services', price: 'Tsh 6,000', icon: 'fas fa-scanner', description: 'Huduma za kuscan.', docs: ['Documents', 'Format'] },
+      { category: 'Other Services', name: 'Document Formatting', price: 'Tsh 7,000', icon: 'fas fa-file-contract', description: 'Ufomati wa nyaraka rasmi.', docs: ['Document Type', 'Text'] }
+    ];
+
+    const serviceGrid = document.getElementById('serviceGrid');
+    const serviceSelect = document.getElementById('serviceSelect');
+    const searchInput = document.getElementById('serviceSearch');
+    const modal = document.getElementById('serviceModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalDocs = document.getElementById('modalDocs');
+    const closeModal = document.getElementById('closeModal');
+    const themeToggle = document.getElementById('themeToggle');
+    const scrollTop = document.getElementById('scrollTop');
+    const fileInput = document.getElementById('documents');
+    const filePreview = document.getElementById('filePreview');
+    const orderForm = document.getElementById('orderForm');
+    const counters = document.querySelectorAll('.counter');
+
+    function createServiceCard(service) {
+      const card = document.createElement('article');
+      card.className = 'service-card';
+      card.innerHTML = `
+        <i class="${service.icon}"></i>
+        <h3>${service.name}</h3>
+        <strong>${service.price}</strong>
+        <p>${service.description}</p>
+        <button type="button" data-service="${service.name}">Angalia Nyaraka</button>
+      `;
+      card.querySelector('button').addEventListener('click', () => openModal(service));
+      return card;
+    }
+
+    function openModal(service) {
+      modalTitle.textContent = service.name;
+      modalDescription.textContent = service.description;
+      modalDocs.innerHTML = service.docs.map(doc => `<li>${doc}</li>`).join('');
+      modal.classList.add('active');
+    }
+
+    function closeServiceModal() {
+      modal.classList.remove('active');
+    }
+
+    function populateServices(list) {
+      serviceGrid.innerHTML = '';
+      list.forEach(service => serviceGrid.appendChild(createServiceCard(service)));
+    }
+
+    function populateSelect() {
+      services.forEach(service => {
+        const option = document.createElement('option');
+        option.value = service.name;
+        option.textContent = `${service.name} (${service.price})`;
+        serviceSelect.appendChild(option);
+      });
+    }
+
+    function filterServices() {
+      const query = searchInput.value.trim().toLowerCase();
+      const filtered = services.filter(service => service.name.toLowerCase().includes(query) || service.category.toLowerCase().includes(query) || service.description.toLowerCase().includes(query));
+      populateServices(filtered);
+    }
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('preferredTheme', theme);
+      themeToggle.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    }
+
+    function initTheme() {
+      const saved = localStorage.getItem('preferredTheme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(saved || (prefersDark ? 'dark' : 'light'));
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    closeModal.addEventListener('click', closeServiceModal);
+    modal.addEventListener('click', event => { if (event.target === modal) closeServiceModal(); });
+
+    searchInput.addEventListener('input', filterServices);
+
+    scrollTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    fileInput.addEventListener('change', () => {
+      const files = Array.from(fileInput.files).map(file => file.name);
+      filePreview.textContent = files.length ? `Nyaraka zilizochaguliwa: ${files.join(', ')}` : 'Hakuna nyaraka zilizochaguliwa.';
+    });
+
+    orderForm.addEventListener('submit', event => {
+      event.preventDefault();
+      const name = document.getElementById('fullName').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const service = document.getElementById('serviceSelect').value;
+      const description = document.getElementById('description').value.trim();
+      const docs = Array.from(fileInput.files).map(file => file.name);
+      if (!name || !phone || !email || !service || !description) return;
+      const message = [
+        'Hello John Online Services,',
+        '',
+        `Jina: ${name}`,
+        `Simu: ${phone}`,
+        `Email: ${email}`,
+        `Huduma: ${service}`,
+        `Maelezo: ${description}`,
+        docs.length ? `Nyaraka: ${docs.join(', ')}` : 'Nyaraka: Hakuna',
+        '',
+        'Ningependa kupata huduma hii.'
+      ].join('\n');
+      const encoded = encodeURIComponent(message);
+      const url = `https://wa.me/255698170989?text=${encoded}`;
+      window.open(url, '_blank');
+    });
+
+    function animateCounters() {
+      counters.forEach(counter => {
+        const target = +counter.dataset.target;
+        const duration = 1400;
+        let start = 0;
+        const step = target / (duration / 20);
+        const update = () => {
+          start += step;
+          counter.textContent = Math.floor(start) + (target > 99 ? '+' : '');
+          if (start < target) requestAnimationFrame(update);
+          else counter.textContent = target + (target > 99 ? '+' : '');
+        };
+        update();
+      });
+    }
+
+    const counterSection = document.getElementById('stats');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          observer.unobserve(counterSection);
+        }
+      });
+    }, { threshold: 0.4 });
+    observer.observe(counterSection);
+
+    function init() {
+      populateServices(services);
+      populateSelect();
+      initTheme();
+    }
+
+    init();
+  </script>
+</body>
+</html>
