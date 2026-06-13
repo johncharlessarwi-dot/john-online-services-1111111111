@@ -1,816 +1,359 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="sw">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="John Online Services & Applications - Huduma Bora za Maombi Tanzania. Application, government and business support services with fast WhatsApp order and premium Tanzanian design." />
-  <title>John Online Services & Applications</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="description" content="John Online Services & Applications — Uharaka • Uhakika • Uaminifu. Huduma za maombi Tanzania nzima." />
+  <title>JOHN ONLINE SERVICES & APPLICATIONS</title>
+  <meta name="theme-color" content="#05204a">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous"></script>
   <style>
-    :root {
-      color-scheme: light;
-      --bg: #f8fafc;
-      --surface: rgba(255,255,255,0.92);
-      --surface-strong: #ffffff;
-      --text: #0f172a;
-      --text-muted: #475569;
-      --primary: #1e3a8a;
-      --primary-soft: rgba(30,58,138,0.12);
-      --accent: #f59e0b;
-      --accent-dark: #d97706;
-      --border: rgba(15,23,42,0.1);
-      --shadow: 0 24px 80px rgba(15,23,42,0.08);
-      --radius: 28px;
-      --radius-sm: 18px;
-      --max-width: 1200px;
-    }
-    [data-theme="dark"] {
-      color-scheme: dark;
-      --bg: #0f172a;
-      --surface: rgba(15,23,42,0.96);
-      --surface-strong: #111827;
-      --text: #f8fafc;
-      --text-muted: #cbd5e1;
-      --primary: #93c5fd;
-      --primary-soft: rgba(147,197,253,0.18);
-      --accent: #fbbf24;
-      --accent-dark: #f59e0b;
-      --border: rgba(148,163,184,0.16);
-      --shadow: 0 24px 80px rgba(0,0,0,0.35);
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: radial-gradient(circle at top right, rgba(245,158,11,0.14), transparent 22%),
-                  radial-gradient(circle at left top, rgba(14,165,233,0.08), transparent 24%),
-                  var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      line-height: 1.6;
-    }
-    img { max-width: 100%; display: block; }
-    button, input, select, textarea { font: inherit; }
-    a { color: inherit; text-decoration: none; }
-    .page { width: min(100%, calc(100% - 2rem)); margin: 0 auto; max-width: var(--max-width); }
-    header { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(18px); background: rgba(255,255,255,0.78); border-bottom: 1px solid rgba(15,23,42,0.05); }
-    [data-theme="dark"] header { background: rgba(15,23,42,0.84); border-color: rgba(255,255,255,0.08); }
-    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 0; }
-    .brand { display: inline-flex; align-items: center; gap: 0.9rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.9rem; }
-    .brand-icon { width: 42px; height: 42px; display: grid; place-items: center; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 14px; color: #fff; }
-    nav { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
-    nav a { color: var(--text-muted); transition: color 0.25s ease; font-size: 0.93rem; }
-    nav a:hover { color: var(--text); }
-    .actions { display: flex; align-items: center; gap: 0.75rem; }
-    .btn, .pill { border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease; }
-    .btn:hover, .pill:hover { transform: translateY(-1px); }
-    .btn-primary { padding: 0.95rem 1.45rem; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; border-radius: 999px; box-shadow: 0 18px 40px rgba(30,58,138,0.18); }
-    .btn-secondary { padding: 0.9rem 1.3rem; background: var(--surface-strong); color: var(--text); border-radius: 999px; border: 1px solid var(--border); }
-    .theme-toggle { width: 44px; height: 44px; border-radius: 16px; background: var(--surface-strong); border: 1px solid var(--border); }
-    .hero { position: relative; padding: 5rem 0 4rem; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 20% 20%, rgba(245,158,11,0.14), transparent 24%), radial-gradient(circle at 80% 0%, rgba(14,165,233,0.14), transparent 20%), url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"/%3E%3C/svg%3E') center/contain no-repeat; pointer-events: none; }
-    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr); gap: 2rem; align-items: center; position: relative; z-index: 1; }
-    .hero-copy { max-width: 640px; }
-    .eyebrow { display: inline-flex; align-items: center; gap: 0.65rem; margin-bottom: 1.6rem; font-size: 0.92rem; font-weight: 700; color: var(--primary); }
-    .eyebrow::before { content: ''; width: 0.85rem; height: 0.85rem; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 8px rgba(245,158,11,0.14); }
-    h1 { font-size: clamp(3rem, 4vw, 4.4rem); margin: 0 0 1rem; line-height: 0.95; letter-spacing: -0.05em; }
-    .subtitle { font-size: 1.1rem; max-width: 34rem; margin-bottom: 2rem; color: var(--text-muted); }
-    .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem; }
-    .hero-actions .btn { min-width: 170px; }
-    .hero-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-    .hero-list li { display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1rem; border-radius: 20px; background: var(--surface-strong); border: 1px solid var(--border); color: var(--text); font-weight: 500; }
-    .hero-list li i { width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--primary-soft); color: var(--primary); }
-    .hero-media { position: relative; min-height: 420px; background: linear-gradient(180deg, rgba(30,58,138,0.12), rgba(15,23,42,0.05)), var(--surface); border-radius: 38px; backdrop-filter: blur(18px); border: 1px solid var(--border); box-shadow: var(--shadow); padding: 2rem; display: grid; place-items: center; }
-    .hero-card { width: 100%; max-width: 520px; padding: 2rem; border-radius: 32px; background: rgba(255,255,255,0.85); border: 1px solid rgba(255,255,255,0.54); box-shadow: 0 24px 50px rgba(15,23,42,0.08); }
-    [data-theme="dark"] .hero-card { background: rgba(15,23,42,0.92); border-color: rgba(255,255,255,0.08); }
-    .hero-card h2 { margin: 0 0 0.75rem; font-size: 1.2rem; letter-spacing: 0.02em; }
-    .hero-card p { margin: 0 0 1.35rem; color: var(--text-muted); }
-    .hero-card .status { display: inline-flex; align-items: center; gap: 0.6rem; background: rgba(30,58,138,0.08); color: var(--primary); padding: 0.8rem 1rem; border-radius: 999px; font-weight: 700; }
-    .hero-card .status i { width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: rgba(245,158,11,0.14); color: var(--accent-dark); }
-    section { padding: 4rem 0; }
-    .section-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; }
-    .section-head h2 { margin: 0; font-size: clamp(2rem, 2.4vw, 2.6rem); }
-    .section-head p { margin: 0; color: var(--text-muted); max-width: 600px; }
-    .card-grid { display: grid; gap: 1.5rem; }
-    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .service-card { background: var(--surface); border: 1px solid var(--border); border-radius: 28px; padding: 1.6rem; box-shadow: var(--shadow); transition: transform 0.35s ease, border-color 0.35s ease; }
-    .service-card:hover { transform: translateY(-6px); border-color: rgba(30,58,138,0.18); }
-    .service-card i { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 18px; background: var(--primary-soft); color: var(--primary); margin-bottom: 1rem; }
-    .service-card h3 { margin: 0 0 0.6rem; font-size: 1.05rem; }
-    .service-card p { margin: 0 0 1.2rem; color: var(--text-muted); font-size: 0.95rem; }
-    .service-card strong { display: block; margin-bottom: 1rem; font-size: 0.98rem; color: var(--text); }
-    .service-card button { width: 100%; padding: 0.85rem 1rem; border-radius: 18px; background: var(--surface-strong); border: 1px solid var(--border); color: var(--text); cursor: pointer; transition: background 0.25s ease, transform 0.25s ease; }
-    .service-card button:hover { background: var(--primary-soft); transform: translateY(-1px); }
-    .search-bar { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; align-items: center; }
-    .search-bar input { flex: 1; min-width: 240px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface-strong); color: var(--text); padding: 1rem 1.2rem; box-shadow: inset 0 1px 3px rgba(15,23,42,0.05); }
-    .search-bar .pill { border-radius: 999px; background: var(--surface-strong); border: 1px solid var(--border); padding: 0.9rem 1.25rem; color: var(--text-muted); }
-    .about-panels { display: grid; gap: 1.5rem; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 2rem; }
-    .feature-card { padding: 1.6rem; border-radius: 24px; border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow); }
-    .feature-card h3 { margin-top: 0; font-size: 1.05rem; }
-    .feature-card p { margin: 0.85rem 0 0; color: var(--text-muted); font-size: 0.95rem; }
-    .stats { display: grid; gap: 1rem; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 2rem; }
-    .stat-card { padding: 1.8rem; border-radius: 28px; background: linear-gradient(135deg, rgba(30,58,138,0.12), rgba(245,158,11,0.12)); border: 1px solid var(--border); }
-    .stat-card strong { display: block; font-size: 2.2rem; margin-bottom: 0.5rem; color: var(--primary); }
-    .stat-card span { color: var(--text-muted); }
-    .testimonials, .faqs { gap: 1.5rem; }
-    .testimonial-card, .faq-card { padding: 1.75rem; border-radius: 28px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); }
-    .testimonial-card p { margin: 0.75rem 0 0; color: var(--text-muted); }
-    .testimonial-author { display: flex; align-items: center; gap: 0.85rem; margin-top: 1.1rem; }
-    .testimonial-avatar { width: 52px; height: 52px; border-radius: 18px; display: grid; place-items: center; background: var(--primary-soft); color: var(--primary); font-weight: 700; }
-    .faq-card h3 { margin: 0 0 0.75rem; font-size: 1rem; }
-    .faq-card p { margin: 0; color: var(--text-muted); }
-    .contact-grid { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1.1fr) 320px; }
-    .contact-info { display: grid; gap: 1rem; }
-    .contact-info .info-block { padding: 1.7rem; border-radius: 28px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); }
-    .contact-info .info-block h3 { margin: 0 0 0.6rem; }
-    .contact-info .info-block a { display: block; color: var(--text); margin: 0.35rem 0; }
-    .order-form { padding: 2rem; border-radius: 32px; background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.8)); border: 1px solid rgba(255,255,255,0.7); box-shadow: var(--shadow); }
-    [data-theme="dark"] .order-form { background: linear-gradient(180deg, rgba(15,23,42,0.95), rgba(15,23,42,0.88)); border-color: rgba(255,255,255,0.08); }
-    .order-form label { display: block; margin-bottom: 0.65rem; font-weight: 600; }
-    .order-form input, .order-form select, .order-form textarea { width: 100%; border-radius: 18px; border: 1px solid var(--border); background: var(--surface-strong); padding: 1rem 1.1rem; color: var(--text); margin-bottom: 1.3rem; resize: vertical; }
-    .order-form textarea { min-height: 140px; }
-    .order-form .file-label { display: inline-flex; align-items: center; gap: 0.7rem; cursor: pointer; color: var(--text); }
-    .order-form .file-input { display: none; }
-    .order-form .submit-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; justify-content: space-between; }
-    .order-form .submit-row small { color: var(--text-muted); }
-    .modal-backdrop { position: fixed; inset: 0; z-index: 50; background: rgba(15,23,42,0.75); display: none; align-items: center; justify-content: center; padding: 1.5rem; }
-    .modal-backdrop.active { display: flex; }
-    .modal { width: min(100%, 680px); max-height: 90vh; overflow-y: auto; border-radius: 28px; background: var(--surface-strong); border: 1px solid var(--border); box-shadow: 0 38px 90px rgba(15,23,42,0.2); padding: 2rem; position: relative; }
-    .modal h3 { margin-top: 0; }
-    .modal .close { position: absolute; top: 1.4rem; right: 1.4rem; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); cursor: pointer; }
-    .modal .documents { display: grid; gap: 0.9rem; margin-top: 1.2rem; }
-    .modal .documents li { padding: 1rem 1.1rem; border-radius: 20px; background: var(--surface); border: 1px solid var(--border); }
-    .footer { padding: 3rem 0 2rem; }
-    .footer-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .footer-brand { display: grid; gap: 1rem; }
-    .footer-brand p { margin: 0; color: var(--text-muted); max-width: 320px; }
-    .footer-list { display: grid; gap: 0.85rem; }
-    .footer-list a { color: var(--text-muted); }
-    .footer-bottom { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 1.5rem; color: var(--text-muted); font-size: 0.95rem; }
-    .whatsapp-float, .top-button { position: fixed; right: 1.5rem; z-index: 30; display: grid; place-items: center; border-radius: 50%; box-shadow: 0 24px 60px rgba(30,58,138,0.2); cursor: pointer; transition: transform 0.2s ease; }
-    .whatsapp-float { bottom: 1.5rem; width: 62px; height: 62px; background: linear-gradient(135deg, #25d366, #128c7e); color: white; }
-    .top-button { bottom: 86px; width: 52px; height: 52px; background: var(--surface); border: 1px solid var(--border); color: var(--text); }
-    .whatsapp-float:hover, .top-button:hover { transform: translateY(-2px); }
-    .service-badge { display: inline-flex; gap: 0.5rem; align-items: center; background: rgba(30,58,138,0.08); color: var(--primary); padding: 0.8rem 1rem; border-radius: 999px; font-weight: 700; }
-    @media (max-width: 1024px) {
-      .hero-grid, .contact-grid, .footer-grid, .stats, .about-panels { grid-template-columns: 1fr; }
-      .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .service-card { padding: 1.4rem; }
-    }
-    @media (max-width: 720px) {
-      .topbar { flex-direction: column; align-items: stretch; }
-      nav { justify-content: center; }
-      .hero { padding-top: 3rem; }
-      .hero-actions { justify-content: center; }
-      .service-list, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-      .hero-media { min-height: 320px; padding: 1.4rem; }
-    }
+    :root{--primary:#032b66;--gold:#d4a83a;--bg:#eaf6ff;--glass:rgba(255,255,255,0.6);--muted:#4b6b8a;--text:#04203a;--border:rgba(4,32,58,0.08);--radius:18px}
+    [data-theme="dark"]{--primary:#7fb8ff;--gold:#ffcf6b;--bg:#021025;--glass:rgba(6,12,28,0.6);--muted:#9fb6d3;--text:#e6f3ff;--border:rgba(255,255,255,0.06)}
+    *{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial; background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+    a{color:inherit}
+    .page{max-width:1200px;margin:0 auto;padding:1.25rem}
+    header{position:sticky;top:0;background:linear-gradient(90deg,rgba(255,255,255,0.55),rgba(255,255,255,0.35));backdrop-filter:blur(8px);border-bottom:1px solid var(--border);z-index:60}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.9rem}
+    .brand{display:flex;align-items:center;gap:0.8rem;font-weight:800} .brand-icon{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary),var(--gold));color:#fff}
+    nav{display:flex;gap:1rem;align-items:center}
+    nav a{padding:0.5rem 0.6rem;border-radius:10px;color:var(--muted);font-weight:600}
+    nav a:hover{color:var(--text)}
+    .actions{display:flex;gap:0.6rem;align-items:center}
+    .btn{border:none;padding:0.9rem 1.2rem;border-radius:999px;cursor:pointer}
+    .btn-primary{background:linear-gradient(90deg,var(--primary),#0b59b1);color:#fff;box-shadow:0 20px 60px rgba(3,43,102,0.12)}
+    .btn-ghost{background:transparent;border:1px solid var(--border);padding:0.7rem 1rem}
+
+    /* HERO */
+    .hero{position:relative;min-height:78vh;display:grid;align-items:center;margin:1.25rem 0}
+    .slideshow{position:absolute;inset:0;z-index:0;overflow:hidden;border-radius:20px}
+    .slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transform:scale(1.04);transition:opacity 1.2s ease,transform 1.2s ease}
+    .slide.active{opacity:1;transform:scale(1)}
+    .hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr 420px;gap:2rem;align-items:center}
+    .hero-copy .eyebrow{display:inline-flex;align-items:center;gap:0.6rem;background:linear-gradient(90deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));padding:0.45rem 0.75rem;border-radius:999px;font-weight:700;color:var(--gold)}
+    h1{font-size:clamp(1.7rem,4vw,2.8rem);margin:0.6rem 0 0.8rem}
+    .subtitle{color:var(--muted);max-width:44rem}
+    .hero-card{padding:1.6rem;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,0.65),rgba(255,255,255,0.45));backdrop-filter:blur(8px);border:1px solid var(--border);box-shadow:0 30px 80px rgba(3,43,102,0.08)}
+    .badges{display:flex;gap:0.6rem;margin-top:0.9rem}
+    .pill{padding:0.45rem 0.7rem;border-radius:999px;background:linear-gradient(90deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));font-weight:700}
+
+    /* Stats */
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}
+    .stat-card{padding:1.1rem;border-radius:14px;background:linear-gradient(90deg,rgba(255,255,255,0.6),rgba(255,255,255,0.45));border:1px solid var(--border);text-align:center}
+    .stat-card strong{display:block;font-size:1.6rem;color:var(--primary)}
+
+    /* Services */
+    .services-head{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    .service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+    .service-card{padding:1rem;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.6),rgba(255,255,255,0.45));border:1px solid var(--border);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:0.6rem}
+    .service-card h3{margin:0}
+    .service-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:0.9rem}
+
+    /* Upload */
+    .uploader{padding:1rem;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.7),rgba(255,255,255,0.5));border:1px dashed var(--border);display:flex;flex-direction:column;gap:0.6rem}
+    .drop{padding:1rem;border-radius:10px;border:2px dashed rgba(4,32,58,0.06);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    .previews{display:flex;flex-direction:column;gap:0.6rem}
+    .file-item{display:flex;align-items:center;gap:0.8rem;padding:0.6rem;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,0.4)}
+    .file-thumb{width:64px;height:48px;border-radius:8px;overflow:hidden;background:rgba(0,0,0,0.04);display:grid;place-items:center}
+    .progress{height:8px;background:rgba(0,0,0,0.06);border-radius:8px;overflow:hidden}
+    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--primary),var(--gold));width:0%}
+
+    /* Testimonials & FAQ */
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .testimonial{padding:1rem;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.6),rgba(255,255,255,0.45));border:1px solid var(--border)}
+
+    /* Contact */
+    footer{padding:2rem 0;color:var(--muted)}
+    .floating{position:fixed;right:1.2rem;bottom:1.2rem;z-index:80}
+    .fab{width:68px;height:68px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;box-shadow:0 30px 80px rgba(3,43,102,0.18);border:4px solid rgba(255,255,255,0.06)}
+
+    /* responsive */
+    @media(max-width:1000px){.service-grid{grid-template-columns:repeat(2,1fr)}.hero-grid{grid-template-columns:1fr}}@media(max-width:640px){.service-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}nav{display:none}}
   </style>
 </head>
-<body>
+<body data-theme="light">
   <div class="page">
     <header>
       <div class="topbar">
-        <a class="brand" href="#home">
-          <span class="brand-icon"><i class="fas fa-globe"></i></span>
-          JOHN ONLINE SERVICES
-        </a>
-        <nav aria-label="Main navigation">
+        <a class="brand" href="#home"><span class="brand-icon"><i class="fas fa-globe"></i></span>JOHN ONLINE SERVICES & APPLICATIONS</a>
+        <nav>
           <a href="#services">Services</a>
           <a href="#why">Why Us</a>
-          <a href="#stats">Statistics</a>
           <a href="#testimonials">Testimonials</a>
           <a href="#faq">FAQ</a>
           <a href="#contact">Contact</a>
         </nav>
         <div class="actions">
-          <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><i class="fas fa-moon"></i></button>
-          <a class="btn btn-primary" href="#contact">Wasiliana</a>
+          <button id="themeToggle" class="btn btn-ghost" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+          <a class="btn btn-primary" href="#order">TUMA MAOMBI</a>
         </div>
       </div>
     </header>
 
     <main>
-      <section class="hero" id="home">
-        <div class="page hero-grid">
+      <!-- HERO -->
+      <section id="home" class="hero">
+        <div class="slideshow" aria-hidden="true">
+          <div class="slide active" style="background-image:linear-gradient(90deg,rgba(3,43,102,0.55),rgba(212,168,58,0.12)),url('https://images.unsplash.com/photo-1520975698510-4a3b5b6b0d2b?auto=format&fit=crop&w=1600&q=60')"></div>
+          <div class="slide" style="background-image:linear-gradient(90deg,rgba(3,43,102,0.55),rgba(212,168,58,0.12)),url('https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1600&q=60')"></div>
+          <div class="slide" style="background-image:linear-gradient(90deg,rgba(3,43,102,0.55),rgba(212,168,58,0.12)),url('https://images.unsplash.com/photo-1556740772-1a741367b93e?auto=format&fit=crop&w=1600&q=60')"></div>
+        </div>
+
+        <div class="hero-grid">
           <div class="hero-copy">
-            <span class="eyebrow">Huduma Bora za Maombi Tanzania</span>
-            <h1>John Online Services & Applications</h1>
-            <p class="subtitle">Tunarahisisha maombi ya elimu, serikali, biashara na teknolojia kwa haraka na uhakika. Huduma ya kitaalamu kwa wateja wote Tanzania, kutoka Moshi hadi mikoa yote.</p>
-            <div class="hero-actions">
+            <div class="eyebrow">Uharaka • Uhakika • Uaminifu</div>
+            <h1>JOHN ONLINE SERVICES & APPLICATIONS</h1>
+            <p class="subtitle">Tunasaidia Maombi ya Elimu, Serikali, Biashara na Teknolojia Tanzania Nzima.</p>
+            <div style="margin-top:1rem;display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center">
               <a class="btn btn-primary" href="#order">TUMA MAOMBI</a>
-              <a class="btn btn-secondary" href="https://wa.me/255698170989?text=Habari%20John%20Online%20Services%2C%20napenda%20huduma" target="_blank" rel="noreferrer">Piga WhatsApp</a>
+              <button id="ctaWhats" class="btn btn-ghost"><i class="fab fa-whatsapp"></i> Wasiliana kwa WhatsApp</button>
             </div>
-            <ul class="hero-list">
-              <li><i class="fas fa-graduation-cap"></i>HESLB Applications</li>
-              <li><i class="fas fa-university"></i>University Applications</li>
-              <li><i class="fas fa-file-alt"></i>RITA/NIDA</li>
-              <li><i class="fas fa-briefcase"></i>BRELA/TRA</li>
-              <li><i class="fas fa-pencil-ruler"></i>Design & Websites</li>
-              <li><i class="fas fa-plane"></i>Tourism Services</li>
-            </ul>
-          </div>
-          <div class="hero-media">
-            <div class="hero-card">
-              <div class="status"><i class="fas fa-shield-alt"></i> Premium Tanzanian Support</div>
-              <h2>Huduma za kila aina kwa urahisi</h2>
-              <p>Endelea na maombi yako bila kusumbuka. Tunatoa huduma za serikali, elimu, biashara, IT, utalii na uchapaji kwa bei nafuu na kwa uaminifu.</p>
-              <div class="service-badge"><i class="fas fa-check"></i> 65+ Services</div>
+
+            <div class="stats" style="margin-top:1.2rem">
+              <div class="stat-card"><strong class="counter" data-target="1000">0</strong><span>Clients Served</span></div>
+              <div class="stat-card"><strong class="counter" data-target="65">0</strong><span>Services</span></div>
+              <div class="stat-card"><strong class="counter" data-target="99">0</strong><span>% Satisfaction</span></div>
+              <div class="stat-card"><strong class="counter" data-target="24">0</strong><span>/7 Support</span></div>
+            </div>
+
+            <div style="margin-top:1rem;display:flex;gap:0.6rem;flex-wrap:wrap">
+              <span class="pill">Verified Business</span>
+              <span class="pill">Secure Upload</span>
+              <span class="pill">Fast Service</span>
+              <span class="pill">24/7 Support</span>
             </div>
           </div>
+
+          <aside class="hero-card">
+            <h3 style="margin:0">Huduma Maarufu</h3>
+            <p style="color:var(--muted);margin-top:0.5rem">Tunatoa huduma zaidi ya 65: HESLB, NIDA, BRELA, TIN, University Applications na huduma za digital.</p>
+            <div style="margin-top:0.9rem">
+              <ul style="padding-left:1rem;margin:0;color:var(--muted);line-height:1.6">
+                <li>Fast Application Processing</li>
+                <li>Secure Document Upload</li>
+                <li>Personalized Support</li>
+              </ul>
+            </div>
+          </aside>
         </div>
       </section>
 
+      <!-- SERVICES -->
       <section id="services">
-        <div class="section-head">
+        <div class="services-head">
           <div>
             <h2>Huduma Zetu</h2>
-            <p>Chagua huduma inayokufaa kwa ajili ya maombi ya serikali, elimu, biashara, IT, utalii na huduma zingine za kitaalamu.</p>
+            <p style="color:var(--muted)">Chagua huduma — tumekuwa waaminifu kwa wateja wetu kwa zaidi ya miaka.</p>
           </div>
-          <div class="search-bar">
-            <input type="search" id="serviceSearch" placeholder="Tafuta huduma kwa jina..." aria-label="Service search" />
-            <div class="pill"><i class="fas fa-search"></i> Tafuta kwa huduma</div>
+          <div style="display:flex;gap:0.6rem;align-items:center">
+            <input id="serviceSearch" placeholder="Tafuta huduma..." style="padding:0.7rem;border-radius:10px;border:1px solid var(--border);min-width:220px">
+            <button id="voiceSearch" class="btn btn-ghost" title="Tafuta kwa sauti"><i class="fas fa-microphone"></i></button>
           </div>
         </div>
 
-        <div class="card-grid grid-3" id="serviceGrid">
-          <!-- Services will be inserted here by JS -->
-        </div>
-      </section>
-
-      <section id="why">
-        <div class="section-head">
-          <div>
-            <h2>Kwanini Utuchague?</h2>
-            <p>Huduma zetu zinaendeshwa kwa viwango vya juu vya kitaalam, uvumilivu, uaminifu na utoaji wa ufumbuzi kwa haraka kote Tanzania.</p>
-          </div>
-        </div>
-        <div class="about-panels">
-          <div class="feature-card">
-            <h3>Uharaka</h3>
-            <p>Tunachukua hatua kwa kasi na kukusaidia kukamilisha maombi bila ucheleweshaji wa muda mrefu.</p>
-          </div>
-          <div class="feature-card">
-            <h3>Uaminifu</h3>
-            <p>Huduma zetu zinatolewa kwa uwazi kamili, kwa kuhakikisha maelezo yako yanahifadhiwa na kufuatiliwa kwa uangalifu.</p>
-          </div>
-          <div class="feature-card">
-            <h3>Uhakika</h3>
-            <p>Tunatoa mwongozo wa kweli juu ya taratibu na nyaraka zinazohitajika kwa kila huduma.</p>
-          </div>
-          <div class="feature-card">
-            <h3>Bei Nafuu</h3>
-            <p>Tulipa bei kwa mafanikio, tukikupa suluhisho la thamani kwa maombi yako ya serikali, elimu na biashara.</p>
-          </div>
-          <div class="feature-card">
-            <h3>Msaada wa Kitaalamu</h3>
-            <p>Viongozi wetu wana uzoefu wa huduma za maombi, IT, utalii, uchapaji na biashara kwa wateja wa Tanzania.</p>
-          </div>
-          <div class="feature-card">
-            <h3>Huduma Nchi Nzima</h3>
-            <p>Tunafikia wateja Moshi, Dar, Arusha, Tanga, Dodoma na mikoa mingine kwa huduma mtandaoni.</p>
-          </div>
+        <div id="serviceGrid" class="service-grid" style="margin-top:1rem">
+          <!-- service cards injected by JS -->
         </div>
       </section>
 
-      <section id="stats">
-        <div class="section-head">
-          <div>
-            <h2>Takwimu za Huduma</h2>
-            <p>Maonyesho ya mafanikio yetu katika utoaji huduma za maombi, uuzaji wa huduma za mtandao na msaada kwa wateja.</p>
-          </div>
-        </div>
-        <div class="stats">
-          <div class="stat-card"><strong class="counter" data-target="1000">0</strong><span>Clients Served</span></div>
-          <div class="stat-card"><strong class="counter" data-target="65">0</strong><span>Services</span></div>
-          <div class="stat-card"><strong class="counter" data-target="99">0</strong><span>% Satisfaction</span></div>
-          <div class="stat-card"><strong class="counter" data-target="24">0</strong><span>/7 Support</span></div>
-        </div>
-      </section>
+      <!-- UPLOAD & ORDER -->
+      <section id="order" style="margin-top:1.6rem;">
+        <div style="display:grid;grid-template-columns:1fr 360px;gap:1rem;align-items:start">
+          <div class="hero-card">
+            <h3>Tuma Maombi + Upload Nyaraka</h3>
+            <p style="color:var(--muted)">Pakua nyaraka (PDF/JPG/PNG), tutaweka salama na kukutumia kwa WhatsApp.</p>
 
-      <section id="testimonials">
-        <div class="section-head">
-          <div>
-            <h2>Testimonials</h2>
-            <p>Wanahisa wateja waliothibitisha ubora wa huduma zetu kwa maombi ya HESLB, visa, elimu, utalii na biashara.</p>
-          </div>
-        </div>
-        <div class="card-grid grid-3 testimonials">
-          <article class="testimonial-card"><p>John alisaidia kwa haraka na kwa uaminifu katika maombi ya HESLB. Nilipata matokeo haraka na kwa msaada wa kila hatua.</p><div class="testimonial-author"><span class="testimonial-avatar">AA</span><div><strong>Amina Ali</strong><p>Mwanafunzi, Dar es Salaam</p></div></div></article>
-          <article class="testimonial-card"><p>Shughuli ya kujiandikisha NIDA ilikamilika bila shida. Mteja alikuwa mtaalamu, mwenye huruma na alijibu haraka kila swali.</p><div class="testimonial-author"><span class="testimonial-avatar">BM</span><div><strong>Bernard M.</strong><p>Biashara, Moshi</p></div></div></article>
-          <article class="testimonial-card"><p>Nilipata huduma ya kujenga tovuti ya biashara yangu. Inafaa, inavutia na imeleta wateja wapya.</p><div class="testimonial-author"><span class="testimonial-avatar">CJ</span><div><strong>Clara J.</strong><p>MTU, Arusha</p></div></div></article>
-          <article class="testimonial-card"><p>Ujuzi wa BRELA ulionekana wazi. Kwanza tulisajili jina la biashara na baadaye kubadilisha kwa uhakika.</p><div class="testimonial-author"><span class="testimonial-avatar">DK</span><div><strong>David K.</strong><p>Msimamizi, Tanga</p></div></div></article>
-          <article class="testimonial-card"><p>Nilipata msaada wa visa, na kila jambo lilieleweka vizuri. Huduma nzuri kwa bei nafuu.</p><div class="testimonial-author"><span class="testimonial-avatar">EF</span><div><strong>Elisa F.</strong><p>Mtalii, Zanzibar</p></div></div></article>
-          <article class="testimonial-card"><p>Kutumia huduma hizi ni raha. Walikuwa na mwangaza na walifanya maombi yangu ya hostel haraka.</p><div class="testimonial-author"><span class="testimonial-avatar">GH</span><div><strong>George H.</strong><p>Mwanafunzi, Dodoma</p></div></div></article>
-          <article class="testimonial-card"><p>Niliamua kupata logo mpya na mabango ya kijamii. Makazi yalikuwa mazuri na yale yaliyotolewa yalikuwa kitaalamu.</p><div class="testimonial-author"><span class="testimonial-avatar">IM</span><div><strong>Irene M.</strong><p>Mbunifu, Mwanza</p></div></div></article>
-          <article class="testimonial-card"><p>Wateja waliendelea kuniona kama mtaalamu baada ya kuniwezesha na uundaji wa SEO na huduma za Google Business.</p><div class="testimonial-author"><span class="testimonial-avatar">JK</span><div><strong>Jacob K.</strong><p>Mfanyabiashara, Mbeya</p></div></div></article>
-        </div>
-      </section>
+            <form id="orderForm" style="margin-top:0.8rem;display:flex;flex-direction:column;gap:0.6rem">
+              <label>Jina Kamili<input id="fullName" required placeholder="Jina lako kamili" style="padding:0.7rem;border-radius:8px;border:1px solid var(--border)"></label>
+              <label>Simu<input id="phone" required placeholder="0698170989" style="padding:0.7rem;border-radius:8px;border:1px solid var(--border)"></label>
+              <label>Email<input id="email" placeholder="you@example.com" style="padding:0.7rem;border-radius:8px;border:1px solid var(--border)"></label>
+              <label>Huduma
+                <select id="serviceSelect" required style="padding:0.7rem;border-radius:8px;border:1px solid var(--border)">
+                  <option value="">Chagua huduma</option>
+                </select>
+              </label>
+              <label>Maelezo<textarea id="description" required placeholder="Elezea huduma unayohitaji" style="padding:0.7rem;border-radius:8px;border:1px solid var(--border);min-height:120px"></textarea></label>
 
-      <section id="faq">
-        <div class="section-head">
-          <div>
-            <h2>Maswali Yanayoulizwa Mara kwa Mara</h2>
-            <p>Jifunze zaidi kuhusu kipengele cha huduma, mchakato wa maombi, malipo, na jinsi ya kuwasiliana nasi.</p>
-          </div>
-        </div>
-        <div class="card-grid grid-2 faqs">
-          <article class="faq-card"><h3>Je, jinsi ya kuomba huduma?</h3><p>Bofya kitufe cha WhatsApp au tumia fomu ya "TUMA MAOMBI" tukaongee nawe mara moja.</p></article>
-          <article class="faq-card"><h3>Je, je, kuna ada ya ziada kwa utoaji?</h3><p>Hakuna ada ya siri. Bei zilizoorodheshwa ni kwa huduma za msingi, na tunaelezea gharama kwa kila ombi.</p></article>
-          <article class="faq-card"><h3>Je, ninaweza kupata msaada kwa huduma nyingi?</h3><p>Ndiyo. Tunaweza kusaidia maombi ya elimu, huduma za serikali, biashara, utalii na huduma za teknolojia kwa pamoja.</p></article>
-          <article class="faq-card"><h3>Je, mnapokea malipo kwa mkondo gani?</h3><p>Hakuna malipo mtandaoni hapa. Malipo yanaweza kufanywa moja kwa moja baada ya kuwasiliana nasi kupitia WhatsApp.</p></article>
-          <article class="faq-card"><h3>Ni nyaraka gani nahitaji kwa HESLB?</h3><p>HESLB: NIDA, Cheti cha Kuzaliwa, Cheti cha Elimu.</p></article>
-          <article class="faq-card"><h3>Je, huduma ya NIDA inafanyaje kazi?</h3><p>Tunatoa utafutaji wa namba, uthibitisho, na ufuatiliaji wa taratibu zako za NIDA kwa urahisi.</p></article>
-          <article class="faq-card"><h3>Je, ninaweza kukamilisha maombi ya shule?</h3><p>Ndiyo. Tunashughulikia maombi ya vyuo vikuu, diploma, cheti, uhamisho wa chuo na uhifadhi wa hosteli.</p></article>
-          <article class="faq-card"><h3>Je, huduma ya BRELA ni kwa ajili ya biashara dogo?</h3><p>Ndiyo. Tunaweza kusaidia usajili wa jina la biashara, usajili wa kampuni na mabadiliko ya kampuni.</p></article>
-          <article class="faq-card"><h3>Je, msaidizi wa utalii anajumuisha nini?</h3><p>Tunakusadia kuhifadhi safari za Kilimanjaro, safari, Zanzibar, hoteli na uhamisho wa uwanja wa ndege.</p></article>
-          <article class="faq-card"><h3>Je, huduma ya uundaji tovuti inajumuisha SEO?</h3><p>Ndiyo. Tunatoa utengenezaji wa tovuti, e-commerce, ukurasa wa kutua, mipangilio ya SEO na huduma ya Google Business.</p></article>
-          <article class="faq-card"><h3>Je, ninaweza kupata picha za huduma?</h3><p>Tunaweza kutengeneza mabango ya digital, vipeperushi, kadi za biashara, na vichwa vya mitandao ya kijamii.</p></article>
-          <article class="faq-card"><h3>Je, ninaweza kutuma nyaraka kwa WhatsApp?</h3><p>Ndiyo. Taarifa za awali zinatumwa kupitia fomu, na nyaraka zinazoongezwa zinaweza kushirikiwa kwa WhatsApp baada ya mawasiliano.</p></article>
-          <article class="faq-card"><h3>Je, umewahi kutoa huduma kwa wateja wengi?</h3><p>Ndiyo. Tumewahudumia wateja 1000+ kwa maombi ya elimu, serikali, biashara na huduma za mtandao.</p></article>
-          <article class="faq-card"><h3>Je, ninaweza kupata msaada kwa eneo lolote Tanzania?</h3><p>Ndiyo. Huduma zetu zinapatikana kwa wateja kote nchini kupitia WhatsApp na mtandao.</p></article>
-          <article class="faq-card"><h3>Je, huwezi kuweka mfumo wa kuingia?</h3><p>Hakuna mfumo wa login. Hapa ni huduma ya moja kwa moja kwa mteja kupiga WhatsApp na kutuma maombi yake.</p></article>
-          <article class="faq-card"><h3>Je, una bidhaa za uchapaji?</h3><p>Ndiyo. Tuna huduma za kuchapisha, kuorodhesha, kukasirisha na kubuni hati rasmi.</p></article>
-          <article class="faq-card"><h3>Je, maombi ya scholarship yanahitaji nini?</h3><p>Scholarship inahitaji nyaraka za elimu, NIDA, na maelezo ya mteja. Tunakusaidia kutayarisha maombi.</p></article>
-          <article class="faq-card"><h3>Je, ninaweza kupata msaada wa visa?</h3><p>Ndiyo. Tunatoa msaada wa maombi ya pasipoti, visa na huduma za kujaza fomu za serikali.</p></article>
-          <article class="faq-card"><h3>Je, huduma zako ni za haraka?</h3><p>Ndiyo. Tunasisitiza utoaji wa huduma kwa uharaka na ufuatiliaji wa kila hatua hadi kukamilika.</p></article>
-          <article class="faq-card"><h3>Je, huduma ya ushauri wa biashara inapatikana?</h3><p>Ndiyo. Tunaweza kusaidia katika usanifu wa biashara, uundaji wa database, na uthibitisho wa kiusalama.</p></article>
-        </div>
-      </section>
-
-      <section id="order">
-        <div class="section-head">
-          <div>
-            <h2>Tuma Ombi Lako</h2>
-            <p>Jaza fomu hapa chini na utume maelezo yako moja kwa moja kwa WhatsApp kwa John Online Services.</p>
-          </div>
-        </div>
-        <div class="contact-grid">
-          <div class="order-form">
-            <form id="orderForm">
-              <label for="fullName">Jina Kamili</label>
-              <input type="text" id="fullName" name="fullName" placeholder="Jina lako kamili" required />
-
-              <label for="phone">Namba ya Simu</label>
-              <input type="tel" id="phone" name="phone" placeholder="0698170989" required />
-
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" placeholder="john@example.com" required />
-
-              <label for="serviceSelect">Huduma Inayohitajika</label>
-              <select id="serviceSelect" name="serviceSelect" required>
-                <option value="">Chagua huduma</option>
-              </select>
-
-              <label for="description">Maelezo</label>
-              <textarea id="description" name="description" placeholder="Elezea huduma unazohitaji kwa undani" required></textarea>
-
-              <label class="file-label"><i class="fas fa-upload"></i> Nyaraka (PDF, JPG, JPEG, PNG) - hiari</label>
-              <div id="uploadZone" style="margin:0 0 1rem;">
-                <div id="dropArea" style="border:2px dashed var(--border); border-radius:16px; padding:1.2rem; background:var(--surface); display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
-                  <div style="flex:1; min-width:180px; color:var(--text-muted);">Tafuta au buruta hapa nyaraka zako</div>
-                  <input type="file" id="documents" name="documents" class="file-input" multiple accept=".pdf,image/*" style="display:none;" />
-                  <button type="button" id="chooseFiles" class="btn btn-secondary">Chagua Faili</button>
+              <div class="uploader">
+                <div class="drop" id="dropArea">
+                  <div style="color:var(--muted)">Buruta au chagua hadi 20 faili (max 10MB kila moja)</div>
+                  <div style="display:flex;gap:0.6rem"><input type="file" id="fileInput" accept=".pdf,image/*" multiple style="display:none"><button type="button" id="pickFiles" class="btn btn-ghost">Chagua</button></div>
                 </div>
-                <div id="previews" style="margin-top:0.9rem; display:grid; gap:0.7rem;"></div>
-                <div id="globalProgress" style="margin-top:0.6rem; display:none; align-items:center; gap:0.6rem;"></div>
-                <div id="uploadErrors" style="color:#b91c1c; margin-top:0.6rem; display:none;"></div>
+                <div id="previews" class="previews"></div>
+                <div id="globalProgress" style="display:none"></div>
+                <div id="uploadNotice" style="color:crimson;display:none"></div>
               </div>
 
-              <div class="submit-row">
-                <button type="submit" class="btn btn-primary" id="submitBtn">TUMA MAOMBI</button>
-                <small>Taarifa zitapelekwa moja kwa moja kwa WhatsApp.</small>
+              <div style="display:flex;gap:0.6rem;align-items:center;margin-top:0.6rem">
+                <button id="submitBtn" class="btn btn-primary" type="submit">TUMA MAOMBI</button>
+                <div style="color:var(--muted);font-size:0.95rem">Taarifa zitapelekwa kupitia WhatsApp.</div>
               </div>
             </form>
           </div>
-          <div class="contact-info">
-            <div class="info-block">
-              <h3>John Online Services & Applications</h3>
-              <p>Huduma za maombi za serikali, elimu, biashara, utalii na teknolojia.</p>
-              <a href="tel:+255698170989"><i class="fas fa-phone"></i> 0698170989</a>
-              <a href="tel:+255627310424"><i class="fas fa-phone"></i> 0627310424</a>
-              <a href="mailto:johncharlessarwi@gmail.com"><i class="fas fa-envelope"></i> johncharlessarwi@gmail.com</a>
-              <a href="https://wa.me/255698170989" target="_blank" rel="noreferrer"><i class="fab fa-whatsapp"></i> WhatsApp 0698170989</a>
-              <p><i class="fas fa-map-marker-alt"></i> Moshi, Kilimanjaro, Tanzania</p>
-            </div>
-            <div class="info-block">
-              <h3>Utaratibu wa Huduma</h3>
-              <ul style="padding-left: 1.1rem; margin: 0; color: var(--text-muted); list-style: disc;">
-                <li>Tuma maombi kupitia WhatsApp.</li>
-                <li>Pokea mwongozo wa nyaraka.</li>
-                <li>Fuatilia hatua kwa hatua.</li>
-                <li>Uthibitisho wa huduma kwa haraka.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <section class="footer">
-        <div class="footer-grid">
-          <div class="footer-brand">
-            <a class="brand" href="#home"><span class="brand-icon"><i class="fas fa-globe"></i></span>JOHN ONLINE SERVICES</a>
-            <p>Huduma bora za maombi Tanzania na msaada wa kitaalamu kwa elimu, serikali, biashara, utalii na teknolojia.</p>
-          </div>
-          <div class="footer-list">
-            <h4>Quick Links</h4>
-            <a href="#services">Services</a>
-            <a href="#why">Why Us</a>
-            <a href="#testimonials">Testimonials</a>
-            <a href="#faq">FAQ</a>
-          </div>
-          <div class="footer-list">
-            <h4>Popular Services</h4>
-            <a href="#services">HESLB Application</a>
-            <a href="#services">University Application</a>
-            <a href="#services">TIN Application</a>
-            <a href="#services">Logo Design</a>
-          </div>
-          <div class="footer-list">
+          <aside class="hero-card">
             <h4>Contact</h4>
-            <a href="tel:+255698170989">0698170989</a>
-            <a href="mailto:johncharlessarwi@gmail.com">johncharlessarwi@gmail.com</a>
-            <a href="https://wa.me/255698170989">WhatsApp</a>
-            <a href="#contact">Moshi, Kilimanjaro</a>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <span>© 2026 John Online Services & Applications</span>
-          <a class="btn btn-secondary" href="https://wa.me/255698170989" target="_blank" rel="noreferrer">Piga WhatsApp</a>
+            <p style="margin:0.3rem 0;color:var(--muted)"><strong>John Charles Sarwi</strong><br>📞 0698170989 • 0627310424<br>✉️ johncharlessarwi@gmail.com<br>📍 Moshi, Kilimanjaro</p>
+            <div style="margin-top:0.8rem;display:flex;gap:0.6rem;flex-wrap:wrap">
+              <span class="pill">Secure Upload</span>
+              <span class="pill">Trusted</span>
+            </div>
+          </aside>
         </div>
       </section>
+
+      <!-- Testimonials, FAQ -->
+      <section id="testimonials" style="margin-top:1.6rem">
+        <div style="display:flex;gap:1rem;align-items:center;justify-content:space-between">
+          <h2>Success Stories</h2>
+          <div style="color:var(--muted)">Real clients, real results</div>
+        </div>
+        <div style="margin-top:0.8rem" class="grid-2">
+          <div class="testimonial"><strong>Amina A.</strong><p style="margin:0.4rem 0;color:var(--muted)">John aliweza kumaliza maombi yangu ya HESLB kwa haraka.</p></div>
+          <div class="testimonial"><strong>Bernard M.</strong><p style="margin:0.4rem 0;color:var(--muted)">Usajili wa biashara ulikamilika bila usumbufu.</p></div>
+        </div>
+      </section>
+
+      <section id="faq" style="margin-top:1.6rem">
+        <h2>Maswali Yanayoulizwa Mara kwa Mara</h2>
+        <div style="margin-top:0.6rem" class="grid-2">
+          <div class="faq-card faq"><h4>Je, ninaweza kutuma nyaraka kwa WhatsApp?</h4><p style="color:var(--muted)">Ndiyo — pakia hapa, tutatuma link kwa WhatsApp.</p></div>
+          <div class="faq-card faq"><h4>Je, nyaraka zinalindwa?</h4><p style="color:var(--muted)">Ndiyo — tunatumia Cloudinary kwa upload salama na URL zilizosomwa.</p></div>
+        </div>
+      </section>
+
     </main>
+
+    <footer style="margin-top:2rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap">
+        <div>
+          <strong>JOHN ONLINE SERVICES & APPLICATIONS</strong><div style="color:var(--muted)">Uharaka • Uhakika • Uaminifu</div>
+        </div>
+        <div style="color:var(--muted)">© 2026 John Online Services — Moshi, Kilimanjaro</div>
+      </div>
+    </footer>
   </div>
 
-  <div class="whatsapp-float" onclick="window.open('https://wa.me/255698170989?text=Habari%20John%20Online%20Services','_blank')" aria-label="Open WhatsApp">
-    <i class="fab fa-whatsapp fa-lg"></i>
-  </div>
-  <button class="top-button" id="scrollTop" aria-label="Scroll to top"><i class="fas fa-chevron-up"></i></button>
-
-  <div class="modal-backdrop" id="serviceModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal">
-      <button class="close" id="closeModal" aria-label="Close modal"><i class="fas fa-times"></i></button>
-      <h3 id="modalTitle">Huduma</h3>
-      <p id="modalDescription">Taarifa za huduma itajazwa hapa.</p>
-      <h4>Required Documents</h4>
-      <ul class="documents" id="modalDocs"></ul>
-    </div>
+  <!-- Floating WhatsApp -->
+  <div class="floating">
+    <a id="floatWa" class="fab" href="#" title="Wasiliana kwa WhatsApp"><i class="fab fa-whatsapp fa-lg"></i></a>
   </div>
 
   <script>
-    /* Services data (unchanged) */
+    // Basic site behavior + heavy features implemented below
+    const CLOUDINARY = { cloudName: 'YOUR_CLOUD_NAME', uploadPreset: 'YOUR_UNSIGNED_UPLOAD_PRESET' };
+    const MAX_FILES = 20, MAX_SIZE = 10 * 1024 * 1024;
+
+    // theme
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', cur);
+      localStorage.setItem('theme', cur);
+    });
+    (function(){ const t=localStorage.getItem('theme'); if(t)document.documentElement.setAttribute('data-theme',t); })();
+
+    // slideshow
+    (function(){
+      const slides = document.querySelectorAll('.slide'); let i=0; setInterval(()=>{slides[i].classList.remove('active'); i=(i+1)%slides.length; slides[i].classList.add('active');},4500);
+    })();
+
+    // counters
+    function animateCounters(){document.querySelectorAll('.counter').forEach(c=>{const target=+c.dataset.target;let count=0;const step=Math.max(1,Math.round(target/60));const t=setInterval(()=>{count+=step;c.textContent=count>target?target:count;if(count>=target)clearInterval(t)},30)})}
+    const obs = new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){animateCounters();obs.disconnect()}})},{threshold:0.4}); obs.observe(document.querySelector('#home'));
+
+    // services data (sample subset, expand as needed)
     const services = [
-      { category: 'Education Services', name: 'HESLB Application', price: 'Tsh 15,000', icon: 'fas fa-graduation-cap', description: 'Msaada wa maombi ya HESLB kwa wanafunzi.', docs: ['NIDA', 'Birth Certificate', 'Academic Certificates'] },
-      { category: 'Education Services', name: 'HESLB Follow Up', price: 'Tsh 10,000', icon: 'fas fa-search', description: 'Ufuatiliaji wa maombi ya HESLB.', docs: ['Application Reference', 'NIDA'] },
-      { category: 'Education Services', name: 'HESLB Notarization', price: 'Tsh 10,000', icon: 'fas fa-handshake', description: 'Kuhakikisha ushahidi wa HESLB kwa notary.', docs: ['Application Letter', 'NIDA'] },
-      { category: 'Education Services', name: 'Disability Form', price: 'Tsh 25,000', icon: 'fas fa-wheelchair', description: 'Kusaidia kujaza fomu za ulemavu.', docs: ['NIDA', 'Medical Report'] },
-      { category: 'Education Services', name: 'Samia Scholarship', price: 'Tsh 10,000', icon: 'fas fa-award', description: 'Maombi ya scholarship ya Samia.', docs: ['Form Four Results', 'NIDA'] },
-      { category: 'Education Services', name: 'MO Scholarship', price: 'Tsh 10,000', icon: 'fas fa-award', description: 'Usaidizi wa scholarship ya serikali.', docs: ['Form Four Results', 'NIDA'] },
-      { category: 'Education Services', name: 'NMB Scholarship', price: 'Tsh 10,000', icon: 'fas fa-award', description: 'Maombi ya scholarship ya NMB.', docs: ['Form Four Results', 'NIDA'] },
-      { category: 'Education Services', name: 'University Application 1', price: 'Tsh 4,000', icon: 'fas fa-university', description: 'Maombi ya chuo kikuu (pkg 1).', docs: ['Form Four Results', 'Form Six Results', 'NIDA'] },
-      { category: 'Education Services', name: 'University Application 2', price: 'Tsh 8,000', icon: 'fas fa-university', description: 'Maombi ya chuo kikuu (pkg 2).', docs: ['Form Four Results', 'Form Six Results', 'NIDA'] },
-      { category: 'Education Services', name: 'University Application 3', price: 'Tsh 12,000', icon: 'fas fa-university', description: 'Maombi ya chuo kikuu (pkg 3).', docs: ['Form Four Results', 'Form Six Results', 'NIDA'] },
-      { category: 'Education Services', name: 'University Application 4-6', price: 'Tsh 20,000', icon: 'fas fa-university', description: 'Maombi 4-6 ya chuo kikuu.', docs: ['Results', 'NIDA'] },
-      { category: 'Education Services', name: 'University Application 7-10', price: 'Tsh 30,000', icon: 'fas fa-university', description: 'Maombi 7-10 ya chuo kikuu.', docs: ['Results', 'NIDA'] },
-      { category: 'Education Services', name: 'Diploma Application', price: 'Tsh 10,000', icon: 'fas fa-graduation-cap', description: 'Maombi ya diploma.', docs: ['Form Four Results', 'NIDA'] },
-      { category: 'Education Services', name: 'Certificate Application', price: 'Tsh 10,000', icon: 'fas fa-certificate', description: 'Maombi ya cheti.', docs: ['Form Four Results', 'NIDA'] },
-      { category: 'Education Services', name: 'University Transfer', price: 'Tsh 15,000', icon: 'fas fa-exchange-alt', description: 'Usafirishaji wa chuo.', docs: ['Admission Letter', 'NIDA'] },
-      { category: 'Education Services', name: 'Course Transfer', price: 'Tsh 15,000', icon: 'fas fa-exchange-alt', description: 'Uhamisho wa kozi.', docs: ['Academic Record', 'NIDA'] },
-      { category: 'Education Services', name: 'Hostel Booking', price: 'Tsh 10,000', icon: 'fas fa-bed', description: 'Uhifadhi wa hosteli kwa wanafunzi.', docs: ['Admission Letter', 'NIDA'] },
-      { category: 'RITA Services', name: 'Birth Certificate', price: 'Anza kwa Tsh 7,000', icon: 'fas fa-baby', description: 'Maombi ya cheti cha kuzaliwa.', docs: ['Parent Info', 'Hospital Info', 'NIDA'] },
-      { category: 'RITA Services', name: 'Birth Certificate Replacement', price: 'Anza kwa Tsh 9,000', icon: 'fas fa-file-medical', description: 'Kubadilisha cheti cha kuzaliwa.', docs: ['Old Certificate', 'NIDA'] },
-      { category: 'RITA Services', name: 'Death Certificate', price: 'Anza kwa Tsh 8,000', icon: 'fas fa-cross', description: 'Maombi ya cheti cha kifo.', docs: ['Hospital Report', 'NIDA'] },
-      { category: 'RITA Services', name: 'Verification', price: 'Anza kwa Tsh 5,000', icon: 'fas fa-check-circle', description: 'Uthibitisho wa nyaraka.', docs: ['Document Details', 'NIDA'] },
-      { category: 'RITA Services', name: 'Marriage Certificate Assistance', price: 'Anza kwa Tsh 12,000', icon: 'fas fa-ring', description: 'Msaada wa cheti cha ndoa.', docs: ['NIDA', 'Witness Info'] },
-      { category: 'NIDA Services', name: 'NIDA Number Search', price: 'Tsh 5,000', icon: 'fas fa-search', description: 'Kutafuta namba ya NIDA.', docs: ['Full Name', 'DOB'] },
-      { category: 'NIDA Services', name: 'NIDA Verification', price: 'Tsh 6,000', icon: 'fas fa-id-card-alt', description: 'Kuthibitisha namba ya NIDA.', docs: ['NIDA Number', 'Name'] },
-      { category: 'NIDA Services', name: 'NIDA Follow Up', price: 'Tsh 7,000', icon: 'fas fa-sync-alt', description: 'Ufuatiliaji wa taratibu za NIDA.', docs: ['Case Number', 'NIDA'] },
-      { category: 'TRA Services', name: 'TIN Application', price: 'Tsh 10,000', icon: 'fas fa-file-invoice-dollar', description: 'Maombi ya Namba ya TIN.', docs: ['NIDA', 'Phone Number', 'Email'] },
-      { category: 'TRA Services', name: 'Tax Clearance', price: 'Tsh 15,000', icon: 'fas fa-file-alt', description: 'Usajili wa clearance ya kodi.', docs: ['TIN', 'NIDA'] },
-      { category: 'TRA Services', name: 'Tax Registration', price: 'Tsh 12,000', icon: 'fas fa-clipboard-list', description: 'Usajili wa uandikishaji kodi.', docs: ['Business Info', 'NIDA'] },
-      { category: 'BRELA Services', name: 'Business Name Registration', price: 'Tsh 20,000', icon: 'fas fa-briefcase', description: 'Usajili wa jina la biashara.', docs: ['Business Info', 'NIDA'] },
-      { category: 'BRELA Services', name: 'Company Registration', price: 'Tsh 35,000', icon: 'fas fa-building', description: 'Usajili wa kampuni.', docs: ['Articles of Association', 'NIDA'] },
-      { category: 'BRELA Services', name: 'Company Changes', price: 'Tsh 22,000', icon: 'fas fa-edit', description: 'Mabadiliko ya kampuni.', docs: ['Company Records', 'NIDA'] },
-      { category: 'NECTA Services', name: 'Results Printing', price: 'Tsh 8,000', icon: 'fas fa-print', description: 'Uchapaji wa matokeo ya NECTA.', docs: ['Index Number', 'Subject Code'] },
-      { category: 'NECTA Services', name: 'Results Verification', price: 'Tsh 6,000', icon: 'fas fa-check', description: 'Uthibitisho wa matokeo.', docs: ['Index Number', 'Name'] },
-      { category: 'NECTA Services', name: 'Results Search', price: 'Tsh 5,000', icon: 'fas fa-search', description: 'Kutafuta matokeo.', docs: ['Index Number', 'School Name'] },
-      { category: 'Design Services', name: 'Logo Design', price: 'Tsh 15,000', icon: 'fas fa-pencil-alt', description: 'Ubunifu wa nembo ya biashara.', docs: ['Business Name', 'Preferences'] },
-      { category: 'Design Services', name: 'Poster Design', price: 'Tsh 12,000', icon: 'fas fa-image', description: 'Ubunifu wa poster za matangazo.', docs: ['Event Info', 'Branding'] },
-      { category: 'Design Services', name: 'Flyer Design', price: 'Tsh 10,000', icon: 'fas fa-sticky-note', description: 'Ubunifu wa vipeperushi.', docs: ['Campaign Info', 'Logo'] },
-      { category: 'Design Services', name: 'Business Card Design', price: 'Tsh 8,000', icon: 'fas fa-id-badge', description: 'Kadi za biashara za kitaalamu.', docs: ['Name', 'Contact Info'] },
-      { category: 'Design Services', name: 'Social Media Posters', price: 'Tsh 12,000', icon: 'fas fa-share-alt', description: 'Mabango ya mitandao ya kijamii.', docs: ['Platform', 'Brand Color'] },
-      { category: 'Design Services', name: 'Banner Design', price: 'Tsh 12,000', icon: 'fas fa-bullhorn', description: 'Ubunifu wa banner za matangazo.', docs: ['Size', 'Message'] },
-      { category: 'IT Services', name: 'Website Design', price: 'Tsh 45,000', icon: 'fas fa-desktop', description: 'Ubunifu wa tovuti ya kitaalamu.', docs: ['Business Info', 'Logo'] },
-      { category: 'IT Services', name: 'E-Commerce Website', price: 'Tsh 80,000', icon: 'fas fa-shopping-cart', description: 'Tovuti ya biashara mtandaoni.', docs: ['Product List', 'Payments Info'] },
-      { category: 'IT Services', name: 'Landing Page', price: 'Tsh 20,000', icon: 'fas fa-scroll', description: 'Ukubwa wa ukurasa wa kutua.', docs: ['Offer Details', 'CTA'] },
-      { category: 'IT Services', name: 'SEO Setup', price: 'Tsh 30,000', icon: 'fas fa-search-dollar', description: 'Mipangilio ya SEO kwa biashara.', docs: ['Website URL', 'Keywords'] },
-      { category: 'IT Services', name: 'Google Business Setup', price: 'Tsh 25,000', icon: 'fas fa-map-marked-alt', description: 'Usajili wa Google Business Profile.', docs: ['Business Info', 'Photos'] },
-      { category: 'IT Services', name: 'Email Setup', price: 'Tsh 18,000', icon: 'fas fa-envelope-open-text', description: 'Msaada wa barua pepe ya biashara.', docs: ['Domain', 'Admin Info'] },
-      { category: 'IT Services', name: 'Domain Setup', price: 'Tsh 12,000', icon: 'fas fa-globe-americas', description: 'Usajili wa jina la tovuti.', docs: ['Domain Preference', 'Contact Info'] },
-      { category: 'IT Services', name: 'Hosting Setup', price: 'Tsh 20,000', icon: 'fas fa-server', description: 'Mipangilio ya hosting ya tovuti.', docs: ['Website URL', 'Budget'] },
-      { category: 'IT Services', name: 'Database Design', price: 'Tsh 28,000', icon: 'fas fa-database', description: 'Uundaji wa database ya biashara.', docs: ['Business Workflows', 'Data Structure'] },
-      { category: 'IT Services', name: 'System Development', price: 'Tsh 40,000', icon: 'fas fa-code', description: 'Mfumo wa kibiashara wa kiufundi.', docs: ['Requirements', 'Users'] },
-      { category: 'IT Services', name: 'Cyber Security Audit', price: 'Tsh 35,000', icon: 'fas fa-shield-alt', description: 'Uchunguzi wa usalama wa mtandao.', docs: ['Network Scope', 'Systems'] },
-      { category: 'Tourism Services', name: 'Kilimanjaro Booking', price: 'Tsh 45,000', icon: 'fas fa-mountain', description: 'Uhifadhi wa safari ya Kilimanjaro.', docs: ['Passport', 'Travel Dates'] },
-      { category: 'Tourism Services', name: 'Safari Booking', price: 'Tsh 25,000', icon: 'fas fa-binoculars', description: 'Usajili wa safari ya mbuga.', docs: ['Travel Dates', 'Adults/Children'] },
-      { category: 'Tourism Services', name: 'Zanzibar Booking', price: 'Tsh 20,000', icon: 'fas fa-umbrella-beach', description: 'Uhifadhi wa safari Zanzibar.', docs: ['Travel Dates', 'Preferences'] },
-      { category: 'Tourism Services', name: 'Hotel Reservation', price: 'Tsh 15,000', icon: 'fas fa-hotel', description: 'Uhifadhi wa hoteli.', docs: ['Dates', 'Room Type'] },
-      { category: 'Tourism Services', name: 'Airport Transfer Booking', price: 'Tsh 10,000', icon: 'fas fa-taxi', description: 'Usafirishaji uwanja wa ndege.', docs: ['Flight Info', 'Pickup Location'] },
-      { category: 'Other Services', name: 'CV Writing', price: 'Tsh 10,000', icon: 'fas fa-file-alt', description: 'Utayarishaji wa CV ya kitaalamu.', docs: ['Work History', 'Education'] },
-      { category: 'Other Services', name: 'Cover Letter Writing', price: 'Tsh 8,000', icon: 'fas fa-envelope', description: 'Kuandika barua ya maombi.', docs: ['Job Details', 'Experience'] },
-      { category: 'Other Services', name: 'Passport Application Assistance', price: 'Tsh 20,000', icon: 'fas fa-passport', description: 'Msaada kwa maombi ya pasipoti.', docs: ['NIDA', 'Old Passport'] },
-      { category: 'Other Services', name: 'Visa Application Assistance', price: 'Tsh 18,000', icon: 'fas fa-plane-departure', description: 'Msaada kwa maombi ya visa.', docs: ['Passport', 'Travel Plan'] },
-      { category: 'Other Services', name: 'Government Form Filling', price: 'Tsh 10,000', icon: 'fas fa-file-signature', description: 'Kuajiza fomu za serikali.', docs: ['Form Details', 'NIDA'] },
-      { category: 'Other Services', name: 'Online Registration Services', price: 'Tsh 12,000', icon: 'fas fa-laptop', description: 'Usajili wa huduma mtandaoni.', docs: ['Personal Info', 'Email'] },
-      { category: 'Other Services', name: 'Printing Services', price: 'Tsh 8,000', icon: 'fas fa-print', description: 'Huduma za uchapaji.', docs: ['Print Content', 'Dimension'] },
-      { category: 'Other Services', name: 'Scanning Services', price: 'Tsh 6,000', icon: 'fas fa-scanner', description: 'Huduma za kuscan.', docs: ['Documents', 'Format'] },
-      { category: 'Other Services', name: 'Document Formatting', price: 'Tsh 7,000', icon: 'fas fa-file-contract', description: 'Ufomati wa nyaraka rasmi.', docs: ['Document Type', 'Text'] }
+      {category:'HESLB',name:'HESLB Application',price:'Tsh 15,000',time:'24-72h',req:['NIDA','Birth Cert'],desc:'Application assistance for students'},
+      {category:'NIDA',name:'NIDA Verification',price:'Tsh 6,000',time:'24-48h',req:['NIDA Number'],desc:'Verify your NIDA details'},
+      {category:'BRELA',name:'Business Registration',price:'From Tsh 20,000',time:'3-7 days',req:['Business Info','NIDA'],desc:'Register business name'},
+      {category:'Design',name:'Logo Design',price:'Tsh 15,000',time:'2-5 days',req:['Business Name','Preferences'],desc:'Professional logo design'}
     ];
 
-    const serviceGrid = document.getElementById('serviceGrid');
-    const serviceSelect = document.getElementById('serviceSelect');
-    const searchInput = document.getElementById('serviceSearch');
-    const modal = document.getElementById('serviceModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDescription = document.getElementById('modalDescription');
-    const modalDocs = document.getElementById('modalDocs');
-    const closeModal = document.getElementById('closeModal');
-    const themeToggle = document.getElementById('themeToggle');
-    const scrollTop = document.getElementById('scrollTop');
-    const fileInput = document.getElementById('documents');
-    const orderForm = document.getElementById('orderForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const chooseFiles = document.getElementById('chooseFiles');
-    const dropArea = document.getElementById('dropArea');
-    const previews = document.getElementById('previews');
-    const globalProgress = document.getElementById('globalProgress');
-    const uploadErrors = document.getElementById('uploadErrors');
-    const counters = document.querySelectorAll('.counter');
+    const serviceGrid = document.getElementById('serviceGrid'); const serviceSelect=document.getElementById('serviceSelect');
+    function renderServices(list){serviceGrid.innerHTML='';list.forEach(s=>{const el=document.createElement('div');el.className='service-card';el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><h3>${s.name}</h3><div style="font-weight:800;color:var(--primary)">${s.price}</div></div><p style='color:var(--muted)'>${s.desc}</p><div class='service-meta'><div>Time: ${s.time}</div><div>Req: ${s.req.join(', ')}</div></div><div style='margin-top:0.6rem'><button class='btn btn-ghost' data-service='${s.name}'>Choose</button></div>`; serviceGrid.appendChild(el);el.querySelector('button').addEventListener('click',()=>{serviceSelect.value=s.name;document.getElementById('serviceSelect').value=s.name;window.location.hash='#order'})})}
+    renderServices(services);
+    services.forEach(s=>{const opt=document.createElement('option');opt.value=s.name;opt.textContent=`${s.name} — ${s.price}`;serviceSelect.appendChild(opt)});
 
-    /* --- Upload configuration --- */
-    // Use Cloudinary unsigned upload. Set your values here.
-    const UPLOADER = {
-      provider: 'cloudinary', // 'cloudinary' or 'supabase' (supabase not implemented in this script)
-      cloudinary: {
-        cloudName: 'YOUR_CLOUD_NAME', // <-- set this
-        uploadPreset: 'YOUR_UNSIGNED_UPLOAD_PRESET' // <-- set this
-      }
-    };
+    // search
+    const search = document.getElementById('serviceSearch'); if(search){search.addEventListener('input',e=>{const q=e.target.value.toLowerCase();renderServices(services.filter(s=>s.name.toLowerCase().includes(q)||s.category.toLowerCase().includes(q)||s.desc.toLowerCase().includes(q)))})}
 
-    /* --- Internal state for files --- */
-    const fileState = []; // { id, file, name, size, type, status, progress, url, attempts }
-    let isOnline = navigator.onLine;
-    let concurrentUploads = 0;
-    const MAX_CONCURRENT = 3;
+    // voice search (basic)
+    const voiceBtn = document.getElementById('voiceSearch'); if(voiceBtn && 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window){voiceBtn.addEventListener('click',()=>{
+      const S = window.SpeechRecognition||window.webkitSpeechRecognition; const r=new S(); r.lang='sw-TZ'; r.start(); r.onresult=e=>{const t=e.results[0][0].transcript;search.value=t;search.dispatchEvent(new Event('input'))}
+    })} else {voiceBtn.style.display='none'}
 
-    function createServiceCard(service) {
-      const card = document.createElement('article');
-      card.className = 'service-card';
-      card.innerHTML = `
-        <i class="${service.icon}"></i>
-        <h3>${service.name}</h3>
-        <strong>${service.price}</strong>
-        <p>${service.description}</p>
-        <button type="button" data-service="${service.name}">Angalia Nyaraka</button>
-      `;
-      card.querySelector('button').addEventListener('click', () => openModal(service));
-      return card;
+    // Upload system
+    const dropArea = document.getElementById('dropArea'); const fileInput = document.getElementById('fileInput'); const pickFiles = document.getElementById('pickFiles'); const previews = document.getElementById('previews'); const globalProgress = document.getElementById('globalProgress'); const uploadNotice = document.getElementById('uploadNotice');
+    let fileQueue = JSON.parse(localStorage.getItem('fileQueue')||'[]'); // minimal persistence
+
+    function saveQueue(){localStorage.setItem('fileQueue',JSON.stringify(fileQueue.map(f=>({name:f.name,type:f.type,size:f.size,url:f.url,status:f.status}))))}
+
+    function bytes(n){return n>1024?Math.round(n/1024)+' KB':n+' B'}
+
+    function renderPreviews(){previews.innerHTML='';fileQueue.forEach((f,idx)=>{const it=document.createElement('div');it.className='file-item';it.innerHTML=`<div class='file-thumb'>${f.type.startsWith('image/')?`<img src='${f.preview}' style='width:100%;height:100%;object-fit:cover'>`:'<i class="fas fa-file-pdf" style="color:var(--gold)"></i>'}</div><div style="flex:1"><strong style='display:block'>${f.name}</strong><small style='color:var(--muted)'>${bytes(f.size)}</small></div><div style='width:160px'><div class='progress'><i style='width:${f.progress||0}%'></i></div></div><div style='min-width:80px;text-align:right;padding-left:8px'>${f.status==='uploaded'?'<span style="color:green;font-weight:700">Imepakiwa</span>':f.status==='error'?'<span style="color:crimson">Imeshindwa</span>':f.status==='uploading'?`<small>Inapakia ${Math.round(f.progress||0)}%</small>`:'Imepangwa'}</div><div><button class='btn btn-ghost' data-remove='${idx}' title='Remove'><i class='fas fa-times'></i></button></div>`;previews.appendChild(it)})}
+
+    function addFiles(list){for(const file of list){if(fileQueue.length>=MAX_FILES){uploadNotice.style.display='block';uploadNotice.textContent='Umefikisha idadi ya juu ya faili (20)';break} if(file.size>MAX_SIZE){uploadNotice.style.display='block';uploadNotice.textContent=`${file.name} imezidi ukubwa wa max (10MB)`;continue} const id=Date.now()+Math.random().toString(36).slice(2,6); const reader=new FileReader(); const item={id,name:file.name,size:file.size,type:file.type,status:'queued',progress:0,attempts:0,preview:null,url:null}; reader.onload=e=>{if(file.type.startsWith('image/'))item.preview=e.target.result; fileQueue.push(item); renderPreviews(); saveQueue(); startUploads()} reader.readAsDataURL(file) }}
+
+    pickFiles.addEventListener('click',()=>fileInput.click()); fileInput.addEventListener('change',e=>addFiles(e.target.files));
+    dropArea.addEventListener('dragover',e=>{e.preventDefault();dropArea.style.borderColor='var(--primary)'}); dropArea.addEventListener('dragleave',e=>{dropArea.style.borderColor='transparent'});
+    dropArea.addEventListener('drop',e=>{e.preventDefault();dropArea.style.borderColor='transparent';addFiles(e.dataTransfer.files)});
+
+    previews.addEventListener('click',e=>{const btn=e.target.closest('button[data-remove]'); if(!btn) return; const idx=+btn.getAttribute('data-remove'); fileQueue.splice(idx,1); renderPreviews(); saveQueue();});
+
+    // Cloudinary upload (unsigned) via XHR for progress
+    let concurrent=0, MAX_CONCURRENT=3;
+    async function startUploads(){if(!navigator.onLine){uploadNotice.style.display='block';uploadNotice.textContent='Haipo mtandao — tutajaribu tena tukiwa mtandaoni.';return}
+      uploadNotice.style.display='none'; for(const f of fileQueue){ if(f.status==='queued' || f.status==='error'){ if(concurrent>=MAX_CONCURRENT) break; uploadFile(f)} } }
+
+    function uploadFile(fileItem){if(!CLOUDINARY.cloudName||CLOUDINARY.cloudName.includes('YOUR_')){uploadNotice.style.display='block';uploadNotice.textContent='Weka Cloudinary cloud name & upload preset kwenye script.';return}
+      fileItem.status='uploading'; fileItem.attempts=(fileItem.attempts||0)+1; concurrent++; renderPreviews(); const url=`https://api.cloudinary.com/v1_1/${CLOUDINARY.cloudName}/auto/upload`; const fd=new FormData(); fd.append('file',dataURItoBlob(fileItem.preview||''),fileItem.name); fd.append('upload_preset',CLOUDINARY.uploadPreset);
+      const xhr=new XMLHttpRequest(); xhr.open('POST',url);
+      xhr.upload.onprogress=e=>{ if(e.lengthComputable){ fileItem.progress=(e.loaded/e.total)*100; renderPreviews(); }};
+      xhr.onload=()=>{ concurrent--; if(xhr.status>=200&&xhr.status<300){ try{ const res=JSON.parse(xhr.responseText); fileItem.url=res.secure_url||res.url; fileItem.status='uploaded'; fileItem.progress=100; saveQueue(); renderPreviews(); }catch(err){ fileItem.status='error'; renderPreviews(); } } else { fileItem.status='error'; renderPreviews(); } startUploads(); };
+      xhr.onerror=()=>{ concurrent--; fileItem.status='error'; renderPreviews(); startUploads(); };
+      // if we have a data URI and File API blob isn't available, create blob
+      try{ xhr.send(fd); }catch(err){ concurrent--; fileItem.status='error'; renderPreviews(); }
     }
 
-    function openModal(service) {
-      modalTitle.textContent = service.name;
-      modalDescription.textContent = service.description;
-      modalDocs.innerHTML = service.docs.map(doc => `<li>${doc}</li>`).join('');
-      modal.classList.add('active');
-    }
+    function dataURItoBlob(dataURI){ if(!dataURI) return new Blob(); const byteString=atob(dataURI.split(',')[1]); const mimeString=dataURI.split(',')[0].split(':')[1].split(';')[0]; const ab=new ArrayBuffer(byteString.length); const ia=new Uint8Array(ab); for(let i=0;i<byteString.length;i++)ia[i]=byteString.charCodeAt(i); return new Blob([ab],{type:mimeString}); }
 
-    function closeServiceModal() { modal.classList.remove('active'); }
+    window.addEventListener('online',()=>{startUploads();uploadNotice.style.display='none'});
 
-    function populateServices(list) { serviceGrid.innerHTML = ''; list.forEach(s => serviceGrid.appendChild(createServiceCard(s))); }
-    function populateSelect() { services.forEach(service => { const option = document.createElement('option'); option.value = service.name; option.textContent = `${service.name} (${service.price})`; serviceSelect.appendChild(option); }); }
-    function filterServices() { const query = searchInput.value.trim().toLowerCase(); const filtered = services.filter(service => service.name.toLowerCase().includes(query) || service.category.toLowerCase().includes(query) || service.description.toLowerCase().includes(query)); populateServices(filtered); }
+    // Load saved queue previews (note: previews won't contain dataURI for non-image files after reload)
+    (function loadSaved(){const saved=JSON.parse(localStorage.getItem('fileQueue')||'[]');fileQueue=saved.map(s=>({...s,preview:s.preview||null,progress:s.progress||0,status:s.status||'queued'})); renderPreviews(); })();
 
-    function setTheme(theme) { document.documentElement.setAttribute('data-theme', theme); localStorage.setItem('preferredTheme', theme); themeToggle.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>'; }
-    function initTheme() { const saved = localStorage.getItem('preferredTheme'); const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; setTheme(saved || (prefersDark ? 'dark' : 'light')); }
-
-    themeToggle.addEventListener('click', () => { const current = document.documentElement.getAttribute('data-theme'); setTheme(current === 'dark' ? 'light' : 'dark'); });
-    closeModal.addEventListener('click', closeServiceModal);
-    modal.addEventListener('click', event => { if (event.target === modal) closeServiceModal(); });
-    searchInput.addEventListener('input', filterServices);
-    scrollTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-    /* Drag & Drop and file selection */
-    chooseFiles.addEventListener('click', () => fileInput.click());
-    dropArea.addEventListener('click', () => fileInput.click());
-    ['dragenter','dragover'].forEach(evt => dropArea.addEventListener(evt, e => { e.preventDefault(); dropArea.style.borderColor = 'var(--primary)'; }));
-    ['dragleave','drop'].forEach(evt => dropArea.addEventListener(evt, e => { e.preventDefault(); dropArea.style.borderColor = 'var(--border)'; }));
-    dropArea.addEventListener('drop', e => { const dt = e.dataTransfer; if (!dt) return; handleFiles(dt.files); });
-    fileInput.addEventListener('change', () => handleFiles(fileInput.files));
-
-    function handleFiles(fileList) {
-      const files = Array.from(fileList || []);
-      files.forEach(f => {
-        if (!['application/pdf','image/png','image/jpeg','image/jpg'].includes(f.type) && !f.name.toLowerCase().endsWith('.pdf')) return;
-        addFile(f);
-      });
-      renderPreviews();
-      startUploads();
-    }
-
-    function addFile(file) {
-      const id = Math.random().toString(36).slice(2,9);
-      fileState.push({ id, file, name: file.name, size: file.size, type: file.type, status: 'queued', progress: 0, url: null, attempts: 0 });
-    }
-
-    function renderPreviews() {
-      previews.innerHTML = '';
-      fileState.forEach(state => {
-        const el = document.createElement('div');
-        el.style.display = 'flex'; el.style.gap = '0.8rem'; el.style.alignItems = 'center'; el.style.padding = '0.6rem'; el.style.border = '1px solid var(--border)'; el.style.borderRadius = '12px'; el.style.background = 'var(--surface)';
-        const thumb = document.createElement('div'); thumb.style.width = '56px'; thumb.style.height = '56px'; thumb.style.borderRadius = '8px'; thumb.style.overflow = 'hidden'; thumb.style.display = 'grid'; thumb.style.placeItems = 'center'; thumb.style.background = 'rgba(0,0,0,0.04)';
-        if (state.type.startsWith('image/')) {
-          const reader = new FileReader(); reader.onload = () => { thumb.innerHTML = `<img src="${reader.result}" alt="${state.name}" style="width:100%;height:100%;object-fit:cover;">`; };
-          reader.readAsDataURL(state.file);
-        } else {
-          thumb.innerHTML = '<i class="fas fa-file-pdf" style="font-size:20px;color:var(--accent-dark)"></i>';
-        }
-
-        const meta = document.createElement('div'); meta.style.flex = '1'; meta.innerHTML = `<div style="font-weight:700">${state.name}</div><div style="font-size:0.86rem;color:var(--text-muted)">${(state.size/1024|0)} KB</div>`;
-
-        const progressWrap = document.createElement('div'); progressWrap.style.width = '160px';
-        const progressBar = document.createElement('div'); progressBar.style.height = '8px'; progressBar.style.borderRadius = '8px'; progressBar.style.background = 'rgba(0,0,0,0.06)'; progressBar.style.overflow = 'hidden';
-        const progressFill = document.createElement('div'); progressFill.style.height = '100%'; progressFill.style.width = (state.progress||0)+'%'; progressFill.style.background = 'linear-gradient(90deg,var(--primary),var(--accent))'; progressFill.style.transition = 'width 0.2s ease';
-        progressBar.appendChild(progressFill); progressWrap.appendChild(progressBar);
-
-        const status = document.createElement('div'); status.style.minWidth='110px'; status.style.textAlign='right'; status.style.fontSize='0.86rem';
-        updateStatusText(state, status);
-
-        const removeBtn = document.createElement('button'); removeBtn.className = 'btn'; removeBtn.style.marginLeft='0.6rem'; removeBtn.innerHTML = '<i class="fas fa-times"></i>'; removeBtn.addEventListener('click', () => { removeFile(state.id); });
-
-        el.appendChild(thumb); el.appendChild(meta); el.appendChild(progressWrap); el.appendChild(status); el.appendChild(removeBtn);
-        el.dataset.id = state.id;
-        previews.appendChild(el);
-
-        // attach to state for later updates
-        state._elements = { el, progressFill, status };
-      });
-      updateGlobalProgress();
-    }
-
-    function updateStatusText(state, statusEl) {
-      if (state.status === 'uploaded') statusEl.innerHTML = `<span style="color:green;font-weight:700">Imepakiwa</span>`;
-      else if (state.status === 'uploading') statusEl.innerHTML = `Inapakia ${Math.round(state.progress||0)}%`;
-      else if (state.status === 'queued') statusEl.innerHTML = `<span style="color:var(--text-muted)">Imepangwa</span>`;
-      else if (state.status === 'error') statusEl.innerHTML = `<span style="color:#b91c1c">Imeshindwa</span>`;
-      else statusEl.innerHTML = state.status;
-    }
-
-    function removeFile(id) {
-      const idx = fileState.findIndex(f => f.id === id);
-      if (idx !== -1) fileState.splice(idx,1);
-      renderPreviews();
-    }
-
-    function updateGlobalProgress() {
-      if (!fileState.length) { globalProgress.style.display = 'none'; return; }
-      globalProgress.style.display = 'flex'; globalProgress.innerHTML = '';
-      const avg = fileState.reduce((s,f)=>s+ (f.progress||0),0) / fileState.length;
-      const bar = document.createElement('div'); bar.style.flex='1'; bar.style.height='10px'; bar.style.borderRadius='8px'; bar.style.background='rgba(0,0,0,0.06)'; const fill = document.createElement('div'); fill.style.height='100%'; fill.style.width = avg+'%'; fill.style.background='linear-gradient(90deg,var(--primary),var(--accent))'; fill.style.transition='width 0.2s ease'; bar.appendChild(fill);
-      const text = document.createElement('div'); text.style.minWidth='110px'; text.style.textAlign='right'; text.style.fontSize='0.86rem'; text.style.color='var(--text-muted)'; text.textContent = `Jumla ${Math.round(avg)}%`;
-      globalProgress.appendChild(bar); globalProgress.appendChild(text);
-    }
-
-    /* Upload engine (Cloudinary unsigned via XHR to track progress) */
-    function startUploads() { processQueue(); }
-
-    function processQueue() {
-      if (!isOnline) return;
-      while (concurrentUploads < MAX_CONCURRENT) {
-        const next = fileState.find(f => f.status === 'queued' || (f.status==='error' && f.attempts < 5));
-        if (!next) break;
-        uploadFile(next);
-      }
-    }
-
-    function uploadFile(state) {
-      if (state.status === 'uploading' || state.status === 'uploaded') return;
-      if (!isOnline) return;
-      if (UPLOADER.provider !== 'cloudinary') return; // only cloudinary implemented
-      const { cloudName, uploadPreset } = UPLOADER.cloudinary;
-      if (!cloudName || !uploadPreset || cloudName.includes('YOUR_') || uploadPreset.includes('YOUR_')) {
-        uploadErrors.style.display = 'block'; uploadErrors.textContent = 'Uploader haujafahamishwa. Weka Cloudinary cloud name na upload preset kwenye script.'; return;
-      }
-      state.status = 'uploading'; state.attempts = (state.attempts||0) + 1; concurrentUploads++;
-      updateStateElements(state);
-
-      const url = `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`;
-      const fd = new FormData(); fd.append('file', state.file); fd.append('upload_preset', uploadPreset);
-
-      const xhr = new XMLHttpRequest(); xhr.open('POST', url);
-      xhr.upload.addEventListener('progress', e => {
-        if (e.lengthComputable) { state.progress = (e.loaded / e.total) * 100; updateStateElements(state); }
-      });
-      xhr.addEventListener('load', () => {
-        concurrentUploads--; if (xhr.status >=200 && xhr.status <300) {
-          try { const res = JSON.parse(xhr.responseText); state.url = res.secure_url || res.url; state.status = 'uploaded'; state.progress = 100; updateStateElements(state); }
-          catch(err){ state.status = 'error'; updateStateElements(state); }
-        } else { state.status = 'error'; updateStateElements(state); }
-        processQueue();
-      });
-      xhr.addEventListener('error', () => { concurrentUploads--; state.status = 'error'; updateStateElements(state); processQueue(); });
-      xhr.addEventListener('abort', () => { concurrentUploads--; state.status = 'error'; updateStateElements(state); processQueue(); });
-      xhr.send(fd);
-      state._xhr = xhr;
-    }
-
-    function updateStateElements(state) {
-      if (state._elements) {
-        state._elements.progressFill.style.width = (state.progress||0) + '%';
-        updateStatusText(state, state._elements.status);
-        if (state.status === 'uploaded') state._elements.status.innerHTML = `<span style="color:green;font-weight:700">Imepakiwa</span>`;
-      }
-      updateGlobalProgress();
-    }
-
-    window.addEventListener('online', () => { isOnline = true; uploadErrors.style.display='none'; processQueue(); });
-    window.addEventListener('offline', () => { isOnline = false; uploadErrors.style.display='block'; uploadErrors.textContent = 'Haipo mtandao. Tutajaribu tena mara tukiwa mtandaoni.'; });
-
-    /* Form submit -> wait for uploads to finish then generate WhatsApp message */
-    orderForm.addEventListener('submit', async event => {
-      event.preventDefault();
-      submitBtn.disabled = true; submitBtn.textContent = 'Inasubiri...';
-      const name = document.getElementById('fullName').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const service = document.getElementById('serviceSelect').value;
-      const description = document.getElementById('description').value.trim();
-      if (!name || !phone || !service || !description) { alert('Tafadhali jaza majina, simu, huduma na maelezo.'); submitBtn.disabled=false; submitBtn.textContent='TUMA MAOMBI'; return; }
-
-      // Start any pending uploads and wait until all are uploaded or any error
-      startUploads();
-      const waitResult = await waitForUploads(60000); // wait up to 60s
-      if (!waitResult.success) {
-        uploadErrors.style.display='block'; uploadErrors.textContent = 'Nyaraka hazijapakiwa vizuri. Tafadhali jaribu tena.';
-        submitBtn.disabled=false; submitBtn.textContent='TUMA MAOMBI';
-        return;
-      }
-
-      const uploadedUrls = fileState.filter(f => f.status === 'uploaded').map(f => f.url);
-
-      const lines = [
-        'Hello John Online Services,',
-        '',
-        `Jina: ${name}`,
-        `Simu: ${phone}`,
-        `Huduma: ${service}`,
-        'Maelezo:',
-        description,
-        '',
-        'Nyaraka:',
-        ...(uploadedUrls.length ? uploadedUrls : ['Hakuna nyaraka']),
-        '',
-        'Please review my documents.'
-      ];
-      const encoded = encodeURIComponent(lines.join('\n'));
-      const waUrl = `https://wa.me/255698170989?text=${encoded}`;
-      // redirect
-      window.open(waUrl, '_blank');
-      submitBtn.disabled=false; submitBtn.textContent='TUMA MAOMBI';
+    // Submit form -> wait for uploads
+    const orderForm=document.getElementById('orderForm'); const submitBtn=document.getElementById('submitBtn'); orderForm.addEventListener('submit',async e=>{e.preventDefault(); submitBtn.disabled=true; submitBtn.textContent='Inasubiri...'; // start uploads
+      // trigger file input if any queued without preview blob (browser reload can't re-create blobs)
+      startUploads(); const ok=await waitForUploads(60000); if(!ok){uploadNotice.style.display='block';uploadNotice.textContent='Nyaraka hazijapakiwa vizuri. Tafadhali jaribu tena.'; submitBtn.disabled=false; submitBtn.textContent='TUMA MAOMBI'; return}
+      // compose WhatsApp message
+      const name=document.getElementById('fullName').value.trim(); const phone=document.getElementById('phone').value.trim(); const email=document.getElementById('email').value.trim(); const service=document.getElementById('serviceSelect').value||document.getElementById('serviceSelect').options[document.getElementById('serviceSelect').selectedIndex]?.text||''; const description=document.getElementById('description').value.trim();
+      const urls=fileQueue.filter(f=>f.status==='uploaded').map(f=>f.url);
+      const lines=["Hello John Online Services,","","Jina:",name?name:'-',"","Simu:",phone?phone:'-',"","Email:",email?email:'-',"","Huduma:",service?service:'-',"","Maelezo:",description?description:'-',"","Nyaraka:",...(urls.length?urls:['Hakuna nyaraka']),"","Nimekamilisha maombi yangu."];
+      const encoded=encodeURIComponent(lines.join('\n'));
+      const waUrl=`https://wa.me/255698170989?text=${encoded}`;
+      window.open(waUrl,'_blank'); submitBtn.disabled=false; submitBtn.textContent='TUMA MAOMBI';
     });
 
-    function waitForUploads(timeout = 60000) {
-      const start = Date.now();
-      return new Promise(resolve => {
-        const check = () => {
-          const anyUploading = fileState.some(f => f.status === 'uploading' || f.status === 'queued');
-          const anyError = fileState.some(f => f.status === 'error');
-          const allDone = fileState.every(f => f.status === 'uploaded' || f.status === 'error');
-          if (!anyUploading && allDone && !anyError) return resolve({ success: true });
-          if ((Date.now() - start) > timeout) return resolve({ success: false });
-          if (anyError) {
-            // try to retry failed uploads
-            fileState.filter(f => f.status === 'error' && f.attempts < 5).forEach(f => { f.status = 'queued'; });
-            processQueue();
-          }
-          setTimeout(check, 700);
-        };
-        check();
-      });
+    function waitForUploads(timeout=60000){return new Promise(resolve=>{const start=Date.now();(function check(){const anyUploading=fileQueue.some(f=>f.status==='uploading' || f.status==='queued'); const anyError=fileQueue.some(f=>f.status==='error'); const allDone=fileQueue.every(f=>f.status==='uploaded' || f.status==='error'); if(!anyUploading && allDone && !anyError)return resolve(true); if(Date.now()-start>timeout)return resolve(false); if(anyError){ // retry errors
+          fileQueue.filter(f=>f.status==='error' && (f.attempts||0)<5).forEach(f=>{f.status='queued'}); startUploads(); }
+        setTimeout(check,700)})();})}
+
+    // Floating WhatsApp
+    document.getElementById('floatWa').addEventListener('click',()=>{window.open('https://wa.me/255698170989','_blank')}); document.getElementById('ctaWhats').addEventListener('click',()=>{window.open('https://wa.me/255698170989?text=Habari%20John%20Online%20Services','_blank')});
+
+    // PWA install prompt (basic)
+    let deferredPrompt; window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt=e; const btn=document.createElement('button'); btn.className='btn btn-ghost'; btn.textContent='Install App'; btn.addEventListener('click',async ()=>{deferredPrompt.prompt(); const res=await deferredPrompt.userChoice; deferredPrompt=null; btn.remove()}); document.querySelector('.actions').appendChild(btn); });
+
+    // register simple service worker from blob to cache basic assets (best-effort)
+    if('serviceWorker' in navigator){ const swCode=`self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open('jos-v1').then(c=>c.addAll(['/',location.pathname])))});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('/'))))});`; try{const blob=new Blob([swCode],{type:'application/javascript'}); const url=URL.createObjectURL(blob); navigator.serviceWorker.register(url).catch(()=>{});}catch(err){}
     }
 
-    function animateCounters() { counters.forEach(counter => { const target = +counter.dataset.target; const duration = 1400; let start = 0; const step = target / (duration / 20); const update = () => { start += step; counter.textContent = Math.floor(start) + (target > 99 ? '+' : ''); if (start < target) requestAnimationFrame(update); else counter.textContent = target + (target > 99 ? '+' : ''); }; update(); }); }
+    // small UX: restore selected service on choose button
+    document.addEventListener('click',e=>{const btn=e.target.closest('button[data-service]'); if(btn){const val=btn.getAttribute('data-service'); document.getElementById('serviceSelect').value=val; window.location.hash='#order'}})
 
-    const counterSection = document.getElementById('stats');
-    const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { animateCounters(); observer.unobserve(counterSection); } }); }, { threshold: 0.4 });
-    observer.observe(counterSection);
-
-    function init() { populateServices(services); populateSelect(); initTheme(); }
-    init();
   </script>
 </body>
 </html>
