@@ -360,14 +360,43 @@
     async function startUploads(){if(!navigator.onLine){uploadNotice.style.display='block';uploadNotice.textContent='Haipo mtandao — tutajaribu tena tukiwa mtandaoni.';return}
       uploadNotice.style.display='none'; for(const f of fileQueue){ if(f.status==='queued' || f.status==='error'){ if(concurrent>=MAX_CONCURRENT) break; uploadFile(f)} } }
 
-    function uploadFile(fileItem){if(!CLOUDINARY.cloudName||CLOUDINARY.cloudName.includes('YOUR_')){uploadNotice.style.display='block';uploadNotice.textContent='Weka Cloudinary cloud name & upload preset kwenye script.';return}
-      fileItem.status='uploading'; fileItem.attempts=(fileItem.attempts||0)+1; concurrent++; renderPreviews(); const url=`https://api.cloudinary.com/v1_1/${CLOUDINARY.cloudName}/auto/upload`; const fd=new FormData(); fd.append('file',dataURItoBlob(fileItem.preview||''),fileItem.name); fd.append('upload_preset',CLOUDINARY.uploadPreset);
-      const xhr=new XMLHttpRequest(); xhr.open('POST',url);
-      xhr.upload.onprogress=e=>{ if(e.lengthComputable){ fileItem.progress=(e.loaded/e.total)*100; renderPreviews(); }};
-      xhr.onload=()=>{ concurrent--; if(xhr.status>=200&&xhr.status<300){ try{ const res=JSON.parse(xhr.responseText); fileItem.url=res.secure_url||res.url; fileItem.status='uploaded'; fileItem.progress=100; saveQueue(); renderPreviews(); }catch(err){ fileItem.status='error'; renderPreviews(); } } else { fileItem.status='error'; renderPreviews(); } startUploads(); };
-      xhr.onerror=()=>{ concurrent--; fileItem.status='error'; renderPreviews(); startUploads(); };
-      // if we have a data URI and File API blob isn't available, create blob
-      try{ xhr.send(fd); }catch(err){ concurrent--; fileItem.status='error'; renderPreviews(); }
+    async function uploadFile(fileItem){
+      fileItem.status='uploading'; fileItem.attempts=(fileItem.attempts||0)+1; concurrent++; renderPreviews();
+      // Build blob
+      const blob = dataURItoBlob(fileItem.preview||'');
+
+      // Try server signing endpoint first
+      try{
+        const signRes = await fetch('/api/sign-cloudinary',{method:'POST'});
+        if(signRes.ok){
+          const sig = await signRes.json();
+          const url = `https://api.cloudinary.com/v1_1/${sig.cloud_name}/auto/upload`;
+          const fd = new FormData();
+          fd.append('file', blob, fileItem.name);
+          fd.append('api_key', sig.api_key);
+          fd.append('timestamp', sig.timestamp);
+          fd.append('signature', sig.signature);
+          // send
+          const xhr = new XMLHttpRequest(); xhr.open('POST', url);
+          xhr.upload.onprogress = e => { if(e.lengthComputable){ fileItem.progress = (e.loaded/e.total)*100; renderPreviews(); }};
+          xhr.onload = () => { concurrent--; if(xhr.status>=200&&xhr.status<300){ try{ const res = JSON.parse(xhr.responseText); fileItem.url = res.secure_url || res.url; fileItem.status = 'uploaded'; fileItem.progress = 100; saveQueue(); renderPreviews(); } catch(err){ fileItem.status='error'; renderPreviews(); } } else { fileItem.status='error'; renderPreviews(); } startUploads(); };
+          xhr.onerror = () => { concurrent--; fileItem.status='error'; renderPreviews(); startUploads(); };
+          xhr.send(fd);
+          return;
+        }
+      }catch(e){ console.warn('signing failed',e); }
+
+      // Fallback to unsigned client upload if configured
+      if(!CLOUDINARY.cloudName||CLOUDINARY.cloudName.includes('YOUR_')){ uploadNotice.style.display='block'; uploadNotice.textContent='Weka Cloudinary cloud name & upload preset kwenye script.'; fileItem.status='error'; concurrent--; renderPreviews(); return }
+      try{
+        const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY.cloudName}/auto/upload`;
+        const fd = new FormData(); fd.append('file', blob, fileItem.name); fd.append('upload_preset', CLOUDINARY.uploadPreset);
+        const xhr = new XMLHttpRequest(); xhr.open('POST', url);
+        xhr.upload.onprogress = e => { if(e.lengthComputable){ fileItem.progress = (e.loaded/e.total)*100; renderPreviews(); }};
+        xhr.onload = () => { concurrent--; if(xhr.status>=200&&xhr.status<300){ try{ const res = JSON.parse(xhr.responseText); fileItem.url = res.secure_url || res.url; fileItem.status = 'uploaded'; fileItem.progress = 100; saveQueue(); renderPreviews(); } catch(err){ fileItem.status='error'; renderPreviews(); } } else { fileItem.status='error'; renderPreviews(); } startUploads(); };
+        xhr.onerror = () => { concurrent--; fileItem.status='error'; renderPreviews(); startUploads(); };
+        xhr.send(fd);
+      }catch(err){ concurrent--; fileItem.status='error'; renderPreviews(); startUploads(); }
     }
 
     function dataURItoBlob(dataURI){ if(!dataURI) return new Blob(); const byteString=atob(dataURI.split(',')[1]); const mimeString=dataURI.split(',')[0].split(':')[1].split(';')[0]; const ab=new ArrayBuffer(byteString.length); const ia=new Uint8Array(ab); for(let i=0;i<byteString.length;i++)ia[i]=byteString.charCodeAt(i); return new Blob([ab],{type:mimeString}); }
@@ -383,7 +412,18 @@
       startUploads(); const ok=await waitForUploads(60000); if(!ok){uploadNotice.style.display='block';uploadNotice.textContent='Nyaraka hazijapakiwa vizuri. Tafadhali jaribu tena.'; submitBtn.disabled=false; submitBtn.textContent='TUMA MAOMBI'; return}
       // compose WhatsApp message
       const name=document.getElementById('fullName').value.trim(); const phone=document.getElementById('phone').value.trim(); const email=document.getElementById('email').value.trim(); const service=document.getElementById('serviceSelect').value||document.getElementById('serviceSelect').options[document.getElementById('serviceSelect').selectedIndex]?.text||''; const description=document.getElementById('description').value.trim();
-      const urls=fileQueue.filter(f=>f.status==='uploaded').map(f=>f.url);
+      const uploaded = fileQueue.filter(f=>f.status==='uploaded').map(f=>({ id: f.id, filename: f.name, url: f.url, mime: f.type, size: f.size }));
+
+      // Persist order to server
+      try{
+        const orderId = `ord_${Date.now()}`;
+        const payload = { id: orderId, customer_name: name, customer_phone: phone, service_id: service || null, total: 0, status: 'pending', items: uploaded };
+        await fetch('/api/orders', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) });
+      } catch (err) {
+        console.warn('order save failed', err);
+      }
+
+      const urls = uploaded.map(u=>u.url);
       const lines=["Hello John Online Services,","","Jina:",name?name:'-',"","Simu:",phone?phone:'-',"","Email:",email?email:'-',"","Huduma:",service?service:'-',"","Maelezo:",description?description:'-',"","Nyaraka:",...(urls.length?urls:['Hakuna nyaraka']),"","Nimekamilisha maombi yangu."];
       const encoded=encodeURIComponent(lines.join('\n'));
       const waUrl=`https://wa.me/255698170989?text=${encoded}`;

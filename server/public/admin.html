@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Admin — John Online Services</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Arial;margin:20px}
+    .login, .panel{max-width:900px;margin:auto}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:8px;border:1px solid #ddd}
+  </style>
+  <script>
+  async function login(e){
+    e.preventDefault();
+    const email=document.getElementById('email').value;
+    const password=document.getElementById('password').value;
+    const r=await fetch('/api/auth/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email,password})});
+    const j=await r.json();
+    if(j.token){localStorage.setItem('admin_token',j.token);document.getElementById('loginBox').style.display='none';document.getElementById('panel').style.display='block';loadOrders();}
+    else alert(j.error||'login failed');
+  }
+  async function loadOrders(){
+    const token=localStorage.getItem('admin_token');
+    const r=await fetch('/api/orders',{headers: token?{authorization:'Bearer '+token}:{}});
+    const rows=await r.json();
+    const tbody=document.getElementById('orders');tbody.innerHTML='';
+    for(const o of rows){
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td>${o.id}</td><td>${o.customer_name||''}</td><td>${o.customer_phone||''}</td><td>${o.total||0}</td><td>${o.status||''}</td><td><select data-id="${o.id}"><option>pending</option><option>paid</option><option>processing</option><option>done</option></select><button data-id="${o.id}">Save</button><button data-del="${o.id}" style="margin-left:8px">Delete</button></td>`;
+      tbody.appendChild(tr);
+    }
+    document.querySelectorAll('button[data-id]').forEach(btn=>btn.addEventListener('click', async (ev)=>{
+      const id=btn.dataset.id; const sel=document.querySelector(`select[data-id="${id}"]`);
+      const status=sel.value; const token=localStorage.getItem('admin_token');
+      const res=await fetch('/api/orders/'+id+'/status',{method:'PUT',headers:{'content-type':'application/json','authorization':'Bearer '+token},body:JSON.stringify({status})});
+      const j=await res.json(); if(j.ok) loadOrders(); else alert(j.error||'failed');
+    }));
+    document.querySelectorAll('button[data-del]').forEach(btn=>btn.addEventListener('click', async (ev)=>{
+      const id=btn.dataset.del; if(!confirm('Delete order '+id+'?')) return; const token=localStorage.getItem('admin_token');
+      const res=await fetch('/api/orders/'+id,{method:'DELETE',headers:{authorization:'Bearer '+token}}); const j=await res.json(); if(j.ok) loadOrders(); else alert(j.error||'failed');
+    }));
+  }
+
+  // Services management
+  async function loadServices(){
+    const token=localStorage.getItem('admin_token');
+    const r=await fetch('/api/services',{headers: token?{authorization:'Bearer '+token}:{}});
+    const rows=await r.json(); const tbody=document.getElementById('services'); tbody.innerHTML='';
+    for(const s of rows){
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td>${s.id||''}</td><td><input value="${s.title||''}" data-id="${s.id}" data-field="title"></td><td><input value="${s.slug||''}" data-id="${s.id}" data-field="slug"></td><td><input value="${s.price||0}" data-id="${s.id}" data-field="price"></td><td><button data-save="${s.id}">Save</button><button data-del="${s.id}" style="margin-left:8px">Delete</button></td>`;
+      tbody.appendChild(tr);
+    }
+    document.querySelectorAll('button[data-save]').forEach(btn=>btn.addEventListener('click', async ()=>{
+      const id=btn.dataset.save; const inputs=document.querySelectorAll(`input[data-id="${id}"]`); const body={}; inputs.forEach(i=>body[i.dataset.field]=i.value);
+      const token=localStorage.getItem('admin_token'); const res=await fetch('/api/services/'+id,{method:'PUT',headers:{'content-type':'application/json','authorization':'Bearer '+token},body:JSON.stringify(body)}); const j=await res.json(); if(j.ok) loadServices(); else alert(j.error||'failed');
+    }));
+    document.querySelectorAll('#services button[data-del]').forEach(btn=>btn.addEventListener('click', async ()=>{
+      const id=btn.dataset.del; if(!confirm('Delete service '+id+'?')) return; const token=localStorage.getItem('admin_token'); const res=await fetch('/api/services/'+id,{method:'DELETE',headers:{authorization:'Bearer '+token}}); const j=await res.json(); if(j.ok) loadServices(); else alert(j.error||'failed');
+    }));
+  }
+
+  async function createService(e){
+    e.preventDefault(); const title=document.getElementById('new_title').value; const slug=document.getElementById('new_slug').value; const price=document.getElementById('new_price').value; const token=localStorage.getItem('admin_token');
+    const res=await fetch('/api/services',{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+token},body:JSON.stringify({title,slug,price})}); const j=await res.json(); if(j.ok) {document.getElementById('newForm').reset(); loadServices();} else alert(j.error||'failed');
+  }
+  </script>
+</head>
+<body>
+  <div class="login">
+    <h1>Admin Login</h1>
+    <form id="loginBox" onsubmit="login(event)">
+      <label>Email <input id="email" required></label>
+      <label>Password <input id="password" type="password" required></label>
+      <button>Login</button>
+    </form>
+  </div>
+  <div id="panel" class="panel" style="display:none">
+    <h2>Orders</h2>
+    <table><thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead><tbody id="orders"></tbody></table>
+
+    <h2 style="margin-top:24px">Services</h2>
+    <form id="newForm" onsubmit="createService(event)">
+      <input id="new_title" placeholder="Title" required>
+      <input id="new_slug" placeholder="Slug">
+      <input id="new_price" placeholder="Price">
+      <button>Create</button>
+    </form>
+    <table style="margin-top:12px"><thead><tr><th>ID</th><th>Title</th><th>Slug</th><th>Price</th><th>Actions</th></tr></thead><tbody id="services"></tbody></table>
+  </div>
+  <script>
+    // When panel is shown, load both orders and services
+    const obsPanel = new MutationObserver(()=>{ if(document.getElementById('panel').style.display!=='none'){ loadOrders(); loadServices(); } });
+    obsPanel.observe(document.getElementById('panel'),{attributes:true,attributeFilter:['style']});
+  </script>
+</body>
+</html>
