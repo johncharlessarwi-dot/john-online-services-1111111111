@@ -1,0 +1,695 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// AUTHENTICATION & AUTHORIZATION
+// ============================================
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  password          String
+  firstName         String?
+  lastName          String?
+  phone             String?
+  avatar            String?
+  verified          Boolean   @default(false)
+  verificationToken String?
+  verifiedAt        DateTime?
+  lastLogin         DateTime?
+  
+  // Profile
+  role              Role      @relation(fields: [roleId], references: [id])
+  roleId            String
+  profile           Profile?
+  
+  // Business
+  orders            Order[]
+  payments          Payment[]
+  supportTickets    SupportTicket[]
+  referrals         Referral[] @relation("referrer")
+  referredBy        Referral[] @relation("referrer_ref")
+  
+  // System
+  auditLogs         AuditLog[]
+  activityLogs      ActivityLog[]
+  
+  // Security
+  loginAttempts     LoginAttempt[]
+  sessions          Session[]
+  
+  // Account Management
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  deletedAt         DateTime?
+
+  @@index([email])
+  @@index([roleId])
+}
+
+model Profile {
+  id                String    @id @default(cuid())
+  userId            String    @unique
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  bio               String?
+  company           String?
+  website           String?
+  location          String?
+  
+  // Settings
+  emailNotifications Boolean @default(true)
+  marketingEmails   Boolean @default(false)
+  twoFactorEnabled  Boolean @default(false)
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model Role {
+  id                String    @id @default(cuid())
+  name              String    @unique
+  description       String?
+  
+  users             User[]
+  permissions       Permission[]
+  
+  isSystem          Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([name])
+}
+
+model Permission {
+  id                String    @id @default(cuid())
+  name              String    @unique
+  description       String?
+  
+  roles             Role[]
+  
+  resource          String    // e.g., "orders", "users", "payments"
+  action            String    // e.g., "create", "read", "update", "delete"
+  
+  createdAt         DateTime  @default(now())
+
+  @@unique([resource, action])
+}
+
+model Session {
+  id                String    @id @default(cuid())
+  userId            String
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  token             String    @unique
+  ipAddress         String?
+  userAgent         String?
+  
+  expiresAt         DateTime
+  createdAt         DateTime  @default(now())
+
+  @@index([userId])
+  @@index([token])
+}
+
+model LoginAttempt {
+  id                String    @id @default(cuid())
+  userId            String?
+  user              User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  email             String
+  ipAddress         String?
+  userAgent         String?
+  
+  success           Boolean
+  reason            String?
+  
+  createdAt         DateTime  @default(now())
+
+  @@index([email])
+  @@index([userId])
+}
+
+// ============================================
+// CORE BUSINESS MODELS
+// ============================================
+
+model Category {
+  id                String    @id @default(cuid())
+  name              String    @unique
+  slug              String    @unique
+  description       String?
+  icon              String?
+  color             String?
+  
+  services          Service[]
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model Service {
+  id                String    @id @default(cuid())
+  name              String
+  slug              String    @unique
+  description       String?
+  longDescription   String?
+  
+  category          Category  @relation(fields: [categoryId], references: [id])
+  categoryId        String
+  
+  price             Float
+  discountPrice     Float?
+  currency          String    @default("TZS")
+  
+  // Files
+  image             String?
+  icon              String?
+  
+  // Features
+  features          String[]  @default([])
+  requirements      String[]  @default([])
+  deliverables      String[]  @default([])
+  
+  // Tracking
+  orders            Order[]
+  featured          Boolean   @default(false)
+  active            Boolean   @default(true)
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([categoryId])
+  @@index([slug])
+}
+
+// ============================================
+// ORDERS & TRACKING
+// ============================================
+
+model Order {
+  id                String    @id @default(cuid())
+  orderNumber       String    @unique
+  
+  // User
+  userId            String
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Service
+  serviceId         String
+  service           Service   @relation(fields: [serviceId], references: [id])
+  
+  // Status
+  status            OrderStatus @default(PENDING)
+  statusHistory     OrderStatusHistory[]
+  
+  // Pricing
+  amount            Float
+  currency          String    @default("TZS")
+  
+  // Files
+  uploadedFiles     File[]
+  
+  // Payment
+  payment           Payment?
+  
+  // Timeline
+  startedAt         DateTime?
+  completedAt       DateTime?
+  
+  // Notes
+  notes             String?
+  adminNotes        String?
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([serviceId])
+  @@index([status])
+  @@index([orderNumber])
+}
+
+model OrderStatusHistory {
+  id                String    @id @default(cuid())
+  orderId           String
+  order             Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  status            OrderStatus
+  comment           String?
+  
+  createdAt         DateTime  @default(now())
+
+  @@index([orderId])
+}
+
+enum OrderStatus {
+  PENDING
+  UNDER_REVIEW
+  IN_PROGRESS
+  WAITING_DOCUMENTS
+  COMPLETED
+  REJECTED
+  CANCELLED
+}
+
+// ============================================
+// PAYMENTS
+// ============================================
+
+model Payment {
+  id                String    @id @default(cuid())
+  transactionId     String    @unique
+  
+  // Order
+  orderId           String    @unique
+  order             Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  // User
+  userId            String
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Amount
+  amount            Float
+  currency          String    @default("TZS")
+  
+  // Method
+  paymentMethod     PaymentMethod @default(PETERPAY)
+  
+  // Status
+  status            PaymentStatus @default(PENDING)
+  
+  // PeterPay
+  peterpayId        String?
+  peterpayStatus    String?
+  
+  // Tracking
+  paidAt            DateTime?
+  
+  // Invoice & Receipt
+  invoice           Invoice?
+  receipt           Receipt?
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([orderId])
+  @@index([status])
+  @@index([transactionId])
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  PETERPAY
+  BANK_TRANSFER
+  CASH
+}
+
+model Invoice {
+  id                String    @id @default(cuid())
+  number            String    @unique
+  
+  paymentId         String    @unique
+  payment           Payment   @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  
+  amount            Float
+  currency          String    @default("TZS")
+  
+  // Details
+  items             Json?
+  notes             String?
+  
+  // PDF
+  pdfUrl            String?
+  
+  // Status
+  sent              Boolean   @default(false)
+  sentAt            DateTime?
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([paymentId])
+}
+
+model Receipt {
+  id                String    @id @default(cuid())
+  number            String    @unique
+  
+  paymentId         String    @unique
+  payment           Payment   @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  
+  // Amount
+  amount            Float
+  currency          String    @default("TZS")
+  
+  // PDF
+  pdfUrl            String?
+  
+  // Status
+  sent              Boolean   @default(false)
+  sentAt            DateTime?
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([paymentId])
+}
+
+// ============================================
+// FILE MANAGEMENT
+// ============================================
+
+model File {
+  id                String    @id @default(cuid())
+  
+  // Order
+  orderId           String
+  order             Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  // File Info
+  name              String
+  originalName      String
+  mimeType          String
+  size              Int
+  
+  // Storage
+  url               String
+  cloudinaryId      String?
+  
+  // Versioning
+  version           Int       @default(1)
+  previousVersion   String?   // ID of previous version
+  
+  // Type
+  type              FileType
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([orderId])
+}
+
+enum FileType {
+  PDF
+  DOCX
+  JPG
+  PNG
+  ZIP
+  OTHER
+}
+
+// ============================================
+// CONTENT & BLOG
+// ============================================
+
+model BlogPost {
+  id                String    @id @default(cuid())
+  title             String
+  slug              String    @unique
+  excerpt           String?
+  content           String
+  
+  author            String?
+  image             String?
+  
+  // SEO
+  metaTitle         String?
+  metaDescription   String?
+  
+  // Status
+  published         Boolean   @default(false)
+  publishedAt       DateTime?
+  
+  // Engagement
+  views             Int       @default(0)
+  likes             Int       @default(0)
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([slug])
+  @@index([published])
+}
+
+model Testimonial {
+  id                String    @id @default(cuid())
+  name              String
+  email             String
+  avatar            String?
+  
+  content           String
+  rating            Int       @default(5)
+  
+  serviceId         String?
+  featured          Boolean   @default(false)
+  verified          Boolean   @default(false)
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([featured])
+}
+
+// ============================================
+// SUPPORT & COMMUNICATION
+// ============================================
+
+model SupportTicket {
+  id                String    @id @default(cuid())
+  ticketNumber      String    @unique
+  
+  // User
+  userId            String
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Content
+  subject           String
+  description       String
+  
+  // Status
+  status            TicketStatus @default(OPEN)
+  
+  // Assignment
+  assignedTo        String?
+  
+  // Priority
+  priority          TicketPriority @default(MEDIUM)
+  
+  // Messages
+  messages          TicketMessage[]
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+model TicketMessage {
+  id                String    @id @default(cuid())
+  ticketId          String
+  ticket            SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  
+  authorId          String
+  content           String
+  
+  createdAt         DateTime  @default(now())
+
+  @@index([ticketId])
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  WAITING_CUSTOMER
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+// ============================================
+// REFERRAL & REWARDS
+// ============================================
+
+model Referral {
+  id                String    @id @default(cuid())
+  referrerId        String
+  referrer          User      @relation("referrer", fields: [referrerId], references: [id], onDelete: Cascade)
+  
+  referredUserId    String
+  referredUser      User      @relation("referrer_ref", fields: [referredUserId], references: [id], onDelete: Cascade)
+  
+  code              String    @unique
+  
+  // Rewards
+  rewardAmount      Float     @default(0)
+  rewardCurrency    String    @default("TZS")
+  rewardClaimed     Boolean   @default(false)
+  claimedAt         DateTime?
+  
+  // Tracking
+  clicks            Int       @default(0)
+  conversions       Int       @default(0)
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([referrerId])
+  @@index([referredUserId])
+}
+
+model Coupon {
+  id                String    @id @default(cuid())
+  code              String    @unique
+  
+  discount          Float     // Percentage or fixed amount
+  discountType      DiscountType @default(PERCENTAGE)
+  
+  maxUses           Int?
+  usedCount         Int       @default(0)
+  
+  // Date Range
+  validFrom         DateTime?
+  validUntil        DateTime?
+  
+  // Status
+  active            Boolean   @default(true)
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([code])
+  @@index([active])
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+// ============================================
+// NOTIFICATIONS
+// ============================================
+
+model Notification {
+  id                String    @id @default(cuid())
+  
+  userId            String?
+  type              NotificationType
+  title             String
+  message           String
+  
+  // Link
+  link              String?
+  
+  // Status
+  read              Boolean   @default(false)
+  readAt            DateTime?
+  
+  createdAt         DateTime  @default(now())
+
+  @@index([userId])
+  @@index([read])
+}
+
+enum NotificationType {
+  ORDER_CREATED
+  ORDER_UPDATED
+  PAYMENT_RECEIVED
+  PAYMENT_FAILED
+  FILE_READY
+  SUPPORT_REPLY
+  PROMOTIONAL
+  SYSTEM
+}
+
+// ============================================
+// AUDITING & LOGGING
+// ============================================
+
+model AuditLog {
+  id                String    @id @default(cuid())
+  
+  userId            String
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  action            String    // e.g., "user.login", "order.create", "payment.complete"
+  resource          String    // e.g., "user", "order", "payment"
+  resourceId        String?   // ID of the affected resource
+  
+  changes           Json?     // Store before/after values
+  
+  ipAddress         String?
+  userAgent         String?
+  
+  createdAt         DateTime  @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+model ActivityLog {
+  id                String    @id @default(cuid())
+  
+  userId            String
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  activity          String
+  description       String?
+  
+  createdAt         DateTime  @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// ============================================
+// SYSTEM SETTINGS
+// ============================================
+
+model Setting {
+  id                String    @id @default(cuid())
+  key               String    @unique
+  value             String
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([key])
+}
+
+model FeatureFlag {
+  id                String    @id @default(cuid())
+  name              String    @unique
+  description       String?
+  enabled           Boolean   @default(false)
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
