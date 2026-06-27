@@ -1,36 +1,49 @@
+/**
+ * Safely parses a string or Date object into a valid Date instance.
+ */
+function parseDate(date: Date | string): Date {
+  if (date instanceof Date) return date;
+  const parsed = new Date(date);
+  return isNaN(parsed.getTime()) ? new Date() : parsed;
+}
+
 export function formatCurrency(amount: number, currency: string = "TZS"): string {
+  // Using en-US can sometimes render TZS as "TZS", using narrow symbol or fallback formatting
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: currency,
+    currencyDisplay: "symbol"
   }).format(amount);
 }
 
 export function formatDate(date: Date | string): string {
-  const d = typeof date === "string" ? new Date(date) : date;
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
-  }).format(d);
+  }).format(parseDate(date));
 }
 
 export function formatDateTime(date: Date | string): string {
-  const d = typeof date === "string" ? new Date(date) : date;
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
-  }).format(d);
+  }).format(parseDate(date));
 }
 
 export function formatFileSize(bytes: number): string {
-  if (bytes === 0) return "0 B";
+  if (bytes <= 0 || isNaN(bytes)) return "0 B";
   const k = 1024;
-  const sizes = ["B", "KB", "MB", "GB"];
+  const sizes = ["B", "KB", "MB", "GB", "TB"];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
+  const boundedIndex = Math.min(i, sizes.length - 1);
+  
+  const formatted = (bytes / Math.pow(k, boundedIndex)).toFixed(2);
+  // Strip trailing .00 if it's a whole number
+  return `${parseFloat(formatted)} ${sizes[boundedIndex]}`;
 }
 
 export function generateOrderNumber(): string {
@@ -42,36 +55,42 @@ export function generateOrderNumber(): string {
 }
 
 export function generateTrackingNumber(): string {
-  return `TRK-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+  const randomHex = Math.random().toString(36).slice(2, 11).toUpperCase();
+  return `TRK-${Date.now()}-${randomHex}`;
 }
 
 export function generateReferralCode(): string {
-  return `REF-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+  return `REF-${Math.random().toString(36).slice(2, 11).toUpperCase()}`;
 }
 
 export function truncateText(text: string, length: number): string {
+  if (!text) return "";
   if (text.length <= length) return text;
-  return text.substring(0, length) + "...";
+  return text.slice(0, length).trimEnd() + "...";
 }
 
 export function slugify(text: string): string {
+  if (!text) return "";
   return text
     .toLowerCase()
     .trim()
+    .normalize("NFD") // Splits accents from accented characters
+    .replace(/[\u0300-\u036f]/g, "") // Removes the accent marks
     .replace(/[^\w\s-]/g, "")
     .replace(/[\s_-]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }
 
 export function capitalizeWords(text: string): string {
+  if (!text) return "";
   return text
-    .split(" ")
+    .split(/\s+/) // Splits accurately even with multiple consecutive spaces
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(" ");
 }
 
 export function getInitials(firstName?: string, lastName?: string): string {
-  const first = firstName?.charAt(0).toUpperCase() || "";
-  const last = lastName?.charAt(0).toUpperCase() || "";
+  const first = firstName?.trim().charAt(0).toUpperCase() || "";
+  const last = lastName?.trim().charAt(0).toUpperCase() || "";
   return (first + last) || "JO";
 }
