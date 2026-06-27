@@ -1,4 +1,7 @@
-// Service Categories
+// ============================================================================
+// 1. Service Schema Constants
+// ============================================================================
+
 export const SERVICE_CATEGORIES = [
   {
     id: "student",
@@ -35,7 +38,7 @@ export const SERVICE_CATEGORIES = [
     name: "IT Services",
     slug: "it",
     icon: "Code",
-    color: "from-green-500 to-green-600",
+    color: "from-emerald-500 to-emerald-600",
     description: "Technology and development services",
     services: [
       "Website Development",
@@ -52,138 +55,152 @@ export const SERVICE_CATEGORIES = [
     icon: "Plane",
     color: "from-orange-500 to-orange-600",
     description: "Travel and tourism experiences",
-    services: ["Safari Booking", "Hotel Booking", "Kilimanjaro Packages"],
+    services: [
+      "Safari Booking", 
+      "Hotel Booking", 
+      "Kilimanjaro Packages"
+    ],
   },
-];
+] as const;
 
-// Order Statuses
+// ============================================================================
+// 2. Application State & Badges UI (Tailwind CSS)
+// ============================================================================
+
 export const ORDER_STATUSES = {
-  PENDING: { label: "Pending", color: "bg-yellow-100 text-yellow-800" },
-  UNDER_REVIEW: { label: "Under Review", color: "bg-blue-100 text-blue-800" },
-  IN_PROGRESS: { label: "In Progress", color: "bg-purple-100 text-purple-800" },
-  WAITING_DOCUMENTS: {
-    label: "Waiting Documents",
-    color: "bg-orange-100 text-orange-800",
-  },
-  COMPLETED: { label: "Completed", color: "bg-green-100 text-green-800" },
-  REJECTED: { label: "Rejected", color: "bg-red-100 text-red-800" },
-  CANCELLED: { label: "Cancelled", color: "bg-gray-100 text-gray-800" },
-};
+  PENDING:           { label: "Pending",           color: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400" },
+  UNDER_REVIEW:      { label: "Under Review",      color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400" },
+  IN_PROGRESS:       { label: "In Progress",       color: "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400" },
+  WAITING_DOCUMENTS: { label: "Waiting Documents", color: "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400" },
+  COMPLETED:         { label: "Completed",         color: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400" },
+  REJECTED:          { label: "Rejected",          color: "bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-400" },
+  CANCELLED:         { label: "Cancelled",         color: "bg-slate-100 text-slate-800 dark:bg-slate-900/30 dark:text-slate-400" },
+} as const;
 
-// Payment Statuses
 export const PAYMENT_STATUSES = {
-  PENDING: { label: "Pending", color: "bg-yellow-100 text-yellow-800" },
-  PROCESSING: { label: "Processing", color: "bg-blue-100 text-blue-800" },
-  COMPLETED: { label: "Completed", color: "bg-green-100 text-green-800" },
-  FAILED: { label: "Failed", color: "bg-red-100 text-red-800" },
-  REFUNDED: { label: "Refunded", color: "bg-purple-100 text-purple-800" },
-  CANCELLED: { label: "Cancelled", color: "bg-gray-100 text-gray-800" },
-};
+  PENDING:    { label: "Pending",    color: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400" },
+  PROCESSING: { label: "Processing", color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400" },
+  COMPLETED:  { label: "Completed",  color: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400" },
+  FAILED:     { label: "Failed",     color: "bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-400" },
+  REFUNDED:   { label: "Refunded",   color: "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400" },
+  CANCELLED:  { label: "Cancelled",  color: "bg-slate-100 text-slate-800 dark:bg-slate-900/30 dark:text-slate-400" },
+} as const;
 
-// Roles
+export const TICKET_PRIORITIES = {
+  LOW:    { label: "Low",    color: "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400" },
+  MEDIUM: { label: "Medium", color: "bg-amber-100 text-amber-800 dark:bg-amber-900/20 dark:text-amber-400" },
+  HIGH:   { label: "High",   color: "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400" },
+  URGENT: { label: "Urgent", color: "bg-rose-100 text-rose-800 dark:bg-rose-900/20 dark:text-rose-400" },
+} as const;
+
+// ============================================================================
+// 3. RBAC (Role-Based Access Control)
+// ============================================================================
+
 export const ROLES = {
-  SUPER_ADMIN: "super_admin",
-  ADMIN: "admin",
-  ACCOUNTANT: "accountant",
-  SUPPORT_AGENT: "support_agent",
+  SUPER_ADMIN:     "super_admin",
+  ADMIN:           "admin",
+  ACCOUNTANT:      "accountant",
+  SUPPORT_AGENT:   "support_agent",
   SERVICE_OFFICER: "service_officer",
   CONTENT_MANAGER: "content_manager",
-  CUSTOMER: "customer",
-};
+  CUSTOMER:        "customer",
+} as const;
 
-// Permissions
 export const PERMISSIONS = {
-  // Users
-  USER_CREATE: "user.create",
-  USER_READ: "user.read",
-  USER_UPDATE: "user.update",
-  USER_DELETE: "user.delete",
+  // Account Management Permissions
+  USER_CREATE:     "user.create",
+  USER_READ:       "user.read",
+  USER_UPDATE:     "user.update",
+  USER_DELETE:     "user.delete",
 
-  // Orders
-  ORDER_CREATE: "order.create",
-  ORDER_READ: "order.read",
-  ORDER_UPDATE: "order.update",
-  ORDER_DELETE: "order.delete",
+  // Core Business Operations
+  ORDER_CREATE:    "order.create",
+  ORDER_READ:      "order.read",
+  ORDER_UPDATE:    "order.update",
+  ORDER_DELETE:    "order.delete",
 
-  // Payments
-  PAYMENT_READ: "payment.read",
-  PAYMENT_UPDATE: "payment.update",
-  PAYMENT_REFUND: "payment.refund",
+  // Financial Management
+  PAYMENT_READ:    "payment.read",
+  PAYMENT_UPDATE:  "payment.update",
+  PAYMENT_REFUND:  "payment.refund",
 
-  // Services
-  SERVICE_CREATE: "service.create",
-  SERVICE_READ: "service.read",
-  SERVICE_UPDATE: "service.update",
-  SERVICE_DELETE: "service.delete",
+  // Service Portfolio Config
+  SERVICE_CREATE:  "service.create",
+  SERVICE_READ:    "service.read",
+  SERVICE_UPDATE:  "service.update",
+  SERVICE_DELETE:  "service.delete",
 
-  // Admin
-  ADMIN_ACCESS: "admin.access",
+  // Internal Management Control
+  ADMIN_ACCESS:    "admin.access",
   SETTINGS_UPDATE: "settings.update",
-  AUDIT_READ: "audit.read",
-};
+  AUDIT_READ:      "audit.read",
+} as const;
 
-// File Upload Config
-export const FILE_CONFIG = {
-  maxFileSize: 50 * 1024 * 1024, // 50MB
-  allowedFileTypes: ["application/pdf", "application/msword", "image/jpeg", "image/png", "application/zip"],
-  allowedExtensions: ["pdf", "docx", "jpg", "jpeg", "png", "zip"],
-};
+// ============================================================================
+// 4. API Core Endpoints Map
+// ============================================================================
 
-// API Endpoints
 export const API_ENDPOINTS = {
-  // Auth
-  AUTH_LOGIN: "/api/auth/login",
-  AUTH_REGISTER: "/api/auth/register",
-  AUTH_LOGOUT: "/api/auth/logout",
-  AUTH_REFRESH: "/api/auth/refresh",
-  AUTH_ME: "/api/auth/me",
+  // Identity & Auth Gates
+  AUTH_LOGIN:      "/api/auth/login",
+  AUTH_REGISTER:   "/api/auth/register",
+  AUTH_LOGOUT:     "/api/auth/logout",
+  AUTH_REFRESH:    "/api/auth/refresh",
+  AUTH_ME:         "/api/auth/me",
 
-  // Users
-  USERS: "/api/users",
-  USER_PROFILE: "/api/users/profile",
+  // Users Directory
+  USERS:           "/api/users",
+  USER_PROFILE:    "/api/users/profile",
 
-  // Services
-  SERVICES: "/api/services",
-  SERVICE_DETAIL: "/api/services/:id",
-  CATEGORIES: "/api/categories",
+  // Marketplace Catalogues
+  SERVICES:        "/api/services",
+  SERVICE_DETAIL:  "/api/services/:id",
+  CATEGORIES:      "/api/categories",
 
-  // Orders
-  ORDERS: "/api/orders",
-  ORDER_DETAIL: "/api/orders/:id",
-  ORDER_TRACK: "/api/orders/:id/track",
+  // Orders Ledger
+  ORDERS:          "/api/orders",
+  ORDER_DETAIL:    "/api/orders/:id",
+  ORDER_TRACK:     "/api/orders/:id/track",
 
-  // Payments
-  PAYMENTS: "/api/payments",
-  PAYMENT_CREATE: "/api/payments/create",
-  PAYMENT_STATUS: "/api/payments/:id/status",
+  // Billing Channels
+  PAYMENTS:        "/api/payments",
+  PAYMENT_CREATE:  "/api/payments/create",
+  PAYMENT_STATUS:  "/api/payments/:id/status",
 
-  // Files
-  FILES_UPLOAD: "/api/files/upload",
-  FILES_DELETE: "/api/files/:id",
+  // Static Assets Vault
+  FILES_UPLOAD:    "/api/files/upload",
+  FILES_DELETE:    "/api/files/:id",
 
-  // Admin
+  // Enterprise Panels
   ADMIN_DASHBOARD: "/api/admin/dashboard",
-  ADMIN_USERS: "/api/admin/users",
-  ADMIN_ORDERS: "/api/admin/orders",
-  ADMIN_PAYMENTS: "/api/admin/payments",
-};
+  ADMIN_USERS:     "/api/admin/users",
+  ADMIN_ORDERS:    "/api/admin/orders",
+  ADMIN_PAYMENTS:  "/api/admin/payments",
+} as const;
 
-// Currency
+// ============================================================================
+// 5. System Configuration Blocks
+// ============================================================================
+
+export const FILE_CONFIG = {
+  maxFileSize: 50 * 1024 * 1024, // 50MB Base Size
+  allowedFileTypes: [
+    "application/pdf", 
+    "application/msword", 
+    "image/jpeg", 
+    "image/png", 
+    "application/zip"
+  ],
+  allowedExtensions: ["pdf", "docx", "jpg", "jpeg", "png", "zip"],
+} as const;
+
 export const CURRENCIES = {
   TZS: { code: "TZS", symbol: "TSh", name: "Tanzanian Shilling" },
-  USD: { code: "USD", symbol: "$", name: "US Dollar" },
-};
+  USD: { code: "USD", symbol: "$",   name: "US Dollar" },
+} as const;
 
-// Support Ticket Priorities
-export const TICKET_PRIORITIES = {
-  LOW: { label: "Low", color: "bg-blue-100 text-blue-800" },
-  MEDIUM: { label: "Medium", color: "bg-yellow-100 text-yellow-800" },
-  HIGH: { label: "High", color: "bg-orange-100 text-orange-800" },
-  URGENT: { label: "Urgent", color: "bg-red-100 text-red-800" },
-};
-
-// Pagination
 export const PAGINATION = {
   defaultPageSize: 10,
   pageSizeOptions: [10, 25, 50, 100],
-};
+} as const;
