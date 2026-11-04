@@ -11,6 +11,8 @@ const Database = require('better-sqlite3');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { publicRegistrationRole, requireServerSecret, adminSeedCredentials } = require('./lib/security-policy');
+const { validateOrderInput } = require('./lib/order-input');
+const { createId } = require('./lib/identifiers');
 
 const app = express();
 app.use(cors());
@@ -95,13 +97,13 @@ async function saveOrder(payload) {
     if (error) throw error;
     return data[0];
   } else {
-    const id = payload.id || (`ord_${Date.now()}`);
+    const id = createId('ord');
     const stmt = db.prepare(`INSERT INTO orders (id, customer_name, customer_phone, service_id, total, status, created_at) VALUES (?, ?, ?, ?, ?, ?, datetime('now'))`);
     stmt.run(id, payload.customer_name || null, payload.customer_phone || null, payload.service_id || null, payload.total || 0, payload.status || 'pending');
     if (Array.isArray(payload.items)) {
       const up = db.prepare(`INSERT INTO uploads (id, order_id, filename, url, mime, size, created_at) VALUES (?, ?, ?, ?, ?, ?, datetime('now'))`);
       const insert = db.transaction((items) => {
-        for (const it of items) up.run(it.id || `upl_${Date.now()}`, id, it.filename, it.url, it.mime, it.size || 0);
+        for (const it of items) up.run(createId('upl'), id, it.filename, it.url, it.mime, it.size || 0);
       });
       insert(payload.items);
     }
@@ -184,7 +186,7 @@ app.post('/api/auth/register', (req, res) => {
     if (!email || !password) return res.status(400).json({ error: 'email+password required' });
     const existing = findUserByEmail(email);
     if (existing) return res.status(400).json({ error: 'user exists' });
-    const id = `user_${Date.now()}`;
+    const id = createId('user');
     createUser({ id, email, name: name || null, role: publicRegistrationRole(), password });
     res.json({ ok: true, id });
   } catch (err) {
@@ -224,12 +226,13 @@ function requireAdmin(req, res, next) {
 // Create an order
 app.post('/api/orders', async (req, res) => {
   try {
-    const payload = req.body;
+    const payload = validateOrderInput(req.body);
     const order = await saveOrder(payload);
     res.json({ ok: true, order });
   } catch (err) {
+    if (err instanceof TypeError || err instanceof RangeError) return res.status(400).json({ error: 'Invalid order data' });
     console.error(err);
-    res.status(500).json({ error: err.message || 'failed to save order' });
+    res.status(500).json({ error: 'Failed to save order' });
   }
 });
 
