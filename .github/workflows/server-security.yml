@@ -1,0 +1,35 @@
+name: Server domain security tests
+
+on:
+  push:
+    paths:
+      - "server/lib/**"
+      - "server/tests/**"
+      - "server/index.js"
+      - ".github/workflows/server-security.yml"
+  pull_request:
+    paths:
+      - "server/lib/**"
+      - "server/tests/**"
+      - "server/index.js"
+      - ".github/workflows/server-security.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check server JavaScript syntax
+        run: node --check server/index.js
+      - name: Run dependency-free domain tests
+        run: node --test server/tests/*.test.js
