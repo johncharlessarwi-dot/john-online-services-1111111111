@@ -10,6 +10,7 @@ const cloudinary = require('cloudinary').v2;
 const Database = require('better-sqlite3');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { publicRegistrationRole, requireServerSecret, adminSeedCredentials } = require('./lib/security-policy');
 
 const app = express();
 app.use(cors());
@@ -46,7 +47,7 @@ if (fs.existsSync(schemaPath)) {
 }
 
 // Ensure admin user table has at least one user (optional seed)
-const JWT_SECRET = process.env.JWT_SECRET || 'dev_secret_change_me';
+const JWT_SECRET = requireServerSecret(process.env.JWT_SECRET);
 function findUserByEmail(email) {
   return db.prepare('SELECT id, email, name, role, password FROM users WHERE email = ?').get(email);
 }
@@ -71,22 +72,15 @@ function verifyPasswordForUser(user, password) {
   return bcrypt.compareSync(password, row.password);
 }
 
-// Seed an admin user for convenience if none exists (dev-only)
+// Admin bootstrap is disabled unless explicitly configured by an operator.
 (function seedAdmin(){
-  try{
-    const admin = db.prepare("SELECT id FROM users WHERE role = 'admin' LIMIT 1").get();
-    if (!admin) {
-      const id = 'admin_1';
-      const email = process.env.ADMIN_EMAIL || 'admin@local';
-      const name = process.env.ADMIN_NAME || 'Administrator';
-      const password = process.env.ADMIN_PASSWORD || 'Admin@123';
-      db.prepare('INSERT OR IGNORE INTO users (id, email, name, role) VALUES (?, ?, ?, ?)').run(id, email, name, 'admin');
-      try{ db.prepare('CREATE TABLE IF NOT EXISTS user_passwords (id TEXT PRIMARY KEY, user_id TEXT, password TEXT)').run(); }catch(e){}
-      const hashed = bcrypt.hashSync(password, 10);
-      db.prepare('INSERT OR REPLACE INTO user_passwords (id, user_id, password) VALUES (?, ?, ?)').run(id+'_pwd', id, hashed);
-      console.log('Seeded admin user:', email, 'password:', password);
-    }
-  }catch(e){console.warn('seedAdmin failed',e)}
+  const credentials = adminSeedCredentials(process.env);
+  if (!credentials) return;
+  const existing = db.prepare("SELECT id FROM users WHERE role = 'admin' LIMIT 1").get();
+  if (existing) return;
+  createUser({ id: credentials.id, email: credentials.email, name: 'Administrator',
+    role: 'admin', password: credentials.password });
+  console.log('Administrator bootstrap completed (credentials not logged)');
 })();
 
 // Serve static admin UI
@@ -186,12 +180,12 @@ app.delete('/api/orders/:id', requireAdmin, (req, res) => {
 // Auth endpoints
 app.post('/api/auth/register', (req, res) => {
   try {
-    const { email, name, password, role } = req.body;
+    const { email, name, password } = req.body;
     if (!email || !password) return res.status(400).json({ error: 'email+password required' });
     const existing = findUserByEmail(email);
     if (existing) return res.status(400).json({ error: 'user exists' });
     const id = `user_${Date.now()}`;
-    createUser({ id, email, name: name || null, role: role || 'customer', password });
+    createUser({ id, email, name: name || null, role: publicRegistrationRole(), password });
     res.json({ ok: true, id });
   } catch (err) {
     console.error(err);
