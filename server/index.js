@@ -51,7 +51,7 @@ if (fs.existsSync(schemaPath)) {
 // Ensure admin user table has at least one user (optional seed)
 const JWT_SECRET = requireServerSecret(process.env.JWT_SECRET);
 function findUserByEmail(email) {
-  return db.prepare('SELECT id, email, name, role, password FROM users WHERE email = ?').get(email);
+  return db.prepare('SELECT id, email, name, role FROM users WHERE email = ?').get(email);
 }
 function createUser({ id, email, name, role, password }) {
   const hashed = bcrypt.hashSync(password, 10);
