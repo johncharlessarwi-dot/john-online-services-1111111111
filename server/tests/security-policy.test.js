@@ -39,3 +39,7 @@ test('rejects bootstrap password with digits only', () => {
 test('disallows browser origins when not configured', () => {
   assert.deepEqual(allowedCorsOrigins(undefined), []);
 });
+
+test('accepts explicit secure browser origins', () => {
+  assert.deepEqual(allowedCorsOrigins('https://example.com'), ['https://example.com']);
+});
