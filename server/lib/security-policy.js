@@ -21,6 +21,7 @@ function adminSeedCredentials(env) {
       typeof password !== 'string' || password.length < 16) {
     throw new Error('Admin seeding requires explicit email and 16+ character password');
   }
+  if (!/[A-Za-z]/.test(password) || !/[0-9\W_]/.test(password)) throw new Error('Admin password must use mixed characters');
   return { email, password, id: 'admin_' + crypto.randomBytes(8).toString('hex') };
 }
 
