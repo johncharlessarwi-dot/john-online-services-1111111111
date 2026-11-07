@@ -1,6 +1,7 @@
 const MAX_TZS = 100_000_000;
 function validateOrderInput(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new TypeError('Order payload must be an object');
+  if (Object.getPrototypeOf(input) !== Object.prototype && Object.getPrototypeOf(input) !== null) throw new TypeError('Order payload must be a plain object');
   const customerName = typeof input.customer_name === 'string' ? input.customer_name.trim() : '';
   const customerPhone = typeof input.customer_phone === 'string' ? input.customer_phone.trim() : '';
   if (customerName.length < 2 || customerName.length > 120) throw new RangeError('Invalid customer name');
