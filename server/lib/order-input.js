@@ -8,6 +8,7 @@ function validateOrderInput(input) {
   if (!Number.isSafeInteger(input.service_id) && typeof input.service_id !== 'string') throw new RangeError('Invalid service');
   if (Number.isSafeInteger(input.service_id) && input.service_id <= 0) throw new RangeError('Invalid service');
   if (typeof input.service_id === 'string' && !/^[a-z0-9_-]{1,60}$/i.test(input.service_id)) throw new RangeError('Invalid service');
+  if (typeof input.service_id === 'string' && input.service_id.length === 0) throw new RangeError('Invalid service');
   if (!Number.isSafeInteger(input.total) || input.total < 0 || input.total > MAX_TZS) throw new RangeError('Invalid total');
   if (input.status !== undefined && input.status !== 'pending') throw new RangeError('Customer cannot choose order status');
   return { customer_name: customerName, customer_phone: customerPhone, service_id: input.service_id, total: input.total, status: 'pending' };
