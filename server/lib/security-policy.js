@@ -26,4 +26,14 @@ function adminSeedCredentials(env) {
   return { email, password, id: 'admin_' + crypto.randomBytes(8).toString('hex') };
 }
 
-module.exports = { publicRegistrationRole, requireServerSecret, adminSeedCredentials };
+function allowedCorsOrigins(value) {
+  if (typeof value !== 'string' || !value.trim()) return [];
+  return value.split(',').map(origin => origin.trim()).filter(origin => {
+    try {
+      const parsed = new URL(origin);
+      return (parsed.protocol === 'https:' || (parsed.protocol === 'http:' && ['localhost','127.0.0.1'].includes(parsed.hostname))) &&
+        parsed.origin === origin && !parsed.username && !parsed.password;
+    } catch { return false; }
+  });
+}
+module.exports = { publicRegistrationRole, requireServerSecret, adminSeedCredentials, allowedCorsOrigins };
