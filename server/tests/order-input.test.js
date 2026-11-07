@@ -82,3 +82,7 @@ test('rejects excessively long customer phone numbers', () => {
 test('rejects excessive customer name length', () => {
   assert.throws(() => validateOrderInput({ ...valid, customer_name: 'A'.repeat(121) }));
 });
+
+test('accepts canonical service slugs', () => {
+  assert.equal(validateOrderInput({ ...valid, service_id: 'printing_2026' }).service_id, 'printing_2026');
+});
