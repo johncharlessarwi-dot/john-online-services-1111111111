@@ -74,3 +74,7 @@ test('rejects fractional service IDs', () => {
 test('rejects short customer phone numbers', () => {
   assert.throws(() => validateOrderInput({ ...valid, customer_phone: '+25512' }));
 });
+
+test('rejects excessively long customer phone numbers', () => {
+  assert.throws(() => validateOrderInput({ ...valid, customer_phone: '1234567890123456' }));
+});
