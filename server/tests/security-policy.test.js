@@ -15,3 +15,7 @@ test('admin seed is opt-in with secure credentials', () => {
   assert.throws(() => adminSeedCredentials({ SEED_ADMIN: 'true', ADMIN_EMAIL: 'admin@local', ADMIN_PASSWORD: 'Admin@123' }));
   assert.match(adminSeedCredentials({ SEED_ADMIN: 'true', ADMIN_EMAIL: 'admin@example.com', ADMIN_PASSWORD: 'SufficientlyLongPassphrase1' }).id, /^admin_[0-9a-f]{16}$/);
 });
+
+test('rejects repeated-character JWT secret', () => {
+  assert.throws(() => requireServerSecret('z'.repeat(48)));
+});
