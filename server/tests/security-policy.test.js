@@ -31,3 +31,7 @@ test('rejects secrets prefixed with whitespace', () => {
 test('rejects bootstrap password with letters only', () => {
   assert.throws(() => adminSeedCredentials({ SEED_ADMIN: 'true', ADMIN_EMAIL: 'admin@example.com', ADMIN_PASSWORD: 'AlphabeticalOnlyPassword' }));
 });
+
+test('rejects bootstrap password with digits only', () => {
+  assert.throws(() => adminSeedCredentials({ SEED_ADMIN: 'true', ADMIN_EMAIL: 'admin@example.com', ADMIN_PASSWORD: '12345678901234567890' }));
+});
