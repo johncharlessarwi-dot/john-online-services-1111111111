@@ -10,12 +10,13 @@ const cloudinary = require('cloudinary').v2;
 const Database = require('better-sqlite3');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { publicRegistrationRole, requireServerSecret, adminSeedCredentials } = require('./lib/security-policy');
+const { publicRegistrationRole, requireServerSecret, adminSeedCredentials, allowedCorsOrigins } = require('./lib/security-policy');
 const { validateOrderInput } = require('./lib/order-input');
 const { createId } = require('./lib/identifiers');
 
 const app = express();
-app.use(cors());
+const corsOrigins = allowedCorsOrigins(process.env.ALLOWED_ORIGINS);
+app.use(cors({ origin: (origin, callback) => callback(null, !origin || corsOrigins.includes(origin)) }));
 app.use(express.json({ limit: '64kb' }));
 
 const PORT = process.env.PORT || 4000;
