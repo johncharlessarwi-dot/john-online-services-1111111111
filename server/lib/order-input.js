@@ -4,6 +4,7 @@ function validateOrderInput(input) {
   const customerName = typeof input.customer_name === 'string' ? input.customer_name.trim() : '';
   const customerPhone = typeof input.customer_phone === 'string' ? input.customer_phone.trim() : '';
   if (customerName.length < 2 || customerName.length > 120) throw new RangeError('Invalid customer name');
+  if (/[\x00-\x1f\x7f]/.test(customerName)) throw new RangeError('Invalid customer name');
   if (!/^\+?[0-9]{9,15}$/.test(customerPhone)) throw new RangeError('Invalid phone number');
   if (!Number.isSafeInteger(input.service_id) && typeof input.service_id !== 'string') throw new RangeError('Invalid service');
   if (Number.isSafeInteger(input.service_id) && input.service_id <= 0) throw new RangeError('Invalid service');
