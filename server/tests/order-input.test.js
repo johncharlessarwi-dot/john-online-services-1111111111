@@ -62,3 +62,7 @@ test('rejects client-supplied creation time', () => {
 test('rejects surprise order fields', () => {
   assert.throws(() => validateOrderInput({ ...valid, role: 'admin' }));
 });
+
+test('rejects out-of-range order totals', () => {
+  assert.throws(() => validateOrderInput({ ...valid, total: 100_000_001 }));
+});
