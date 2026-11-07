@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createToken } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,30 +12,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // TODO: Verify email and password against database
-    // const user = await prisma.user.findUnique({
-    //   where: { email },
-    //   include: { role: true }
-    // });
-
-    // Create JWT token
-    const token = await createToken({
-      userId: "temp_user_id",
-      email: email,
-      roleId: "customer",
-    });
-
-    return NextResponse.json({
-      success: true,
-      message: "Login successful",
-      data: {
-        token,
-        user: {
-          id: "temp_user_id",
-          email,
-        },
-      },
-    });
+    // This route has no credential verifier: never issue a token.
+    return NextResponse.json(
+      { success: false, error: "Login is temporarily unavailable" },
+      { status: 503 }
+    );
   } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json(
