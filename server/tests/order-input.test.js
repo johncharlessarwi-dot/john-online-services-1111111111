@@ -66,3 +66,7 @@ test('rejects surprise order fields', () => {
 test('rejects out-of-range order totals', () => {
   assert.throws(() => validateOrderInput({ ...valid, total: 100_000_001 }));
 });
+
+test('rejects fractional service IDs', () => {
+  assert.throws(() => validateOrderInput({ ...valid, service_id: 1.2 }));
+});
