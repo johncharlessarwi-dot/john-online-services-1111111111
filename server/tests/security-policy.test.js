@@ -27,3 +27,7 @@ test('rejects secrets padded with spaces', () => {
 test('rejects secrets prefixed with whitespace', () => {
   assert.throws(() => requireServerSecret(' StrongUniqueSecretAlpha0123456789!'));
 });
+
+test('rejects bootstrap password with letters only', () => {
+  assert.throws(() => adminSeedCredentials({ SEED_ADMIN: 'true', ADMIN_EMAIL: 'admin@example.com', ADMIN_PASSWORD: 'AlphabeticalOnlyPassword' }));
+});
