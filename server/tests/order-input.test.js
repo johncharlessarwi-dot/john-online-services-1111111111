@@ -70,3 +70,7 @@ test('rejects out-of-range order totals', () => {
 test('rejects fractional service IDs', () => {
   assert.throws(() => validateOrderInput({ ...valid, service_id: 1.2 }));
 });
+
+test('rejects short customer phone numbers', () => {
+  assert.throws(() => validateOrderInput({ ...valid, customer_phone: '+25512' }));
+});
