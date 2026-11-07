@@ -23,3 +23,7 @@ test('rejects repeated-character JWT secret', () => {
 test('rejects secrets padded with spaces', () => {
   assert.throws(() => requireServerSecret('StrongUniqueSecretAlpha0123456789! '));
 });
+
+test('rejects secrets prefixed with whitespace', () => {
+  assert.throws(() => requireServerSecret(' StrongUniqueSecretAlpha0123456789!'));
+});
