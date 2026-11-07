@@ -26,3 +26,7 @@ test('rejects negative numeric service ID', () => {
 test('rejects empty slug service ID', () => {
   assert.throws(() => validateOrderInput({ ...valid, service_id: '' }));
 });
+
+test('rejects service slug with whitespace', () => {
+  assert.throws(() => validateOrderInput({ ...valid, service_id: 'print job' }));
+});
