@@ -34,3 +34,7 @@ test('rejects service slug with whitespace', () => {
 test('rejects service slug with URL delimiters', () => {
   assert.throws(() => validateOrderInput({ ...valid, service_id: 'print/../../admin' }));
 });
+
+test('rejects name with newline control character', () => {
+  assert.throws(() => validateOrderInput({ ...valid, customer_name: 'John\nDoe' }));
+});
