@@ -35,3 +35,7 @@ test('rejects bootstrap password with letters only', () => {
 test('rejects bootstrap password with digits only', () => {
   assert.throws(() => adminSeedCredentials({ SEED_ADMIN: 'true', ADMIN_EMAIL: 'admin@example.com', ADMIN_PASSWORD: '12345678901234567890' }));
 });
+
+test('disallows browser origins when not configured', () => {
+  assert.deepEqual(allowedCorsOrigins(undefined), []);
+});
