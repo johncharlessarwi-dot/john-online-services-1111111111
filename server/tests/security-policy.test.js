@@ -8,7 +8,7 @@ test('public signups never select administrator roles', () => {
 test('JWT secrets must be sufficiently strong', () => {
   assert.throws(() => requireServerSecret('dev_secret_change_me'));
   assert.throws(() => requireServerSecret('short'));
-  assert.equal(requireServerSecret('a'.repeat(48)), 'a'.repeat(48));
+  assert.equal(requireServerSecret('StrongUniqueSecretAlpha0123456789!'), 'StrongUniqueSecretAlpha0123456789!');
 });
 test('admin seed is opt-in with secure credentials', () => {
   assert.equal(adminSeedCredentials({}), null);
