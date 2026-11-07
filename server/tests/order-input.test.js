@@ -46,3 +46,7 @@ test('rejects arrays as order payloads', () => {
 test('rejects Date object as order payload', () => {
   assert.throws(() => validateOrderInput(new Date()));
 });
+
+test('rejects unsolicited attachment metadata', () => {
+  assert.throws(() => validateOrderInput({ ...valid, items: [] }));
+});
