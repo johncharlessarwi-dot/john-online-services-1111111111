@@ -275,7 +275,7 @@ app.post('/api/sign-cloudinary', (req, res) => {
 });
 
 // Lightweight file for debugging: list recent orders
-app.get('/api/orders', (req, res) => {
+app.get('/api/orders', requireAdmin, (req, res) => {
   try {
     if (supabase) return supabase.from('orders').select('*').then(r => res.json(r.data || []));
     const rows = db.prepare('SELECT id, customer_name, customer_phone, total, status, created_at FROM orders ORDER BY created_at DESC LIMIT 100').all();
