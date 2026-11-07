@@ -50,3 +50,7 @@ test('rejects Date object as order payload', () => {
 test('rejects unsolicited attachment metadata', () => {
   assert.throws(() => validateOrderInput({ ...valid, items: [] }));
 });
+
+test('rejects client-supplied order ID', () => {
+  assert.throws(() => validateOrderInput({ ...valid, id: 'ord_fake' }));
+});
