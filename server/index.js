@@ -261,7 +261,7 @@ app.get('/admin', (req, res) => {
 
 
 // Cloudinary signing endpoint (server signs timestamp for secure uploads)
-app.post('/api/sign-cloudinary', (req, res) => {
+app.post('/api/sign-cloudinary', requireAdmin, (req, res) => {
   try {
     if (!cloudinary.config().api_secret) return res.status(400).json({ error: 'Cloudinary not configured on server' });
     const timestamp = Math.floor(Date.now() / 1000);
