@@ -18,3 +18,7 @@ test('rejects malformed names and numbers', () => {
 test('rejects service ID zero', () => {
   assert.throws(() => validateOrderInput({ ...valid, service_id: 0 }));
 });
+
+test('rejects negative numeric service ID', () => {
+  assert.throws(() => validateOrderInput({ ...valid, service_id: -2 }));
+});
