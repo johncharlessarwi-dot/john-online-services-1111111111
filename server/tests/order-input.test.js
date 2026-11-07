@@ -30,3 +30,7 @@ test('rejects empty slug service ID', () => {
 test('rejects service slug with whitespace', () => {
   assert.throws(() => validateOrderInput({ ...valid, service_id: 'print job' }));
 });
+
+test('rejects service slug with URL delimiters', () => {
+  assert.throws(() => validateOrderInput({ ...valid, service_id: 'print/../../admin' }));
+});
