@@ -78,3 +78,7 @@ test('rejects short customer phone numbers', () => {
 test('rejects excessively long customer phone numbers', () => {
   assert.throws(() => validateOrderInput({ ...valid, customer_phone: '1234567890123456' }));
 });
+
+test('rejects excessive customer name length', () => {
+  assert.throws(() => validateOrderInput({ ...valid, customer_name: 'A'.repeat(121) }));
+});
