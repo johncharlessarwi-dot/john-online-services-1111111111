@@ -58,3 +58,7 @@ test('rejects client-supplied order ID', () => {
 test('rejects client-supplied creation time', () => {
   assert.throws(() => validateOrderInput({ ...valid, created_at: '2026-01-01' }));
 });
+
+test('rejects surprise order fields', () => {
+  assert.throws(() => validateOrderInput({ ...valid, role: 'admin' }));
+});
