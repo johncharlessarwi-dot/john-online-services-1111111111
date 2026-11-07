@@ -16,7 +16,7 @@ const { createId } = require('./lib/identifiers');
 
 const app = express();
 app.use(cors());
-app.use(express.json({ limit: '20mb' }));
+app.use(express.json({ limit: '64kb' }));
 
 const PORT = process.env.PORT || 4000;
 
