@@ -86,3 +86,7 @@ test('rejects excessive customer name length', () => {
 test('accepts canonical service slugs', () => {
   assert.equal(validateOrderInput({ ...valid, service_id: 'printing_2026' }).service_id, 'printing_2026');
 });
+
+test('normalizes surrounding customer name whitespace', () => {
+  assert.equal(validateOrderInput({ ...valid, customer_name: '  John  ' }).customer_name, 'John');
+});
