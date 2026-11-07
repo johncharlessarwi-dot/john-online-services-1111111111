@@ -19,3 +19,7 @@ test('admin seed is opt-in with secure credentials', () => {
 test('rejects repeated-character JWT secret', () => {
   assert.throws(() => requireServerSecret('z'.repeat(48)));
 });
+
+test('rejects secrets padded with spaces', () => {
+  assert.throws(() => requireServerSecret('StrongUniqueSecretAlpha0123456789! '));
+});
