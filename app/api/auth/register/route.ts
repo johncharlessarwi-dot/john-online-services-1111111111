@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { validateEmail, validatePassword } from "@/lib/validation";
-import { createToken } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,35 +22,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // TODO: Hash password and save user to database using Prisma
-    // const user = await prisma.user.create({
-    //   data: {
-    //     email,
-    //     password: await hash(password),
-    //     roleId: "customer_role_id"
-    //   }
-    // });
-
-    // Create JWT token
-    const token = await createToken({
-      userId: "temp_user_id",
-      email: email,
-      roleId: "customer",
-    });
-
+    // No persistent account store is wired to this route yet.
     return NextResponse.json(
-      {
-        success: true,
-        message: "Account created successfully",
-        data: {
-          token,
-          user: {
-            id: "temp_user_id",
-            email,
-          },
-        },
-      },
-      { status: 201 }
+      { success: false, error: "Registration is temporarily unavailable" },
+      { status: 503 }
     );
   } catch (error) {
     console.error("Registration error:", error);
