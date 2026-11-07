@@ -90,3 +90,7 @@ test('accepts canonical service slugs', () => {
 test('normalizes surrounding customer name whitespace', () => {
   assert.equal(validateOrderInput({ ...valid, customer_name: '  John  ' }).customer_name, 'John');
 });
+
+test('normalizes surrounding customer phone whitespace', () => {
+  assert.equal(validateOrderInput({ ...valid, customer_phone: '  +255698170989  ' }).customer_phone, '+255698170989');
+});
