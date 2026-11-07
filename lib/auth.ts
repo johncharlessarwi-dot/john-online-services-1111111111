@@ -12,7 +12,7 @@ export async function createToken(payload: Record<string, any>): Promise<string>
   return await new jwt.SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime(process.env.JWT_EXPIRES_IN || "7d")
+    .setExpirationTime("2h")
     .sign(getSecret());
 }
 
