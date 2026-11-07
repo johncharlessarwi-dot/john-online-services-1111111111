@@ -38,3 +38,7 @@ test('rejects service slug with URL delimiters', () => {
 test('rejects name with newline control character', () => {
   assert.throws(() => validateOrderInput({ ...valid, customer_name: 'John\nDoe' }));
 });
+
+test('rejects arrays as order payloads', () => {
+  assert.throws(() => validateOrderInput([valid]));
+});
