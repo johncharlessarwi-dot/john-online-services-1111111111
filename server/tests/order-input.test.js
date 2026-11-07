@@ -42,3 +42,7 @@ test('rejects name with newline control character', () => {
 test('rejects arrays as order payloads', () => {
   assert.throws(() => validateOrderInput([valid]));
 });
+
+test('rejects Date object as order payload', () => {
+  assert.throws(() => validateOrderInput(new Date()));
+});
