@@ -8,6 +8,7 @@ function requireServerSecret(value, name = 'JWT_SECRET') {
   if (typeof value !== 'string' || value.length < 32 || /^(dev_|your_|change_me)/i.test(value)) {
     throw new Error(name + ' must be configured with a strong unique secret');
   }
+  if (value.trim() !== value) throw new Error(name + ' cannot contain leading or trailing whitespace');
   if (/^(.)\1+$/.test(value)) throw new Error(name + ' cannot contain repeated characters only');
   return value;
 }
