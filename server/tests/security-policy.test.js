@@ -43,3 +43,7 @@ test('disallows browser origins when not configured', () => {
 test('accepts explicit secure browser origins', () => {
   assert.deepEqual(allowedCorsOrigins('https://example.com'), ['https://example.com']);
 });
+
+test('rejects insecure remote browser origins', () => {
+  assert.deepEqual(allowedCorsOrigins('http://example.com'), []);
+});
