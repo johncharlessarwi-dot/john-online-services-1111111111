@@ -54,3 +54,7 @@ test('rejects unsolicited attachment metadata', () => {
 test('rejects client-supplied order ID', () => {
   assert.throws(() => validateOrderInput({ ...valid, id: 'ord_fake' }));
 });
+
+test('rejects client-supplied creation time', () => {
+  assert.throws(() => validateOrderInput({ ...valid, created_at: '2026-01-01' }));
+});
