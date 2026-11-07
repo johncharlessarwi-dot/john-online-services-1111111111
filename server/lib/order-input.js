@@ -16,6 +16,8 @@ function validateOrderInput(input) {
   if (input.created_at !== undefined) throw new RangeError('Order timestamp is assigned by server');
   if (input.id !== undefined) throw new RangeError('Order ID is assigned by server');
   if (input.items !== undefined) throw new RangeError('Attachments require a separate authorized flow');
+  const allowed = new Set(['customer_name', 'customer_phone', 'service_id', 'total', 'status']);
+  if (Object.keys(input).some(key => !allowed.has(key))) throw new RangeError('Unknown order field');
   return { customer_name: customerName, customer_phone: customerPhone, service_id: input.service_id, total: input.total, status: 'pending' };
 }
 module.exports = { validateOrderInput };
