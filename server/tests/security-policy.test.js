@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { publicRegistrationRole, requireServerSecret, adminSeedCredentials } = require('../lib/security-policy');
+const { publicRegistrationRole, requireServerSecret, adminSeedCredentials, allowedCorsOrigins } = require('../lib/security-policy');
 
 test('public signups never select administrator roles', () => {
   assert.equal(publicRegistrationRole('admin'), 'customer');
