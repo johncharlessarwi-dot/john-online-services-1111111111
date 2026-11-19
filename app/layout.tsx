@@ -73,7 +73,11 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning className="antialiased">
         <div vaul-drawer-wrapper="">{children}</div>
-      </body>
+      
+<p style={{ textAlign: "center", padding: "0.75rem" }}>
+  Developed by John Charles Sarwi · <a href="https://wa.me/255698170989">Contact the developer on WhatsApp</a>
+</p>
+</body>
     </html>
   );
 }
