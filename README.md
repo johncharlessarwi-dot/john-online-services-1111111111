@@ -12,15 +12,6 @@
 
 <div align="center">
 
-<!-- ANIMATION 01: PREMIUM ANIMATED HEADER -->
-<img src="https://capsule-render.vercel.app/api?type=waving&height=250&color=0:020024,25:090979,55:00D4FF,80:7B2FF7,100:FFD700&text=JOHN%20ONLINE%20SERVICES&fontSize=34&fontColor=FFFFFF&fontAlignY=38&desc=APPLICATIONS%20%E2%80%A2%20AUTOMATION%20%E2%80%A2%20INNOVATION&descAlignY=58&animation=fadeIn" width="100%" alt="Animated brand header"/>
-
-<!-- ANIMATION 02: TYPING INTRODUCTION -->
-<img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=900&size=26&duration=2500&pause=700&color=00F7FF&center=true&vCenter=true&width=950&lines=WELCOME+TO+THE+DIGITAL+FUTURE;SMARTER+SERVICES.+BETTER+EXPERIENCES.;INNOVATION+WITHOUT+LIMITS.;BUILDING+TECHNOLOGY+THAT+MATTERS" width="100%" alt="Animated brand introduction"/>
-
-<!-- ANIMATION 03: TECHNOLOGY DIVIDER -->
-<img src="https://user-images.githubusercontent.com/74038190/216656981-7a5f0f8d-9c9a-4d8e-a7d2-3c4a3b5b9e9a.gif" width="100%" alt="Animated technology divider"/>
-
 ### 🚀 YOUR DIGITAL WORLD, SIMPLIFIED
 
 **Discover. Request. Upload. Pay. Track. Complete.**
@@ -37,13 +28,6 @@
 </div>
 
 ---
-
-<!-- ANIMATION 04: CODING GIF -->
-<div align="center">
-<img src="https://media.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif" width="75%" alt="Animated software development and coding"/>
-
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=18&pause=900&color=FFD700&center=true&vCenter=true&width=850&lines=ENGINEER+THE+FUTURE;AUTOMATE+THE+ORDINARY;SIMPLIFY+THE+COMPLICATED;DELIVER+WITH+EXCELLENCE" width="100%" alt="Animated innovation slogan"/>
-</div>
 
 # 🌌 01. About the Project
 
