@@ -35,7 +35,7 @@
     "tailwind-merge": "^2.2.0",
     "shadcn-ui": "^0.8.0",
     "framer-motion": "^10.16.0",
-    "lucide-react": "^0.292.0",
+    "lucide-react": "^1.75.0",
     "@prisma/client": "^5.7.0",
     "jsonwebtoken": "^9.1.2",
     "bcryptjs": "^2.4.3",
