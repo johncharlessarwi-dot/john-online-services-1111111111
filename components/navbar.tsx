@@ -12,7 +12,8 @@ export function Navbar() {
     { label: "Home", href: "/" },
     { label: "Services", href: "/services" },
     { label: "Pricing", href: "/pricing" },
-    { label: "Blog", href: "/blog" },
+    { label: "About", href: "/about" },
+    { label: "FAQ", href: "/faq" },
     { label: "Contact", href: "/contact" },
   ];
 
@@ -28,7 +29,7 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-1">
+        <div className="hidden lg:flex items-center space-x-1">
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -72,8 +73,10 @@ export function Navbar() {
 
           {/* Mobile Menu Button */}
           <button
+            aria-label={isOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={isOpen}
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
           >
             {isOpen ? (
               <X className="w-6 h-6" />
@@ -86,7 +89,7 @@ export function Navbar() {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
+        <div className="lg:hidden max-h-[calc(100dvh-4rem)] overflow-y-auto bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
           <div className="container py-4 space-y-2">
             {navItems.map((item) => (
               <Link
