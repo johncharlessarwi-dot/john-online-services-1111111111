@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "prisma": "^5.7.0",
-    "@types/bcryptjs": "^2.4.6",
+    "@types/bcryptjs": "^3.0.0",
     "@types/jsonwebtoken": "^9.0.7",
     "eslint": "^8.55.0",
     "eslint-config-next": "^15.0.0"
