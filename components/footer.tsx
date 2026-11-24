@@ -17,24 +17,19 @@ export function Footer() {
     Product: [
       { label: "Services", href: "/services" },
       { label: "Pricing", href: "/pricing" },
-      { label: "Blog", href: "/blog" },
       { label: "FAQ", href: "/faq" },
     ],
     Company: [
       { label: "About Us", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Partners", href: "/partners" },
       { label: "Contact", href: "/contact" },
     ],
     Legal: [
       { label: "Privacy Policy", href: "/privacy" },
       { label: "Terms of Service", href: "/terms" },
-      { label: "Refund Policy", href: "/refund-policy" },
     ],
     Support: [
-      { label: "Help Center", href: "/help-center" },
+      { label: "FAQ", href: "/faq" },
       { label: "Contact Us", href: "/contact" },
-      { label: "Status", href: "#" },
     ],
   };
 
