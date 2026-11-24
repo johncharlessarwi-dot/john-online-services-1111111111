@@ -1,0 +1,49 @@
+name: Service dependency compatibility
+on:
+  pull_request:
+    paths:
+      - 'server/package*.json'
+      - 'package*.json'
+      - '.github/workflows/service-dependencies.yml'
+permissions:
+  contents: read
+jobs:
+  compatibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --check server/index.js && node --test server/tests/*.test.js
+      - name: Exercise the service libraries used by the app
+        run: |
+          node <<'JS'
+          const { execFileSync } = require('node:child_process');
+          const { mkdtempSync, writeFileSync } = require('node:fs');
+          const { tmpdir } = require('node:os');
+          const { join } = require('node:path');
+          const { createRequire } = require('node:module');
+          const assert = require('node:assert/strict');
+          const root = require('./package.json').dependencies;
+          const server = require('./server/package.json').dependencies;
+          const dir = mkdtempSync(join(tmpdir(), 'service-deps-'));
+          const dependencies = {
+            rootbcrypt: 'npm:bcryptjs@' + root.bcryptjs,
+            bcryptjs: server.bcryptjs,
+            dotenv: server.dotenv,
+            cloudinary: server.cloudinary
+          };
+          writeFileSync(join(dir, 'package.json'), JSON.stringify({private:true, dependencies}));
+          execFileSync('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund'], {cwd:dir, stdio:'inherit'});
+          const library = createRequire(join(dir, 'package.json'));
+          for (const name of ['bcryptjs', 'rootbcrypt']) {
+            const bcrypt = library(name);
+            assert.ok(bcrypt.compareSync('sample', bcrypt.hashSync('sample', 4)));
+          }
+          assert.equal(library('dotenv').parse('MODE=demo').MODE, 'demo');
+          assert.equal(typeof library('cloudinary').v2.uploader.upload, 'function');
+          JS
