@@ -1,0 +1,29 @@
+name: Navigation checks
+on:
+  pull_request:
+    paths:
+      - "components/navbar.tsx"
+      - "components/footer.tsx"
+      - "app/**/page.tsx"
+      - ".github/workflows/navigation.yml"
+permissions:
+  contents: read
+jobs:
+  navigation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify navigation routes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          for component in ["components/navbar.tsx", "components/footer.tsx"]:
+              hrefs = re.findall(r'href(?:: |=")(?:")?(/[^"#?]*)"', Path(component).read_text())
+              assert hrefs, component
+              for href in hrefs:
+                  assert (Path("app") / href.strip("/") / "page.tsx").is_file(), (component, href)
+          PY
